@@ -4009,9 +4009,9 @@
         <div id="authRegisterNotice" class="auth-notice error"></div>
 
         <div class="auth-field">
-          <label class="auth-label" for="regDisplayName">Display Name</label>
+          <label class="auth-label" for="regDisplayName">user Name</label>
           <input class="auth-input" id="regDisplayName" type="text"
-                 placeholder="Trader Joe" autocomplete="name" />
+                 placeholder="ABEL" autocomplete="name" />
         </div>
 
         <div class="auth-field">
@@ -7270,7 +7270,7 @@ async function handleSignin() {
 }
 
 /* ─────────────────────────────────────────
-   REGISTER  (email + password + display name)
+   REGISTER  (email + password + user name)
 ───────────────────────────────────────── */
 async function handleRegister() {
   const displayName = (document.getElementById('regDisplayName')?.value || '').trim();
@@ -7279,7 +7279,7 @@ async function handleRegister() {
   const confirm     =  document.getElementById('regPasswordConfirm')?.value || '';
   _clearNotice('authRegisterNotice');
 
-  if (!displayName) return _showNotice('authRegisterNotice', 'Please enter your display name.');
+  if (!displayName) return _showNotice('authRegisterNotice', 'Please enter your User name.');
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return _showNotice('authRegisterNotice', 'Please enter a valid email address.');
   if (password.length < 8) return _showNotice('authRegisterNotice', 'Password must be at least 8 characters.');
