@@ -43,9 +43,10 @@
     header {
       display: flex;
       justify-content: space-between;
-      align-items: stretch;
-      margin-bottom: 96px;
-      padding-bottom: 0;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
       position: relative;
     }
 
@@ -65,7 +66,6 @@
 
     /* Restore divider line below header on calc page */
     body.page-lotsize header {
-      border-bottom: 1px solid var(--border);
       margin-bottom: 24px;
       padding-bottom: 16px;
     }
@@ -101,7 +101,7 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, calc(-50% + 48px));
+      transform: translate(-50%, -50%);
       pointer-events: none;
     }
     .header-center > * { pointer-events: auto; }
@@ -3684,7 +3684,7 @@
       color: var(--text);
       transition: all 0.15s;
     }
-    .user-menu-btn:hover { border-color: var(--accent); color: var(--accent); background: #00c8ff08; transform: none; }
+    .user-menu-btn:hover, .user-menu-btn.open { border-color: var(--accent); color: var(--accent); background: #00c8ff08; transform: none; }
     .user-avatar {
       width: 22px; height: 22px;
       border-radius: 50%;
@@ -4136,7 +4136,7 @@
 
 </div><!-- end #landingPage -->
 
-<div class="container">
+<div class="container" style="display:none;" id="appContainer">
 
   <!-- ─── HEADER ─── -->
   <header>
@@ -6796,6 +6796,10 @@ function enterApp() {
     lp.classList.remove('active');
     lp.style.display = 'none';
 
+    // Show app container
+    const appContainer = document.getElementById('appContainer');
+    if (appContainer) appContainer.style.display = '';
+
     // Reset ring offsets to empty so CSS transition plays from scratch
     const CIRC = 2 * Math.PI * 25;
     ['rrRingFill', 'wrRingFill'].forEach(id => {
@@ -7077,6 +7081,32 @@ async function _loadUserData() {
   _enterAppFromAuth();
 }
 
+/* ─── User Menu ─── */
+let _userMenuOpen = false;
+
+function toggleUserMenu(e) {
+  e.stopPropagation();
+  _userMenuOpen = !_userMenuOpen;
+  const dropdown = document.getElementById('userMenuDropdown');
+  const btn = document.querySelector('.user-menu-btn');
+  if (dropdown) dropdown.classList.toggle('open', _userMenuOpen);
+  if (btn) btn.classList.toggle('open', _userMenuOpen);
+}
+
+function closeUserMenu() {
+  _userMenuOpen = false;
+  const dropdown = document.getElementById('userMenuDropdown');
+  const btn = document.querySelector('.user-menu-btn');
+  if (dropdown) dropdown.classList.remove('open');
+  if (btn) btn.classList.remove('open');
+}
+
+document.addEventListener('click', (e) => {
+  if (_userMenuOpen && !document.getElementById('userMenuWrap')?.contains(e.target)) {
+    closeUserMenu();
+  }
+});
+
 /* ─── Update user menu elements ─── */
 function _updateUserMenuUI() {
   const displayName = (_sbProfile && _sbProfile.display_name) || (_sbUser && _sbUser.email) || 'Trader';
@@ -7094,16 +7124,41 @@ function _updateUserMenuUI() {
 /* ─── Enter app (same as original enterApp but from auth context) ─── */
 function _enterAppFromAuth() {
   const authEl = document.getElementById('authScreen');
+  const container = document.getElementById('appContainer') || document.querySelector('.container');
+  const lp = document.getElementById('landingPage');
+
+  // Ensure landing page is fully hidden
+  if (lp) { lp.classList.remove('active'); lp.style.display = 'none'; }
+  document.body.classList.remove('on-landing');
+
+  // Fade out auth screen and reveal app
   if (authEl) {
-    authEl.style.transition = 'opacity 0.4s';
+    authEl.style.transition = 'opacity 0.35s';
     authEl.style.opacity = '0';
     setTimeout(() => {
       authEl.classList.remove('active');
       authEl.style.opacity = '';
-      enterApp();
-    }, 400);
+      if (container) container.style.display = '';
+      // Reset rings and render
+      const CIRC = 2 * Math.PI * 25;
+      ['rrRingFill', 'wrRingFill'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.style.transition = 'none'; el.style.strokeDashoffset = CIRC; el.setAttribute('stroke-dasharray', CIRC); }
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        ['rrRingFill', 'wrRingFill'].forEach(id => { const el = document.getElementById(id); if (el) el.style.transition = ''; });
+        try { renderAccounts && renderAccounts(); } catch(e) {}
+        try { populateAccountDropdown && populateAccountDropdown(); } catch(e) {}
+        try { renderBalanceArcs && renderBalanceArcs(); } catch(e) {}
+        try { render && render(); } catch(e) {}
+        setTimeout(() => { try { drawEquityCurve && drawEquityCurve(); } catch(e) {} }, 80);
+      }));
+    }, 350);
   } else {
-    enterApp();
+    if (container) container.style.display = '';
+    try { renderBalanceArcs && renderBalanceArcs(); } catch(e) {}
+    try { render && render(); } catch(e) {}
+    setTimeout(() => { try { drawEquityCurve && drawEquityCurve(); } catch(e) {} }, 80);
   }
 }
 
@@ -7179,7 +7234,7 @@ async function handleLogout() {
   activeAccountId = null;
 
   closeUserMenu();
-  const container = document.querySelector('.container');
+  const container = document.getElementById('appContainer') || document.querySelector('.container');
   if (container) container.style.display = 'none';
   const lp = document.getElementById('landingPage');
   if (lp) {
