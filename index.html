@@ -7014,8 +7014,7 @@ async function handleLogin() {
     await _sb.from('user_profiles').upsert({
       id: _sbUser.id,
       display_name: guessedUsername,
-      username: guessedUsername,
-      email: _sbUser.email?.endsWith('@8journals.local') ? null : _sbUser.email
+      username: guessedUsername
     }).catch(console.warn);
   }
 
@@ -7052,7 +7051,6 @@ async function handleRegister() {
   _hideSbLoading();
 
   if (error) {
-    // Supabase returns "User already registered" for duplicate emails
     if (error.message.toLowerCase().includes('already registered') ||
         error.message.toLowerCase().includes('already exists')) {
       return showErr('Username already taken — choose another.');
@@ -7060,10 +7058,10 @@ async function handleRegister() {
     return showErr(error.message);
   }
 
-  // data.user may be null if Supabase email confirmation is required
   const uid = data?.user?.id;
+
+  // No uid = email confirmation required by Supabase project settings
   if (!uid) {
-    // Email confirmation flow — just show success and let user confirm then sign in
     okEl.textContent = '✓ Account created! Check your email to confirm, then sign in.';
     okEl.style.display = 'block'; okEl.classList.add('visible');
     setTimeout(() => {
@@ -7074,17 +7072,26 @@ async function handleRegister() {
     return;
   }
 
-  // Save profile (only reachable if email confirmation is disabled / auto-confirmed)
+  // Save profile
   try {
     await _sb.from('user_profiles').upsert({
       id: uid,
       display_name: name,
-      username,
-      email: emailRaw || null
+      username
     });
   } catch(e) { console.warn('Profile save error', e); }
 
-  okEl.textContent = '✓ Account created! Signing you in…';
+  // If signUp returned a live session, go straight into the app
+  if (data?.session) {
+    okEl.textContent = '✓ Account created! Loading your journal…';
+    okEl.style.display = 'block'; okEl.classList.add('visible');
+    _sbUser = data.user;
+    await _loadUserData();
+    return;
+  }
+
+  // No session yet — ask user to sign in manually
+  okEl.textContent = '✓ Account created! Sign in to continue.';
   okEl.style.display = 'block'; okEl.classList.add('visible');
   setTimeout(() => {
     switchAuthTab('login');
