@@ -6837,14 +6837,14 @@ document.body.classList.add('on-landing');
    SUPABASE CONFIG — Replace with your project's URL and anon key
    Found in: Supabase Dashboard → Project Settings → API
 ═══════════════════════════════════════════════════════════════════ */
-const SUPABASE_URL  = 'https://zzjynysexgnnwqmokyeh.supabase.co';   // e.g. https://xyzcompany.supabase.co
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6anlueXNleGdubndxbW9reWVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDAxNzUsImV4cCI6MjA5NDMxNjE3NX0.zktJN3yE7JRNmaYu0Z1Nr_RmKUbOKaQJQ_G_6J2uCpA';
+const SUPABASE_URL  = 'https://uooootvqtkmmypxrxrdb.supabase.co';   // e.g. https://xyzcompany.supabase.co
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb29vdHZxdGttbXlweHJ4cmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzcwMzUsImV4cCI6MjA5NDMxMzAzNX0.Y9me2qmYsTDspgNudSAGIsSOYp8b_nCea1zfVJ4ukYg';
 
 const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 /* ── Show a config banner if placeholders are still set ── */
 (function checkConfig() {
-  if (SUPABASE_URL === 'https://zzjynysexgnnwqmokyeh.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6anlueXNleGdubndxbW9reWVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDAxNzUsImV4cCI6MjA5NDMxNjE3NX0.zktJN3yE7JRNmaYu0Z1Nr_RmKUbOKaQJQ_G_6J2uCpA') {
+  if (SUPABASE_URL === 'https://uooootvqtkmmypxrxrdb.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb29vdHZxdGttbXlweHJ4cmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzcwMzUsImV4cCI6MjA5NDMxMzAzNX0.Y9me2qmYsTDspgNudSAGIsSOYp8b_nCea1zfVJ4ukYg') {
     const banner = document.createElement('div');
     banner.id = 'sbConfigBanner';
     banner.style.cssText = `
