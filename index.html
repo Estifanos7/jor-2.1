@@ -7092,20 +7092,6 @@ const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
   }
 });
 
-/* ── Config warning banner ── */
-(function checkConfig() {
-  if (SUPABASE_URL === 'https://ieukghjifozgyqxubhbe.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY') {
-    const b = document.createElement('div');
-    b.id = 'sbConfigBanner';
-    b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff4757;color:#fff;
-      font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:10px 20px;text-align:center;
-      display:flex;align-items:center;justify-content:center;gap:12px;`;
-    b.innerHTML = `⚠️ Supabase not configured — set <strong>SUPABASE_URL</strong> and <strong>SUPABASE_ANON_KEY</strong>.
-      <a href="https://supabase.com/dashboard" target="_blank" style="color:#fff;text-decoration:underline;">Open Dashboard</a>`;
-    document.body.prepend(b);
-  }
-})();
-
 /* ─────────────────────────────────────────
    STATE
 ───────────────────────────────────────── */
