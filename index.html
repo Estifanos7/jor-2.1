@@ -5139,7 +5139,7 @@ function toggleFilterPopup(popupId, btnId, e) {
 /* ════════════════════════════════════════════════
    DATA
 ════════════════════════════════════════════════ */
-let trades = JSON.parse(localStorage.getItem('tj_trades') || '[]');
+let trades = []; // populated from Supabase after login
 let chipState = { conf: [], trend: [], setup: null };
 let editingTradeId = null;
 let filters = { outcome: 'All', setup: 'All' };
@@ -5396,18 +5396,8 @@ function toggleSetup(el) {
 }
 
 function save() {
-  try { localStorage.setItem('tj_trades', JSON.stringify(trades)); }
-  catch(e) {
-    console.warn('Storage full — images may not persist');
-    // Strip images and retry to at least save trade data
-    try {
-      const stripped = trades.map(t => ({ ...t, images: [] }));
-      localStorage.setItem('tj_trades', JSON.stringify(stripped));
-      showToast('Storage full — images cleared to free space.', 'warn');
-    } catch(e2) {
-      showToast('Could not save — storage is full. Clear old trades.', 'error');
-    }
-  }
+  // Stub — overridden by Supabase save() in the auth script block below
+  console.warn('save() called before Supabase override loaded');
 }
 
 function getFiltered() {
@@ -6152,7 +6142,7 @@ function closeCalDetail() {
 /* ════════════════════════════════════════════════
    ACCOUNTS
 ════════════════════════════════════════════════ */
-let accounts = JSON.parse(localStorage.getItem('tj_accounts') || '[]');
+let accounts = []; // populated from Supabase after login
 let editingAccountId = null;
 let activeAccountId = null;  // null = show all
 
@@ -6260,8 +6250,8 @@ function deleteEditingAccount() {
 }
 
 function saveAccounts() {
-  try { localStorage.setItem('tj_accounts', JSON.stringify(accounts)); }
-  catch(e) { console.warn('Could not save accounts'); }
+  // Stub — overridden by Supabase saveAccounts() in the auth script block below
+  console.warn('saveAccounts() called before Supabase override loaded');
 }
 
 /* ─── ACCOUNTS DROPDOWN PANEL ─── */
@@ -6872,7 +6862,7 @@ const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 })();
 
 /* ════════════════════════════════════════════════════════════════════
-   AUTH SYSTEM — Supabase Auth (replaces localStorage auth)
+   AUTH SYSTEM — Supabase Auth
 
    Required Supabase tables (run in SQL Editor):
 
@@ -6980,7 +6970,7 @@ function switchAuthTab(tab) {
   });
 }
 
-/* ─── Login (email = username@8journals.local, real email optional) ─── */
+/* ─── Login ─── */
 async function handleLogin() {
   const usernameRaw = (document.getElementById('loginUsername').value || '').trim().toLowerCase();
   const password    = document.getElementById('loginPassword').value || '';
@@ -6991,18 +6981,44 @@ async function handleLogin() {
   if (!usernameRaw) return showErr('Please enter your username.');
   if (!password)   return showErr('Please enter your password.');
 
-  // Derive a synthetic email from the username (Supabase requires an email)
-  const email = usernameRaw.includes('@') ? usernameRaw : `${usernameRaw}@8journals.local`;
-
   _showSbLoading('Signing in…');
-  const { data, error } = await _sb.auth.signInWithPassword({ email, password });
+
+  // Try synthetic email first (the standard flow for username-based login)
+  const syntheticEmail = usernameRaw.includes('@') ? usernameRaw : `${usernameRaw}@8journals.local`;
+  let { data, error } = await _sb.auth.signInWithPassword({ email: syntheticEmail, password });
+
+  // If that failed AND username looks like a real email, try it directly
+  if (error && usernameRaw.includes('@')) {
+    const retry = await _sb.auth.signInWithPassword({ email: usernameRaw, password });
+    if (!retry.error) { data = retry.data; error = null; }
+  }
+
   _hideSbLoading();
 
-  if (error) return showErr(error.message === 'Invalid login credentials'
-    ? 'Username or password is incorrect.'
-    : error.message);
+  if (error) return showErr(
+    error.message === 'Invalid login credentials' || error.message.toLowerCase().includes('invalid login')
+      ? 'Username or password is incorrect.'
+      : error.message
+  );
+
+  if (!data?.user) return showErr('Login failed — please try again.');
 
   _sbUser = data.user;
+
+  // Ensure profile exists (handles the case where email confirmation flow
+  // skipped the profile upsert during registration)
+  const { data: existingProfile } = await _sb.from('user_profiles')
+    .select('id').eq('id', _sbUser.id).single().catch(() => ({ data: null }));
+  if (!existingProfile) {
+    const guessedUsername = usernameRaw.replace(/@.*$/, '');
+    await _sb.from('user_profiles').upsert({
+      id: _sbUser.id,
+      display_name: guessedUsername,
+      username: guessedUsername,
+      email: _sbUser.email?.endsWith('@8journals.local') ? null : _sbUser.email
+    }).catch(console.warn);
+  }
+
   await _loadUserData();
 }
 
@@ -7036,15 +7052,39 @@ async function handleRegister() {
   _hideSbLoading();
 
   if (error) {
-    if (error.message.toLowerCase().includes('already registered')) return showErr('Username already taken — choose another.');
+    // Supabase returns "User already registered" for duplicate emails
+    if (error.message.toLowerCase().includes('already registered') ||
+        error.message.toLowerCase().includes('already exists')) {
+      return showErr('Username already taken — choose another.');
+    }
     return showErr(error.message);
   }
 
-  // Save profile
-  if (data.user) {
-    await _sb.from('user_profiles').upsert({ id: data.user.id, display_name: name, username, email: emailRaw || null });
+  // data.user may be null if Supabase email confirmation is required
+  const uid = data?.user?.id;
+  if (!uid) {
+    // Email confirmation flow — just show success and let user confirm then sign in
+    okEl.textContent = '✓ Account created! Check your email to confirm, then sign in.';
+    okEl.style.display = 'block'; okEl.classList.add('visible');
+    setTimeout(() => {
+      switchAuthTab('login');
+      document.getElementById('loginUsername').value = username;
+      document.getElementById('loginPassword').focus();
+    }, 3000);
+    return;
   }
 
+  // Save profile (only reachable if email confirmation is disabled / auto-confirmed)
+  try {
+    await _sb.from('user_profiles').upsert({
+      id: uid,
+      display_name: name,
+      username,
+      email: emailRaw || null
+    });
+  } catch(e) { console.warn('Profile save error', e); }
+
+  okEl.textContent = '✓ Account created! Signing you in…';
   okEl.style.display = 'block'; okEl.classList.add('visible');
   setTimeout(() => {
     switchAuthTab('login');
@@ -7057,23 +7097,29 @@ async function handleRegister() {
 async function _loadUserData() {
   if (!_sbUser) return;
   _showSbLoading('Loading your journal…');
+  try {
+    // Load profile
+    const { data: prof } = await _sb.from('user_profiles').select('*').eq('id', _sbUser.id).single();
+    _sbProfile = prof;
 
-  // Load profile
-  const { data: prof } = await _sb.from('user_profiles').select('*').eq('id', _sbUser.id).single();
-  _sbProfile = prof;
+    // Load trades
+    const { data: tradeRows } = await _sb.from('trades').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: false });
+    trades = (tradeRows || []).map(r => ({ _sbId: r.id, ...r.data }));
 
-  // Load trades
-  const { data: tradeRows } = await _sb.from('trades').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: false });
-  trades = (tradeRows || []).map(r => ({ _sbId: r.id, ...r.data }));
+    // Load accounts
+    const { data: acctRows } = await _sb.from('accounts').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: true });
+    accounts = (acctRows || []).map(r => ({ _sbId: r.id, ...r.data }));
 
-  // Load accounts
-  const { data: acctRows } = await _sb.from('accounts').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: true });
-  accounts = (acctRows || []).map(r => ({ _sbId: r.id, ...r.data }));
-
-  // Load playbook sets
-  const { data: pbRows } = await _sb.from('playbook_sets').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: true });
-  if (typeof playbookSets !== 'undefined') {
-    playbookSets = (pbRows || []).map(r => ({ _sbId: r.id, ...r.data }));
+    // Load playbook sets
+    const { data: pbRows } = await _sb.from('playbook_sets').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: true });
+    if (typeof playbookSets !== 'undefined') {
+      playbookSets = (pbRows || []).map(r => ({ _sbId: r.id, ...r.data }));
+    }
+  } catch(e) {
+    console.warn('Error loading user data from Supabase:', e.message);
+    // Fall back to empty state — user can still use the app, trades won't persist
+    trades = [];
+    accounts = [];
   }
 
   _hideSbLoading();
@@ -7162,34 +7208,51 @@ function _enterAppFromAuth() {
   }
 }
 
-/* ─── Override save() to write to Supabase ─── */
+/* ─── save() — writes trades to Supabase ─── */
+let _saveTradeLock = false;
 async function save() {
   if (!_sbUser) return;
-  // Upsert all trades
-  for (const t of trades) {
-    const { _sbId, ...data } = t;
-    if (_sbId) {
-      await _sb.from('trades').update({ data }).eq('id', _sbId);
-    } else {
-      const { data: row } = await _sb.from('trades').insert({ user_id: _sbUser.id, data }).select('id').single();
-      if (row) t._sbId = row.id;
+  if (_saveTradeLock) return;
+  _saveTradeLock = true;
+  try {
+    for (const t of trades) {
+      const { _sbId, ...data } = t;
+      if (_sbId) {
+        await _sb.from('trades').update({ data }).eq('id', _sbId);
+      } else {
+        const { data: row } = await _sb.from('trades').insert({ user_id: _sbUser.id, data }).select('id').single();
+        if (row) t._sbId = row.id;
+      }
     }
+  } catch(e) {
+    console.warn('Supabase trade save error', e);
+    showToast('Save failed — check your connection.', 'error');
+  } finally {
+    _saveTradeLock = false;
   }
-  // Sync deletions: remove DB rows whose _sbId is no longer in trades
-  // (handled by deleteTrade override below)
 }
 
-/* ─── Override saveAccounts() to write to Supabase ─── */
+/* ─── saveAccounts() — writes accounts to Supabase ─── */
+let _saveAccountLock = false;
 async function saveAccounts() {
   if (!_sbUser) return;
-  for (const a of accounts) {
-    const { _sbId, ...data } = a;
-    if (_sbId) {
-      await _sb.from('accounts').update({ data }).eq('id', _sbId);
-    } else {
-      const { data: row } = await _sb.from('accounts').insert({ user_id: _sbUser.id, data }).select('id').single();
-      if (row) a._sbId = row.id;
+  if (_saveAccountLock) return;
+  _saveAccountLock = true;
+  try {
+    for (const a of accounts) {
+      const { _sbId, ...data } = a;
+      if (_sbId) {
+        await _sb.from('accounts').update({ data }).eq('id', _sbId);
+      } else {
+        const { data: row } = await _sb.from('accounts').insert({ user_id: _sbUser.id, data }).select('id').single();
+        if (row) a._sbId = row.id;
+      }
     }
+  } catch(e) {
+    console.warn('Supabase account save error', e);
+    showToast('Account save failed — check your connection.', 'error');
+  } finally {
+    _saveAccountLock = false;
   }
 }
 
@@ -7280,35 +7343,39 @@ async function handleChangePassword() {
   if (typeof showToast === 'function') showToast('Password updated successfully', 'success');
 }
 
-/* ─── Auto-save hook: intercept writes to keep Supabase in sync ─── */
-(function patchAutoSave() {
-  // Intercept localStorage writes that the old code did — now route to Supabase
-  const _orig = localStorage.setItem.bind(localStorage);
-  localStorage.setItem = function(key, value) {
-    // Still write locally for immediate reads
-    _orig(key, value);
-    // Async sync to Supabase
-    if (['tj_trades'].includes(key) && _sbUser) save().catch(console.warn);
-    if (['tj_accounts'].includes(key) && _sbUser) saveAccounts().catch(console.warn);
-  };
-})();
+/* patchAutoSave removed — all persistence goes directly through Supabase */
 
 /* ─── On page load: check for existing Supabase session ─── */
 (async function initAuth() {
-  _showSbLoading('Checking session…');
-  const { data: { session } } = await _sb.auth.getSession();
-  if (session && session.user) {
-    _sbUser = session.user;
-    await _loadUserData();
-  } else {
+  try {
+    _showSbLoading('Checking session…');
+    const { data, error } = await _sb.auth.getSession();
+    if (error) throw error;
+    const session = data?.session;
+    if (session && session.user) {
+      _sbUser = session.user;
+      await _loadUserData();
+    } else {
+      _hideSbLoading();
+      // No session — landing page stays visible
+    }
+  } catch(e) {
     _hideSbLoading();
-    // No session — show landing normally
+    console.warn('Supabase session check failed:', e.message);
+    // Don't crash the page — user can still see landing and attempt to log in
   }
 
-  // Listen for auth changes (e.g. token refresh)
+  // Listen for auth changes (e.g. token refresh, email confirmation in another tab)
   _sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session) {
-      _sbUser = session.user;
+      // Only trigger full load if we don't already have a user loaded
+      // (avoids re-loading on every token refresh)
+      if (!_sbUser || _sbUser.id !== session.user.id) {
+        _sbUser = session.user;
+        await _loadUserData();
+      } else {
+        _sbUser = session.user; // update token silently
+      }
     } else if (event === 'SIGNED_OUT') {
       _sbUser = null;
     }
