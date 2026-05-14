@@ -3466,7 +3466,7 @@
     }
 
     /* ═══════════════════════════════════════════
-       LOGIN / REGISTER SCREEN
+       LOGIN / REGISTER SCREEN — Supabase Native Auth
     ═══════════════════════════════════════════ */
     #authScreen {
       display: none;
@@ -3511,50 +3511,81 @@
     .auth-card {
       position: relative;
       z-index: 2;
-      background: rgba(15,20,25,0.95);
+      background: rgba(15,20,25,0.97);
       border: 1px solid rgba(30,42,56,0.9);
-      border-radius: 20px;
-      padding: 40px 36px;
+      border-radius: 22px;
+      padding: 40px 38px;
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       margin: 24px 16px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset, 0 0 60px rgba(0,200,255,0.04);
+      animation: authCardIn 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes authCardIn {
+      from { opacity:0; transform: translateY(20px) scale(0.97); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
     }
 
+    /* Logo */
     .auth-logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       justify-content: center;
     }
     .auth-logo-icon {
-      width: 36px; height: 36px;
+      width: 38px; height: 38px;
       background: linear-gradient(135deg, #00c8ff, #0090b8);
-      border-radius: 9px;
+      border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 1.1rem;
       color: #05080d;
-      box-shadow: 0 0 20px rgba(0,200,255,0.3);
+      box-shadow: 0 0 24px rgba(0,200,255,0.35);
       letter-spacing: -1px;
     }
     .auth-logo-text {
       font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: #fff;
     }
     .auth-logo-text span { color: #00c8ff; }
 
+    /* View switcher — sign-in / register / forgot */
+    .auth-view { display: flex; flex-direction: column; gap: 0; }
+    .auth-view.hidden { display: none; }
+
+    /* Heading inside each view */
+    .auth-heading {
+      margin-bottom: 22px;
+      text-align: center;
+    }
+    .auth-heading h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+    .auth-heading p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: rgba(84,110,122,0.7);
+      letter-spacing: 0.3px;
+    }
+
+    /* Tabs (signin only) */
     .auth-tabs {
       display: flex;
       background: rgba(8,11,16,0.8);
       border: 1px solid rgba(30,42,56,0.8);
       border-radius: 10px;
       padding: 4px;
-      margin-bottom: 28px;
+      margin-bottom: 26px;
       gap: 4px;
     }
     .auth-tab {
@@ -3579,9 +3610,8 @@
       border: 1px solid rgba(0,200,255,0.2);
     }
 
-    .auth-form { display: flex; flex-direction: column; gap: 16px; }
-    .auth-form.hidden { display: none; }
-
+    /* Form field */
+    .auth-form-fields { display: flex; flex-direction: column; gap: 14px; }
     .auth-field { display: flex; flex-direction: column; gap: 6px; }
     .auth-label {
       font-family: 'JetBrains Mono', monospace;
@@ -3590,8 +3620,11 @@
       letter-spacing: 0.8px;
       color: #546e7a;
     }
+
+    /* Input with optional right icon */
+    .auth-input-wrap { position: relative; display: flex; align-items: center; }
     .auth-input {
-      background: rgba(8,11,16,0.8);
+      background: rgba(8,11,16,0.85);
       border: 1px solid rgba(30,42,56,0.9);
       color: #cdd9e5;
       padding: 12px 14px;
@@ -3606,8 +3639,78 @@
       border-color: #00c8ff;
       box-shadow: 0 0 0 3px rgba(0,200,255,0.1);
     }
-    .auth-input::placeholder { color: rgba(84,110,122,0.5); }
+    .auth-input.has-icon { padding-right: 42px; }
+    .auth-input::placeholder { color: rgba(84,110,122,0.45); }
 
+    /* Password show/hide toggle */
+    .auth-eye {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: #546e7a;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 2px;
+      line-height: 1;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+    .auth-eye:hover { color: #cdd9e5; transform: none; background: transparent; }
+
+    /* Password strength bar */
+    .auth-pw-strength {
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(30,42,56,0.8);
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .auth-pw-strength-bar {
+      height: 100%;
+      border-radius: 3px;
+      width: 0;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+    .auth-pw-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: rgba(84,110,122,0.55);
+      margin-top: 4px;
+    }
+
+    /* Terms checkbox */
+    .auth-terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .auth-terms input[type="checkbox"] {
+      width: 15px; height: 15px;
+      margin-top: 1px;
+      accent-color: #00c8ff;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      padding: 0;
+      border-radius: 3px;
+    }
+    .auth-terms label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: rgba(84,110,122,0.6);
+      cursor: pointer;
+      line-height: 1.5;
+      margin: 0;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .auth-terms label a { color: #00c8ff; text-decoration: none; }
+    .auth-terms label a:hover { text-decoration: underline; }
+
+    /* Primary action button */
     .auth-btn {
       background: linear-gradient(135deg, #00c8ff, #0090b8);
       color: #05080d;
@@ -3619,50 +3722,115 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
-      margin-top: 4px;
+      margin-top: 6px;
       letter-spacing: -0.2px;
       box-shadow: 0 0 30px rgba(0,200,255,0.2);
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     .auth-btn:hover { transform: translateY(-1px); box-shadow: 0 0 50px rgba(0,200,255,0.35); }
-
-    .auth-error {
-      background: rgba(255,71,87,0.1);
-      border: 1px solid rgba(255,71,87,0.3);
-      color: #ff4757;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+    .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .auth-btn-spinner {
+      width: 15px; height: 15px;
+      border: 2px solid rgba(5,8,13,0.4);
+      border-top-color: #05080d;
+      border-radius: 50%;
+      animation: sbSpin 0.7s linear infinite;
       display: none;
     }
-    .auth-error.visible { display: block; }
+    .auth-btn.loading .auth-btn-spinner { display: block; }
+    .auth-btn.loading .auth-btn-label { opacity: 0.6; }
 
-    .auth-success {
-      background: rgba(38,217,106,0.1);
-      border: 1px solid rgba(38,217,106,0.3);
-      color: #26d96a;
-      padding: 10px 14px;
-      border-radius: 8px;
+    /* Ghost / link button */
+    .auth-link-btn {
+      background: transparent;
+      border: none;
+      color: #00c8ff;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      display: none;
+      font-size: 0.65rem;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      display: inline;
     }
-    .auth-success.visible { display: block; }
+    .auth-link-btn:hover { opacity: 0.75; transform: none; background: transparent; }
 
+    /* Divider */
     .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
       height: 1px;
       background: rgba(30,42,56,0.8);
-      margin: 4px 0;
+    }
+    .auth-divider span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: rgba(84,110,122,0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
     }
 
+    /* Error / success notices */
+    .auth-notice {
+      display: none;
+      padding: 11px 14px;
+      border-radius: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      margin-bottom: 2px;
+    }
+    .auth-notice.visible { display: flex; align-items: flex-start; gap: 8px; }
+    .auth-notice.error {
+      background: rgba(255,71,87,0.1);
+      border: 1px solid rgba(255,71,87,0.25);
+      color: #ff4757;
+    }
+    .auth-notice.success {
+      background: rgba(38,217,106,0.1);
+      border: 1px solid rgba(38,217,106,0.25);
+      color: #26d96a;
+    }
+    .auth-notice.info {
+      background: rgba(0,200,255,0.08);
+      border: 1px solid rgba(0,200,255,0.2);
+      color: #00c8ff;
+    }
+    .auth-notice-icon { flex-shrink: 0; font-size: 0.9rem; margin-top: 1px; }
+    .auth-notice-msg { flex: 1; }
+
+    /* Footer bar */
     .auth-footer {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(30,42,56,0.5);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
-      color: rgba(84,110,122,0.4);
+      color: rgba(84,110,122,0.35);
       letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .auth-footer-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(84,110,122,0.25); flex-shrink: 0; }
+
+    /* ── Mobile auth ── */
+    @media (max-width: 480px) {
+      .auth-card { padding: 28px 22px; }
     }
 
     /* User menu in app header */
@@ -3778,7 +3946,8 @@
 <body>
 
 <!-- ═══════════════════════════════════════════
-     AUTH SCREEN (Login / Register)
+     AUTH SCREEN — Supabase Native Auth
+     Views: signin | register | forgot
 ═══════════════════════════════════════════ -->
 <div id="authScreen">
   <div class="auth-bg-grid"></div>
@@ -3786,62 +3955,137 @@
   <div class="auth-orb auth-orb-2"></div>
 
   <div class="auth-card">
+
     <!-- Logo -->
     <div class="auth-logo">
       <div class="auth-logo-icon">8</div>
       <div class="auth-logo-text">8<span>Journals</span></div>
     </div>
 
-    <!-- Tabs -->
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Sign In</button>
-      <button class="auth-tab" id="authTabRegister" onclick="switchAuthTab('register')">Create Account</button>
+    <!-- ── VIEW: SIGN IN ── -->
+    <div class="auth-view" id="authViewSignin">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="authTabLogin"    onclick="switchAuthTab('login')">Sign In</button>
+        <button class="auth-tab"        id="authTabRegister" onclick="switchAuthTab('register')">Create Account</button>
+      </div>
+
+      <div class="auth-form-fields">
+        <div id="authSigninNotice" class="auth-notice error"></div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="signinEmail">Email</label>
+          <input class="auth-input" id="signinEmail" type="email"
+                 placeholder="you@email.com" autocomplete="email" />
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="signinPassword">Password</label>
+          <div class="auth-input-wrap">
+            <input class="auth-input has-icon" id="signinPassword" type="password"
+                   placeholder="••••••••" autocomplete="current-password" />
+            <button class="auth-eye" type="button" onclick="togglePw('signinPassword',this)" title="Show password">👁</button>
+          </div>
+        </div>
+
+        <div style="text-align:right;margin-top:-4px;">
+          <button class="auth-link-btn" onclick="showAuthView('forgot')">Forgot password?</button>
+        </div>
+
+        <button class="auth-btn" id="signinBtn" onclick="handleSignin()">
+          <span class="auth-btn-spinner"></span>
+          <span class="auth-btn-label">Sign In →</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Login form -->
-    <div class="auth-form" id="authLoginForm">
-      <div id="authLoginError" class="auth-error"></div>
-      <div class="auth-field">
-        <label class="auth-label">Username</label>
-        <input class="auth-input" id="loginUsername" type="text" placeholder="your username" autocomplete="username" />
+    <!-- ── VIEW: REGISTER ── -->
+    <div class="auth-view hidden" id="authViewRegister">
+      <div class="auth-tabs">
+        <button class="auth-tab"        id="authTabLogin2"    onclick="switchAuthTab('login')">Sign In</button>
+        <button class="auth-tab active" id="authTabRegister2" onclick="switchAuthTab('register')">Create Account</button>
       </div>
-      <div class="auth-field">
-        <label class="auth-label">Password</label>
-        <input class="auth-input" id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password" />
+
+      <div class="auth-form-fields">
+        <div id="authRegisterNotice" class="auth-notice error"></div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regDisplayName">Display Name</label>
+          <input class="auth-input" id="regDisplayName" type="text"
+                 placeholder="Trader Joe" autocomplete="name" />
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regEmail">Email</label>
+          <input class="auth-input" id="regEmail" type="email"
+                 placeholder="you@email.com" autocomplete="email" />
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regPassword">Password</label>
+          <div class="auth-input-wrap">
+            <input class="auth-input has-icon" id="regPassword" type="password"
+                   placeholder="Min. 8 characters" autocomplete="new-password"
+                   oninput="updatePwStrength(this.value)" />
+            <button class="auth-eye" type="button" onclick="togglePw('regPassword',this)" title="Show password">👁</button>
+          </div>
+          <div class="auth-pw-strength"><div class="auth-pw-strength-bar" id="pwStrengthBar"></div></div>
+          <div class="auth-pw-hint" id="pwStrengthHint">Enter a password</div>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regPasswordConfirm">Confirm Password</label>
+          <div class="auth-input-wrap">
+            <input class="auth-input has-icon" id="regPasswordConfirm" type="password"
+                   placeholder="Repeat password" autocomplete="new-password" />
+            <button class="auth-eye" type="button" onclick="togglePw('regPasswordConfirm',this)" title="Show password">👁</button>
+          </div>
+        </div>
+
+        <button class="auth-btn" id="registerBtn" onclick="handleRegister()">
+          <span class="auth-btn-spinner"></span>
+          <span class="auth-btn-label">Create Account →</span>
+        </button>
       </div>
-      <button class="auth-btn" onclick="handleLogin()">Sign In →</button>
     </div>
 
-    <!-- Register form -->
-    <div class="auth-form hidden" id="authRegisterForm">
-      <div id="authRegisterError" class="auth-error"></div>
-      <div id="authRegisterSuccess" class="auth-success">Account created! You can now sign in.</div>
-      <div class="auth-field">
-        <label class="auth-label">Display Name</label>
-        <input class="auth-input" id="regName" type="text" placeholder="Trader Joe" autocomplete="name" />
+    <!-- ── VIEW: FORGOT PASSWORD ── -->
+    <div class="auth-view hidden" id="authViewForgot">
+      <div class="auth-heading">
+        <h2>Reset Password</h2>
+        <p>We'll send a reset link to your email</p>
       </div>
-      <div class="auth-field">
-        <label class="auth-label">Username</label>
-        <input class="auth-input" id="regUsername" type="text" placeholder="traderjoe" autocomplete="username" />
+
+      <div class="auth-form-fields">
+        <div id="authForgotNotice" class="auth-notice error"></div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="forgotEmail">Email</label>
+          <input class="auth-input" id="forgotEmail" type="email"
+                 placeholder="you@email.com" autocomplete="email" />
+        </div>
+
+        <button class="auth-btn" id="forgotBtn" onclick="handleForgotPassword()">
+          <span class="auth-btn-spinner"></span>
+          <span class="auth-btn-label">Send Reset Link →</span>
+        </button>
+
+        <div style="text-align:center;margin-top:4px;">
+          <button class="auth-link-btn" onclick="showAuthView('signin')">← Back to Sign In</button>
+        </div>
       </div>
-      <div class="auth-field">
-        <label class="auth-label">Email <span style="font-size:0.6rem;color:var(--muted);font-weight:400;">(for password recovery)</span></label>
-        <input class="auth-input" id="regEmail" type="email" placeholder="you@email.com (optional)" autocomplete="email" />
-      </div>
-      <div class="auth-field">
-        <label class="auth-label">Password</label>
-        <input class="auth-input" id="regPassword" type="password" placeholder="min 6 characters" autocomplete="new-password" />
-      </div>
-      <div class="auth-field">
-        <label class="auth-label">Confirm Password</label>
-        <input class="auth-input" id="regPasswordConfirm" type="password" placeholder="repeat password" autocomplete="new-password" />
-      </div>
-      <button class="auth-btn" onclick="handleRegister()">Create Account →</button>
     </div>
 
-    <div class="auth-footer">Data synced to Supabase · Secured with Row Level Security</div>
-  </div>
-</div>
+    <!-- Footer -->
+    <div class="auth-footer">
+      <span>Secured with Supabase Auth</span>
+      <span class="auth-footer-dot"></span>
+      <span>Row Level Security</span>
+      <span class="auth-footer-dot"></span>
+      <span>End-to-End Encrypted</span>
+    </div>
+
+  </div><!-- /.auth-card -->
+</div><!-- /#authScreen -->
 
 <!-- ═══════════════════════════════════════════
      LANDING PAGE
@@ -6834,96 +7078,56 @@ document.body.classList.add('on-landing');
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════
-   SUPABASE CONFIG — Replace with your project's URL and anon key
-   Found in: Supabase Dashboard → Project Settings → API
+   SUPABASE CONFIG — Replace with your project credentials
+   Dashboard → Project Settings → API
 ═══════════════════════════════════════════════════════════════════ */
-const SUPABASE_URL  = 'https://uooootvqtkmmypxrxrdb.supabase.co';   // e.g. https://xyzcompany.supabase.co
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb29vdHZxdGttbXlweHJ4cmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzcwMzUsImV4cCI6MjA5NDMxMzAzNX0.Y9me2qmYsTDspgNudSAGIsSOYp8b_nCea1zfVJ4ukYg';
+const SUPABASE_URL  = 'https://ieukghjifozgyqxubhbe.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY';
 
-const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true   // handles email-confirmation & password-reset redirects
+  }
+});
 
-/* ── Show a config banner if placeholders are still set ── */
+/* ── Config warning banner ── */
 (function checkConfig() {
-  if (SUPABASE_URL === 'https://uooootvqtkmmypxrxrdb.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb29vdHZxdGttbXlweHJ4cmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzcwMzUsImV4cCI6MjA5NDMxMzAzNX0.Y9me2qmYsTDspgNudSAGIsSOYp8b_nCea1zfVJ4ukYg') {
-    const banner = document.createElement('div');
-    banner.id = 'sbConfigBanner';
-    banner.style.cssText = `
-      position:fixed;top:0;left:0;right:0;z-index:99999;
-      background:#ff4757;color:#fff;font-family:'JetBrains Mono',monospace;
-      font-size:0.75rem;padding:10px 20px;text-align:center;
-      display:flex;align-items:center;justify-content:center;gap:12px;
-    `;
-    banner.innerHTML = `
-      ⚠️ Supabase not configured — open the HTML file and set <strong>SUPABASE_URL</strong> and <strong>SUPABASE_ANON_KEY</strong> at the top of the last &lt;script&gt; block.
-      <a href="https://supabase.com/dashboard" target="_blank" style="color:#fff;text-decoration:underline;">Open Dashboard</a>
-    `;
-    document.body.prepend(banner);
+  if (SUPABASE_URL === 'https://ieukghjifozgyqxubhbe.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY') {
+    const b = document.createElement('div');
+    b.id = 'sbConfigBanner';
+    b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff4757;color:#fff;
+      font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:10px 20px;text-align:center;
+      display:flex;align-items:center;justify-content:center;gap:12px;`;
+    b.innerHTML = `⚠️ Supabase not configured — set <strong>SUPABASE_URL</strong> and <strong>SUPABASE_ANON_KEY</strong>.
+      <a href="https://supabase.com/dashboard" target="_blank" style="color:#fff;text-decoration:underline;">Open Dashboard</a>`;
+    document.body.prepend(b);
   }
 })();
 
-/* ════════════════════════════════════════════════════════════════════
-   AUTH SYSTEM — Supabase Auth
+/* ─────────────────────────────────────────
+   STATE
+───────────────────────────────────────── */
+let _sbUser    = null;
+let _sbProfile = null;
 
-   Required Supabase tables (run in SQL Editor):
-
-   CREATE TABLE trades (
-     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-     user_id     uuid REFERENCES auth.users NOT NULL,
-     data        jsonb NOT NULL,
-     created_at  timestamptz DEFAULT now()
-   );
-   ALTER TABLE trades ENABLE ROW LEVEL SECURITY;
-   CREATE POLICY "Users own trades" ON trades
-     FOR ALL USING (auth.uid() = user_id);
-
-   CREATE TABLE accounts (
-     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-     user_id     uuid REFERENCES auth.users NOT NULL,
-     data        jsonb NOT NULL,
-     created_at  timestamptz DEFAULT now()
-   );
-   ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
-   CREATE POLICY "Users own accounts" ON accounts
-     FOR ALL USING (auth.uid() = user_id);
-
-   CREATE TABLE playbook_sets (
-     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-     user_id     uuid REFERENCES auth.users NOT NULL,
-     data        jsonb NOT NULL,
-     created_at  timestamptz DEFAULT now()
-   );
-   ALTER TABLE playbook_sets ENABLE ROW LEVEL SECURITY;
-   CREATE POLICY "Users own playbook_sets" ON playbook_sets
-     FOR ALL USING (auth.uid() = user_id);
-
-   CREATE TABLE user_profiles (
-     id          uuid PRIMARY KEY REFERENCES auth.users,
-     display_name text,
-     username    text UNIQUE
-   );
-   ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
-   CREATE POLICY "Users own profile" ON user_profiles
-     FOR ALL USING (auth.uid() = id);
-════════════════════════════════════════════════════════════════════ */
-
-let _sbUser = null; // current Supabase user
-let _sbProfile = null; // { display_name, username }
-
-/* ─── Loading overlay (shown while syncing) ─── */
+/* ─────────────────────────────────────────
+   LOADING OVERLAY
+───────────────────────────────────────── */
 function _showSbLoading(msg) {
   let el = document.getElementById('sbLoadingOverlay');
   if (!el) {
     el = document.createElement('div');
     el.id = 'sbLoadingOverlay';
-    el.style.cssText = `
-      position:fixed;inset:0;z-index:9999;background:#080b10ee;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-    `;
+    el.style.cssText = `position:fixed;inset:0;z-index:9999;background:#080b10ee;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;`;
     el.innerHTML = `
-      <div style="width:36px;height:36px;border:3px solid #1e2a38;border-top-color:#00c8ff;border-radius:50%;animation:sbSpin 0.8s linear infinite;"></div>
-      <div id="sbLoadingMsg" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#546e7a;letter-spacing:0.5px;"></div>
-      <style>@keyframes sbSpin{to{transform:rotate(360deg)}}</style>
-    `;
+      <div style="width:36px;height:36px;border:3px solid #1e2a38;border-top-color:#00c8ff;
+        border-radius:50%;animation:sbSpin 0.8s linear infinite;"></div>
+      <div id="sbLoadingMsg" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+        color:#546e7a;letter-spacing:0.5px;"></div>
+      <style>@keyframes sbSpin{to{transform:rotate(360deg)}}</style>`;
     document.body.appendChild(el);
   }
   document.getElementById('sbLoadingMsg').textContent = msg || 'Loading…';
@@ -6934,7 +7138,36 @@ function _hideSbLoading() {
   if (el) el.style.display = 'none';
 }
 
-/* ─── Show/hide auth screen (reuses existing HTML) ─── */
+/* ─────────────────────────────────────────
+   NOTICE HELPERS
+───────────────────────────────────────── */
+const _noticeIcons = { error: '⚠', success: '✓', info: 'ℹ' };
+
+function _showNotice(id, msg, type = 'error') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = `auth-notice ${type} visible`;
+  el.innerHTML = `<span class="auth-notice-icon">${_noticeIcons[type] || '•'}</span>
+                  <span class="auth-notice-msg">${msg}</span>`;
+}
+function _clearNotice(id) {
+  const el = document.getElementById(id);
+  if (el) { el.className = 'auth-notice error'; el.innerHTML = ''; }
+}
+
+/* ─────────────────────────────────────────
+   BUTTON LOADING STATE
+───────────────────────────────────────── */
+function _btnLoading(btnId, on) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = on;
+  btn.classList.toggle('loading', on);
+}
+
+/* ─────────────────────────────────────────
+   AUTH SCREEN NAVIGATION
+───────────────────────────────────────── */
 function showAuthScreen(defaultTab = 'login') {
   const lp = document.getElementById('landingPage');
   if (lp) {
@@ -6947,186 +7180,296 @@ function showAuthScreen(defaultTab = 'login') {
     }, 300);
   }
   document.getElementById('authScreen').classList.add('active');
-  switchAuthTab(defaultTab);
-
-  ['loginUsername','loginPassword'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.onkeydown = e => { if (e.key === 'Enter') handleLogin(); };
-  });
-  ['regName','regUsername','regEmail','regPassword','regPasswordConfirm'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.onkeydown = e => { if (e.key === 'Enter') handleRegister(); };
-  });
+  showAuthView(defaultTab === 'register' ? 'register' : 'signin');
+  _bindAuthKeys();
 }
 
+function showAuthView(view) {
+  ['signin','register','forgot'].forEach(v => {
+    const el = document.getElementById('authView' + v.charAt(0).toUpperCase() + v.slice(1));
+    if (el) el.classList.toggle('hidden', v !== view);
+  });
+  ['authSigninNotice','authRegisterNotice','authForgotNotice'].forEach(_clearNotice);
+}
+
+/* Tab-click also hides the forgot view */
 function switchAuthTab(tab) {
-  document.getElementById('authTabLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('authTabRegister').classList.toggle('active', tab === 'register');
-  document.getElementById('authLoginForm').classList.toggle('hidden', tab !== 'login');
-  document.getElementById('authRegisterForm').classList.toggle('hidden', tab !== 'register');
-  ['authLoginError','authRegisterError','authRegisterSuccess'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.classList.remove('visible'); el.style.display = ''; }
+  showAuthView(tab === 'register' ? 'register' : 'signin');
+  /* sync both tab sets */
+  ['authTabLogin','authTabLogin2'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.classList.toggle('active', tab === 'login');
+  });
+  ['authTabRegister','authTabRegister2'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.classList.toggle('active', tab === 'register');
   });
 }
 
-/* ─── Login ─── */
-async function handleLogin() {
-  const usernameRaw = (document.getElementById('loginUsername').value || '').trim().toLowerCase();
-  const password    = document.getElementById('loginPassword').value || '';
-  const errEl       = document.getElementById('authLoginError');
-  function showErr(msg) { errEl.textContent = msg; errEl.classList.add('visible'); errEl.style.display = 'block'; }
-  errEl.classList.remove('visible'); errEl.style.display = 'none';
+function _bindAuthKeys() {
+  const enter = id => {
+    const el = document.getElementById(id);
+    if (el) el.onkeydown = e => { if (e.key === 'Enter') e.target.closest('.auth-view').querySelector('.auth-btn').click(); };
+  };
+  ['signinEmail','signinPassword','regDisplayName','regEmail','regPassword',
+   'regPasswordConfirm','forgotEmail'].forEach(enter);
+}
 
-  if (!usernameRaw) return showErr('Please enter your username.');
-  if (!password)   return showErr('Please enter your password.');
+/* ─────────────────────────────────────────
+   UI HELPERS
+───────────────────────────────────────── */
+function togglePw(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁';
+}
 
-  _showSbLoading('Signing in…');
+function updatePwStrength(pw) {
+  const bar  = document.getElementById('pwStrengthBar');
+  const hint = document.getElementById('pwStrengthHint');
+  if (!bar || !hint) return;
+  let score = 0;
+  if (pw.length >= 8)  score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  const levels = [
+    { w: '0%',   bg: 'transparent', txt: 'Enter a password' },
+    { w: '20%',  bg: '#ff4757',     txt: 'Very weak' },
+    { w: '40%',  bg: '#ff9f43',     txt: 'Weak' },
+    { w: '60%',  bg: '#ffc107',     txt: 'Fair' },
+    { w: '80%',  bg: '#00c8ff',     txt: 'Strong' },
+    { w: '100%', bg: '#26d96a',     txt: 'Very strong ✓' },
+  ];
+  const l = levels[Math.min(score, 5)];
+  bar.style.width = l.w;
+  bar.style.background = l.bg;
+  hint.textContent = l.txt;
+  hint.style.color = l.bg === 'transparent' ? 'rgba(84,110,122,0.55)' : l.bg;
+}
 
-  // Try synthetic email first (the standard flow for username-based login)
-  const syntheticEmail = usernameRaw.includes('@') ? usernameRaw : `${usernameRaw}@8journals.local`;
-  let { data, error } = await _sb.auth.signInWithPassword({ email: syntheticEmail, password });
+/* ─────────────────────────────────────────
+   SIGN IN  (email + password)
+───────────────────────────────────────── */
+async function handleSignin() {
+  const email    = (document.getElementById('signinEmail')?.value    || '').trim().toLowerCase();
+  const password =  document.getElementById('signinPassword')?.value || '';
+  _clearNotice('authSigninNotice');
 
-  // If that failed AND username looks like a real email, try it directly
-  if (error && usernameRaw.includes('@')) {
-    const retry = await _sb.auth.signInWithPassword({ email: usernameRaw, password });
-    if (!retry.error) { data = retry.data; error = null; }
+  if (!email)    return _showNotice('authSigninNotice', 'Please enter your email address.');
+  if (!password) return _showNotice('authSigninNotice', 'Please enter your password.');
+
+  _btnLoading('signinBtn', true);
+
+  const { data, error } = await _sb.auth.signInWithPassword({ email, password });
+
+  _btnLoading('signinBtn', false);
+
+  if (error) {
+    const msg = error.message.toLowerCase();
+    if (msg.includes('invalid login') || msg.includes('invalid credentials')) {
+      return _showNotice('authSigninNotice', 'Incorrect email or password. Please try again.');
+    }
+    if (msg.includes('email not confirmed')) {
+      return _showNotice('authSigninNotice', 'Please confirm your email before signing in. Check your inbox.', 'info');
+    }
+    return _showNotice('authSigninNotice', error.message);
   }
 
-  _hideSbLoading();
-
-  if (error) return showErr(
-    error.message === 'Invalid login credentials' || error.message.toLowerCase().includes('invalid login')
-      ? 'Username or password is incorrect.'
-      : error.message
-  );
-
-  if (!data?.user) return showErr('Login failed — please try again.');
+  if (!data?.user) return _showNotice('authSigninNotice', 'Sign-in failed — please try again.');
 
   _sbUser = data.user;
-
-  // Ensure profile exists (handles the case where email confirmation flow
-  // skipped the profile upsert during registration)
-  const { data: existingProfile } = await _sb.from('user_profiles')
-    .select('id').eq('id', _sbUser.id).single().catch(() => ({ data: null }));
-  if (!existingProfile) {
-    const guessedUsername = usernameRaw.replace(/@.*$/, '');
-    await _sb.from('user_profiles').upsert({
-      id: _sbUser.id,
-      display_name: guessedUsername,
-      username: guessedUsername
-    }).catch(console.warn);
-  }
-
   await _loadUserData();
 }
 
-/* ─── Register ─── */
+/* ─────────────────────────────────────────
+   REGISTER  (email + password + display name)
+───────────────────────────────────────── */
 async function handleRegister() {
-  const name     = (document.getElementById('regName').value || '').trim();
-  const username = (document.getElementById('regUsername').value || '').trim().toLowerCase();
-  const emailRaw = (document.getElementById('regEmail') ? document.getElementById('regEmail').value : '').trim();
-  const password = document.getElementById('regPassword').value || '';
-  const confirm  = document.getElementById('regPasswordConfirm').value || '';
-  const errEl    = document.getElementById('authRegisterError');
-  const okEl     = document.getElementById('authRegisterSuccess');
-  function showErr(msg) {
-    errEl.textContent = msg; errEl.classList.add('visible'); errEl.style.display = 'block';
-    okEl.classList.remove('visible'); okEl.style.display = 'none';
-  }
-  errEl.classList.remove('visible'); errEl.style.display = 'none';
+  const displayName = (document.getElementById('regDisplayName')?.value || '').trim();
+  const email       = (document.getElementById('regEmail')?.value       || '').trim().toLowerCase();
+  const password    =  document.getElementById('regPassword')?.value    || '';
+  const confirm     =  document.getElementById('regPasswordConfirm')?.value || '';
+  _clearNotice('authRegisterNotice');
 
-  if (!name)     return showErr('Please enter your display name.');
-  if (!username) return showErr('Please choose a username.');
-  if (!/^[a-z0-9_]{3,20}$/.test(username)) return showErr('Username: 3–20 chars, letters/numbers/underscores only.');
-  if (emailRaw && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw)) return showErr('Please enter a valid email address.');
-  if (password.length < 6) return showErr('Password must be at least 6 characters.');
-  if (password !== confirm) return showErr('Passwords do not match.');
+  if (!displayName) return _showNotice('authRegisterNotice', 'Please enter your display name.');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return _showNotice('authRegisterNotice', 'Please enter a valid email address.');
+  if (password.length < 8) return _showNotice('authRegisterNotice', 'Password must be at least 8 characters.');
+  if (password !== confirm)  return _showNotice('authRegisterNotice', 'Passwords do not match.');
 
-  // Use real email if provided, otherwise a synthetic one (no password recovery without real email)
-  const email = emailRaw || `${username}@8journals.local`;
+  _btnLoading('registerBtn', true);
 
-  _showSbLoading('Creating account…');
-  const { data, error } = await _sb.auth.signUp({ email, password });
-  _hideSbLoading();
+  /* Supabase native signUp — email + password only */
+  const { data, error } = await _sb.auth.signUp({ email, password,
+    options: { data: { display_name: displayName } }
+  });
+
+  _btnLoading('registerBtn', false);
 
   if (error) {
-    if (error.message.toLowerCase().includes('already registered') ||
-        error.message.toLowerCase().includes('already exists')) {
-      return showErr('Username already taken — choose another.');
+    const msg = error.message.toLowerCase();
+    if (msg.includes('already registered') || msg.includes('already exists')) {
+      return _showNotice('authRegisterNotice', 'An account with that email already exists. Try signing in.');
     }
-    return showErr(error.message);
+    return _showNotice('authRegisterNotice', error.message);
   }
 
   const uid = data?.user?.id;
 
-  // No uid = email confirmation required by Supabase project settings
-  if (!uid) {
-    okEl.textContent = '✓ Account created! Check your email to confirm, then sign in.';
-    okEl.style.display = 'block'; okEl.classList.add('visible');
+  /* Save display_name to user_profiles */
+  if (uid) {
+    try {
+      await _sb.from('user_profiles').upsert({ id: uid, display_name: displayName });
+    } catch(e) { console.warn('Profile save:', e); }
+  }
+
+  /* Email confirmation required */
+  if (!data?.session) {
+    _showNotice('authRegisterNotice',
+      'Account created! Check your inbox for a confirmation link, then sign in.',
+      'success');
     setTimeout(() => {
       switchAuthTab('login');
-      document.getElementById('loginUsername').value = username;
-      document.getElementById('loginPassword').focus();
-    }, 3000);
+      const em = document.getElementById('signinEmail');
+      if (em) em.value = email;
+    }, 3500);
     return;
   }
 
-  // Save profile
-  try {
-    await _sb.from('user_profiles').upsert({
-      id: uid,
-      display_name: name,
-      username
-    });
-  } catch(e) { console.warn('Profile save error', e); }
-
-  // If signUp returned a live session, go straight into the app
-  if (data?.session) {
-    okEl.textContent = '✓ Account created! Loading your journal…';
-    okEl.style.display = 'block'; okEl.classList.add('visible');
-    _sbUser = data.user;
-    await _loadUserData();
-    return;
-  }
-
-  // No session yet — ask user to sign in manually
-  okEl.textContent = '✓ Account created! Sign in to continue.';
-  okEl.style.display = 'block'; okEl.classList.add('visible');
-  setTimeout(() => {
-    switchAuthTab('login');
-    document.getElementById('loginUsername').value = username;
-    document.getElementById('loginPassword').focus();
-  }, 1500);
+  /* Immediate session (email confirm disabled) — go straight to app */
+  _sbUser = data.user;
+  await _loadUserData();
 }
 
-/* ─── Load all user data from Supabase ─── */
+/* ─────────────────────────────────────────
+   FORGOT PASSWORD  (Supabase sends reset email)
+───────────────────────────────────────── */
+async function handleForgotPassword() {
+  const email = (document.getElementById('forgotEmail')?.value || '').trim().toLowerCase();
+  _clearNotice('authForgotNotice');
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return _showNotice('authForgotNotice', 'Please enter a valid email address.');
+
+  _btnLoading('forgotBtn', true);
+
+  const { error } = await _sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.href   // returns user to this page with #access_token
+  });
+
+  _btnLoading('forgotBtn', false);
+
+  if (error) return _showNotice('authForgotNotice', error.message);
+
+  _showNotice('authForgotNotice',
+    'Password reset link sent! Check your inbox (and spam folder).',
+    'success');
+}
+
+/* ─────────────────────────────────────────
+   CHANGE PASSWORD  (in-app, from user menu)
+───────────────────────────────────────── */
+function showChangePassword() {
+  ['changePwNew','changePwConfirm'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const errEl = document.getElementById('changePwError');
+  if (errEl) { errEl.classList.remove('visible'); errEl.style.display = 'none'; }
+  const ov = document.getElementById('changePwOverlay');
+  if (ov) ov.classList.add('open');
+}
+function closeChangePassword() {
+  const ov = document.getElementById('changePwOverlay');
+  if (ov) ov.classList.remove('open');
+}
+async function handleChangePassword() {
+  const newPw  = document.getElementById('changePwNew')?.value    || '';
+  const confirm= document.getElementById('changePwConfirm')?.value || '';
+  const errEl  = document.getElementById('changePwError');
+  function showErr(m){ if(errEl){errEl.textContent=m;errEl.style.display='block';errEl.classList.add('visible');} }
+  if (errEl) { errEl.style.display='none'; errEl.classList.remove('visible'); }
+
+  if (newPw.length < 8)   return showErr('New password must be at least 8 characters.');
+  if (newPw !== confirm)   return showErr('Passwords do not match.');
+
+  const { error } = await _sb.auth.updateUser({ password: newPw });
+  if (error) return showErr(error.message);
+
+  closeChangePassword();
+  if (typeof showToast === 'function') showToast('Password updated successfully', 'success');
+}
+
+/* ─────────────────────────────────────────
+   SIGN OUT
+───────────────────────────────────────── */
+async function handleLogout() {
+  _showSbLoading('Signing out…');
+  await _sb.auth.signOut();
+  _hideSbLoading();
+
+  _sbUser = null;
+  _sbProfile = null;
+  trades   = [];
+  accounts = [];
+  if (typeof activeAccountId !== 'undefined') activeAccountId = null;
+
+  closeUserMenu();
+  const container = document.getElementById('appContainer') || document.querySelector('.container');
+  if (container) container.style.display = 'none';
+  const lp = document.getElementById('landingPage');
+  if (lp) {
+    lp.style.display = '';
+    lp.style.opacity = '0';
+    lp.classList.add('active');
+    document.body.classList.add('on-landing');
+    requestAnimationFrame(() => { lp.style.transition = 'opacity 0.4s'; lp.style.opacity = '1'; });
+  }
+}
+
+/* ─────────────────────────────────────────
+   LOAD USER DATA (after successful auth)
+───────────────────────────────────────── */
 async function _loadUserData() {
-  if (!_sbUser) return;
   _showSbLoading('Loading your journal…');
   try {
-    // Load profile
-    const { data: prof } = await _sb.from('user_profiles').select('*').eq('id', _sbUser.id).single();
-    _sbProfile = prof;
+    /* Profile */
+    const { data: prof } = await _sb.from('user_profiles')
+      .select('display_name').eq('id', _sbUser.id).single();
+    _sbProfile = prof || null;
 
-    // Load trades
-    const { data: tradeRows } = await _sb.from('trades').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: false });
-    trades = (tradeRows || []).map(r => ({ _sbId: r.id, ...r.data }));
+    /* Ensure profile row exists (upsert from user_metadata if needed) */
+    if (!_sbProfile || !_sbProfile.display_name) {
+      const fallback = _sbUser.user_metadata?.display_name
+                    || _sbUser.email?.split('@')[0]
+                    || 'Trader';
+      await _sb.from('user_profiles')
+        .upsert({ id: _sbUser.id, display_name: fallback })
+        .catch(console.warn);
+      _sbProfile = { display_name: fallback };
+    }
 
-    // Load accounts
-    const { data: acctRows } = await _sb.from('accounts').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: true });
-    accounts = (acctRows || []).map(r => ({ _sbId: r.id, ...r.data }));
+    /* Trades */
+    const { data: tradeRows } = await _sb.from('trades')
+      .select('id, data').order('created_at', { ascending: true });
+    trades = (tradeRows || []).map(r => ({ ...r.data, _sbId: r.id }));
 
-    // Load playbook sets
-    const { data: pbRows } = await _sb.from('playbook_sets').select('id, data').eq('user_id', _sbUser.id).order('created_at', { ascending: true });
-    if (typeof playbookSets !== 'undefined') {
-      playbookSets = (pbRows || []).map(r => ({ _sbId: r.id, ...r.data }));
+    /* Accounts */
+    const { data: accRows } = await _sb.from('accounts')
+      .select('id, data').order('created_at', { ascending: true });
+    accounts = (accRows || []).map(r => ({ ...r.data, _sbId: r.id }));
+
+    /* Playbook sets */
+    const { data: pbRows } = await _sb.from('playbook_sets')
+      .select('id, data').order('created_at', { ascending: true });
+    if (pbRows && typeof playbookSets !== 'undefined') {
+      playbookSets = pbRows.map(r => ({ ...r.data, _sbId: r.id }));
     }
   } catch(e) {
-    console.warn('Error loading user data from Supabase:', e.message);
-    // Fall back to empty state — user can still use the app, trades won't persist
-    trades = [];
-    accounts = [];
+    console.warn('Data load error:', e);
+    showToast?.('Could not load your data — check your connection.', 'error');
+    trades = []; accounts = [];
   }
 
   _hideSbLoading();
@@ -7134,57 +7477,50 @@ async function _loadUserData() {
   _enterAppFromAuth();
 }
 
-/* ─── User Menu ─── */
+/* ─────────────────────────────────────────
+   USER MENU
+───────────────────────────────────────── */
 let _userMenuOpen = false;
 
 function toggleUserMenu(e) {
   e.stopPropagation();
   _userMenuOpen = !_userMenuOpen;
-  const dropdown = document.getElementById('userMenuDropdown');
-  const btn = document.querySelector('.user-menu-btn');
-  if (dropdown) dropdown.classList.toggle('open', _userMenuOpen);
-  if (btn) btn.classList.toggle('open', _userMenuOpen);
+  document.getElementById('userMenuDropdown')?.classList.toggle('open', _userMenuOpen);
+  document.querySelector('.user-menu-btn')?.classList.toggle('open', _userMenuOpen);
 }
-
 function closeUserMenu() {
   _userMenuOpen = false;
-  const dropdown = document.getElementById('userMenuDropdown');
-  const btn = document.querySelector('.user-menu-btn');
-  if (dropdown) dropdown.classList.remove('open');
-  if (btn) btn.classList.remove('open');
+  document.getElementById('userMenuDropdown')?.classList.remove('open');
+  document.querySelector('.user-menu-btn')?.classList.remove('open');
 }
-
-document.addEventListener('click', (e) => {
-  if (_userMenuOpen && !document.getElementById('userMenuWrap')?.contains(e.target)) {
-    closeUserMenu();
-  }
+document.addEventListener('click', e => {
+  if (_userMenuOpen && !document.getElementById('userMenuWrap')?.contains(e.target)) closeUserMenu();
 });
 
-/* ─── Update user menu elements ─── */
 function _updateUserMenuUI() {
-  const displayName = (_sbProfile && _sbProfile.display_name) || (_sbUser && _sbUser.email) || 'Trader';
-  const username    = (_sbProfile && _sbProfile.username)     || '';
+  const displayName = (_sbProfile?.display_name) || (_sbUser?.email) || 'Trader';
+  const email       = _sbUser?.email || '';
   const firstName   = displayName.split(' ')[0];
   const initials    = displayName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
 
   const safe = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  safe('userMenuName', firstName);
+  safe('userMenuName',     firstName);
   safe('userMenuFullName', displayName);
-  safe('userMenuUsername', '@' + username);
-  safe('userAvatar', initials);
+  safe('userMenuUsername', email);
+  safe('userAvatar',       initials);
 }
 
-/* ─── Enter app (same as original enterApp but from auth context) ─── */
+/* ─────────────────────────────────────────
+   TRANSITION INTO APP
+───────────────────────────────────────── */
 function _enterAppFromAuth() {
-  const authEl = document.getElementById('authScreen');
+  const authEl    = document.getElementById('authScreen');
   const container = document.getElementById('appContainer') || document.querySelector('.container');
-  const lp = document.getElementById('landingPage');
+  const lp        = document.getElementById('landingPage');
 
-  // Ensure landing page is fully hidden
   if (lp) { lp.classList.remove('active'); lp.style.display = 'none'; }
   document.body.classList.remove('on-landing');
 
-  // Fade out auth screen and reveal app
   if (authEl) {
     authEl.style.transition = 'opacity 0.35s';
     authEl.style.opacity = '0';
@@ -7192,34 +7528,34 @@ function _enterAppFromAuth() {
       authEl.classList.remove('active');
       authEl.style.opacity = '';
       if (container) container.style.display = '';
-      // Reset rings and render
       const CIRC = 2 * Math.PI * 25;
-      ['rrRingFill', 'wrRingFill'].forEach(id => {
+      ['rrRingFill','wrRingFill'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) { el.style.transition = 'none'; el.style.strokeDashoffset = CIRC; el.setAttribute('stroke-dasharray', CIRC); }
+        if (el) { el.style.transition='none'; el.style.strokeDashoffset=CIRC; el.setAttribute('stroke-dasharray',CIRC); }
       });
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        ['rrRingFill', 'wrRingFill'].forEach(id => { const el = document.getElementById(id); if (el) el.style.transition = ''; });
-        try { renderAccounts && renderAccounts(); } catch(e) {}
-        try { populateAccountDropdown && populateAccountDropdown(); } catch(e) {}
-        try { renderBalanceArcs && renderBalanceArcs(); } catch(e) {}
-        try { render && render(); } catch(e) {}
-        setTimeout(() => { try { drawEquityCurve && drawEquityCurve(); } catch(e) {} }, 80);
+        ['rrRingFill','wrRingFill'].forEach(id => { const el=document.getElementById(id); if(el) el.style.transition=''; });
+        try { renderAccounts?.(); } catch(e) {}
+        try { populateAccountDropdown?.(); } catch(e) {}
+        try { renderBalanceArcs?.(); } catch(e) {}
+        try { render?.(); } catch(e) {}
+        setTimeout(() => { try { drawEquityCurve?.(); } catch(e) {} }, 80);
       }));
     }, 350);
   } else {
     if (container) container.style.display = '';
-    try { renderBalanceArcs && renderBalanceArcs(); } catch(e) {}
-    try { render && render(); } catch(e) {}
-    setTimeout(() => { try { drawEquityCurve && drawEquityCurve(); } catch(e) {} }, 80);
+    try { renderBalanceArcs?.(); } catch(e) {}
+    try { render?.(); } catch(e) {}
+    setTimeout(() => { try { drawEquityCurve?.(); } catch(e) {} }, 80);
   }
 }
 
-/* ─── save() — writes trades to Supabase ─── */
+/* ─────────────────────────────────────────
+   SUPABASE DATA WRITES
+───────────────────────────────────────── */
 let _saveTradeLock = false;
 async function save() {
-  if (!_sbUser) return;
-  if (_saveTradeLock) return;
+  if (!_sbUser || _saveTradeLock) return;
   _saveTradeLock = true;
   try {
     for (const t of trades) {
@@ -7232,18 +7568,16 @@ async function save() {
       }
     }
   } catch(e) {
-    console.warn('Supabase trade save error', e);
-    showToast('Save failed — check your connection.', 'error');
+    console.warn('Trade save error:', e);
+    showToast?.('Save failed — check your connection.', 'error');
   } finally {
     _saveTradeLock = false;
   }
 }
 
-/* ─── saveAccounts() — writes accounts to Supabase ─── */
 let _saveAccountLock = false;
 async function saveAccounts() {
-  if (!_sbUser) return;
-  if (_saveAccountLock) return;
+  if (!_sbUser || _saveAccountLock) return;
   _saveAccountLock = true;
   try {
     for (const a of accounts) {
@@ -7256,28 +7590,13 @@ async function saveAccounts() {
       }
     }
   } catch(e) {
-    console.warn('Supabase account save error', e);
-    showToast('Account save failed — check your connection.', 'error');
+    console.warn('Account save error:', e);
+    showToast?.('Account save failed.', 'error');
   } finally {
     _saveAccountLock = false;
   }
 }
 
-/* ─── Override deleteTrade to also remove from Supabase ─── */
-const _origDeleteTrade = typeof deleteTrade === 'function' ? deleteTrade : null;
-function deleteTrade(id) {
-  showConfirm('Delete this trade? This cannot be undone.', async () => {
-    const t = trades.find(tr => tr.id === id);
-    if (t && t._sbId && _sbUser) {
-      await _sb.from('trades').delete().eq('id', t._sbId);
-    }
-    trades = trades.filter(tr => tr.id !== id);
-    closeTradeModal(); render(); refreshEquityData(); renderBalanceArcs();
-    showToast('Trade deleted.', 'warn');
-  });
-}
-
-/* ─── Save playbook sets ─── */
 async function _savePlaybookSets() {
   if (!_sbUser || typeof playbookSets === 'undefined') return;
   for (const ps of playbookSets) {
@@ -7291,100 +7610,56 @@ async function _savePlaybookSets() {
   }
 }
 
-/* ─── Logout ─── */
-async function handleLogout() {
-  _showSbLoading('Signing out…');
-  await _sb.auth.signOut();
-  _hideSbLoading();
-
-  _sbUser = null;
-  _sbProfile = null;
-  trades   = [];
-  accounts = [];
-  activeAccountId = null;
-
-  closeUserMenu();
-  const container = document.getElementById('appContainer') || document.querySelector('.container');
-  if (container) container.style.display = 'none';
-  const lp = document.getElementById('landingPage');
-  if (lp) {
-    lp.style.display = '';
-    lp.style.opacity = '0';
-    lp.classList.add('active');
-    document.body.classList.add('on-landing');
-    requestAnimationFrame(() => {
-      lp.style.transition = 'opacity 0.4s';
-      lp.style.opacity = '1';
-    });
-  }
-}
-
-/* ─── Change Password ─── */
-function showChangePassword() {
-  ['changePwCurrent','changePwNew','changePwConfirm'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
+/* Override deleteTrade to mirror to Supabase */
+const _origDeleteTrade = typeof deleteTrade === 'function' ? deleteTrade : null;
+function deleteTrade(id) {
+  showConfirm('Delete this trade? This cannot be undone.', async () => {
+    const t = trades.find(tr => tr.id === id);
+    if (t?._sbId && _sbUser) await _sb.from('trades').delete().eq('id', t._sbId);
+    trades = trades.filter(tr => tr.id !== id);
+    closeTradeModal?.(); render?.(); refreshEquityData?.(); renderBalanceArcs?.();
+    showToast?.('Trade deleted.', 'warn');
   });
-  const errEl = document.getElementById('changePwError');
-  if (errEl) { errEl.classList.remove('visible'); errEl.style.display = 'none'; }
-  const ov = document.getElementById('changePwOverlay');
-  if (ov) ov.classList.add('open');
-}
-function closeChangePassword() {
-  const ov = document.getElementById('changePwOverlay');
-  if (ov) ov.classList.remove('open');
-}
-async function handleChangePassword() {
-  const newPw   = document.getElementById('changePwNew').value    || '';
-  const confirm = document.getElementById('changePwConfirm').value || '';
-  const errEl   = document.getElementById('changePwError');
-  function showErr(msg) { if(errEl){errEl.textContent=msg;errEl.style.display='block';errEl.classList.add('visible');} }
-  if(errEl){errEl.style.display='none';errEl.classList.remove('visible');}
-
-  if (newPw.length < 6) return showErr('New password must be at least 6 characters.');
-  if (newPw !== confirm) return showErr('New passwords do not match.');
-
-  const { error } = await _sb.auth.updateUser({ password: newPw });
-  if (error) return showErr(error.message);
-
-  closeChangePassword();
-  if (typeof showToast === 'function') showToast('Password updated successfully', 'success');
 }
 
-/* patchAutoSave removed — all persistence goes directly through Supabase */
-
-/* ─── On page load: check for existing Supabase session ─── */
+/* ─────────────────────────────────────────
+   INIT — check existing session on load
+───────────────────────────────────────── */
 (async function initAuth() {
   try {
     _showSbLoading('Checking session…');
     const { data, error } = await _sb.auth.getSession();
     if (error) throw error;
+
     const session = data?.session;
-    if (session && session.user) {
+    if (session?.user) {
       _sbUser = session.user;
       await _loadUserData();
     } else {
       _hideSbLoading();
-      // No session — landing page stays visible
+      /* No session — show landing page as usual */
     }
   } catch(e) {
     _hideSbLoading();
-    console.warn('Supabase session check failed:', e.message);
-    // Don't crash the page — user can still see landing and attempt to log in
+    console.warn('Session check failed:', e.message);
   }
 
-  // Listen for auth changes (e.g. token refresh, email confirmation in another tab)
+  /* Listen for auth events (token refresh, email confirmation, password reset) */
   _sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session) {
-      // Only trigger full load if we don't already have a user loaded
-      // (avoids re-loading on every token refresh)
       if (!_sbUser || _sbUser.id !== session.user.id) {
         _sbUser = session.user;
         await _loadUserData();
       } else {
-        _sbUser = session.user; // update token silently
+        _sbUser = session.user;  // silent token update
       }
     } else if (event === 'SIGNED_OUT') {
       _sbUser = null;
+    } else if (event === 'PASSWORD_RECOVERY') {
+      /* User arrived via reset-password link — show auth screen, change-password modal */
+      _hideSbLoading();
+      showAuthScreen();
+      setTimeout(() => showChangePassword(), 400);
     }
   });
 })();
