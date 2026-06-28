@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>8 Journals</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
     :root {
@@ -43,8 +43,34 @@
       min-height: 100vh;
       padding: 24px;
       background-image:
-        radial-gradient(ellipse at 0% 0%, #00c8ff08 0%, transparent 60%),
-        radial-gradient(ellipse at 100% 100%, #26d96a06 0%, transparent 60%);
+        radial-gradient(circle, rgba(0,200,255,0.08) 0%, transparent 55%),
+        radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 55%),
+        radial-gradient(circle, rgba(38,217,106,0.055) 0%, transparent 55%),
+        radial-gradient(circle, rgba(255,193,7,0.04) 0%, transparent 55%);
+      background-position: 0% 0%, 100% 100%, 100% 0%, 0% 100%;
+      background-size: 70% 70%, 65% 65%, 50% 50%, 55% 55%;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      animation: auroraDrift 32s ease-in-out infinite alternate;
+    }
+    @keyframes auroraDrift {
+      0%   { background-position: 0% 0%,  100% 100%, 100% 0%, 0% 100%; }
+      50%  { background-position: 9% 11%, 90% 88%,   86% 7%,  7% 91%; }
+      100% { background-position: 0% 0%,  100% 100%, 100% 0%, 0% 100%; }
+    }
+    /* Subtle film-grain for tactile depth, sits above the gradient, below floating UI */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.025;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body { animation: none; }
     }
 
     .container { max-width: 1400px; margin: 0 auto; }
@@ -4325,7 +4351,7 @@
             stroke-dashoffset="157.08"
             transform="rotate(-90 32 32)"/>
           <text x="32" y="36" text-anchor="middle"
-            font-family="JetBrains Mono,monospace"
+            font-family="Space Grotesk,sans-serif"
             font-size="11" font-weight="700"
             fill="#546e7a" id="rrRingLabel">—</text>
         </svg>
@@ -4349,7 +4375,7 @@
             stroke-dashoffset="157.08"
             transform="rotate(-90 32 32)"/>
           <text x="32" y="36" text-anchor="middle"
-            font-family="JetBrains Mono,monospace"
+            font-family="Space Grotesk,sans-serif"
             font-size="11" font-weight="700"
             fill="#ffffff" id="wrRingLabel">0%</text>
         </svg>
@@ -4888,7 +4914,7 @@
           <div class="calc-card-title"><i data-lucide="sliders-horizontal"></i> Parameters</div>
 
           <!-- Account balance auto-fill banner -->
-          <div id="calcAccBanner" style="display:none;align-items:center;gap:8px;padding:7px 12px;background:#00c8ff0c;border:1px solid #00c8ff30;border-radius:8px;margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent);">
+          <div id="calcAccBanner" style="display:none;align-items:center;gap:8px;padding:7px 12px;background:#00c8ff0c;border:1px solid #00c8ff30;border-radius:8px;margin-bottom:14px;font-family:'Space Grotesk',sans-serif;font-size:0.68rem;color:var(--accent);">
             <span><i data-lucide="bar-chart-3"></i></span>
             <span id="calcAccBannerName" style="font-weight:700;flex:1;"></span>
             <span id="calcAccBannerBal" style="font-weight:700;"></span>
@@ -5220,7 +5246,7 @@ function showConfirm(msg, onConfirm) {
       'animation:modalIn 0.18s ease'
     ].join(';');
     box.innerHTML = [
-      '<div id="tjConfirmMsg" style="font-family:\'JetBrains Mono\',monospace;font-size:0.82rem;color:var(--text);line-height:1.6;margin-bottom:22px;"></div>',
+      '<div id="tjConfirmMsg" style="font-family:\'Space Grotesk\',sans-serif;font-size:0.82rem;color:var(--text);line-height:1.6;margin-bottom:22px;"></div>',
       '<div style="display:flex;gap:10px;justify-content:flex-end;">',
         '<button id="tjConfirmCancel" style="background:transparent;border:1px solid var(--border2);color:var(--muted);padding:9px 18px;border-radius:7px;font-family:\'Syne\',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.15s;">Cancel</button>',
         '<button id="tjConfirmOk" style="background:var(--red2);border:none;color:#fff;padding:9px 20px;border-radius:7px;font-family:\'Syne\',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:background 0.15s;">Delete</button>',
@@ -5663,9 +5689,9 @@ function render() {
     const setupCell = t.setup === 'A+' ? '<span class="setup-badge setup-aplus">A+</span>' : t.setup === 'A' ? '<span class="setup-badge setup-a">A</span>' : '<span style="color:var(--muted);font-size:0.7rem">—</span>';
     const sClass = sessionClass[t.session] || '';
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted)">${t.date}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#fff">${t.pair}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:${dirColor};font-weight:700">${t.direction||'—'}</td>
+      <td style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--muted)">${t.date}</td>
+      <td style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff">${t.pair}</td>
+      <td style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:${dirColor};font-weight:700">${t.direction||'—'}</td>
       <td>${t.session ? `<span class="session-badge ${sClass}">${t.session}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
       <td>${confTags}</td><td>${trendTags}</td><td>${rrStr}</td>
       <td><span class="pnl ${pnlClass}">${pnlStr}</span></td>
@@ -5836,7 +5862,7 @@ function drawEquityCurve() {
 
   // Show a gentle "no trades yet" watermark but still draw the baseline
   if(data.length===0){
-    ctx.fillStyle='#253347';ctx.font='11px JetBrains Mono,monospace';
+    ctx.fillStyle='#253347';ctx.font='11px Space Grotesk,sans-serif';
     ctx.textAlign='center';ctx.fillText('Log your first trade to start the curve',W/2,H/2+28);
   }
 
@@ -5850,7 +5876,7 @@ function drawEquityCurve() {
     const gy=PAD.top+(g/4)*cH;
     ctx.beginPath();ctx.moveTo(PAD.left,gy);ctx.lineTo(PAD.left+cW,gy);ctx.stroke();
     const label=(yMaxP-(g/4)*(yMaxP-yMinP)).toFixed(0);
-    ctx.fillStyle='#546e7a';ctx.font='9px JetBrains Mono,monospace';
+    ctx.fillStyle='#546e7a';ctx.font='9px Space Grotesk,sans-serif';
     ctx.textAlign='right';ctx.fillText('$'+label,PAD.left-6,gy+3);
   }
 
@@ -5995,8 +6021,8 @@ function renderPairsReport() {
     <svg class="pairs-donut-svg" viewBox="0 0 180 180">
       ${arcsSvg}
       <circle cx="${cx}" cy="${cy}" r="${innerR}" fill="var(--surface2)"/>
-      <text x="${cx}" y="${cy-7}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#546e7a">PAIRS</text>
-      <text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="13" font-weight="700" fill="#cdd9e5">${entries.length}</text>
+      <text x="${cx}" y="${cy-7}" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="9" fill="#546e7a">PAIRS</text>
+      <text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="13" font-weight="700" fill="#cdd9e5">${entries.length}</text>
     </svg>
     <div class="pairs-legend">${legend}</div>
   </div>`;
@@ -6471,14 +6497,14 @@ function renderAccounts() {
       <div class="acc-row-all-icon"><i data-lucide="globe"></i></div>
       <div class="acc-row-all-name">All Accounts</div>
     </div>
-    <div style="padding:20px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);opacity:0.5;">No accounts yet</div>`;
+    <div style="padding:20px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:0.65rem;color:var(--muted);opacity:0.5;">No accounts yet</div>`;
     return;
   }
 
   let html = `<div class="acc-row-all ${allActive ? 'active' : ''}" onclick="selectAccount(null);closeAccountsPanel()">
     <div class="acc-row-all-icon"><i data-lucide="globe"></i></div>
     <div class="acc-row-all-name">All Accounts</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-right:6px;">${accounts.length} acct${accounts.length!==1?'s':''}</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:0.65rem;color:var(--muted);margin-right:6px;">${accounts.length} acct${accounts.length!==1?'s':''}</div>
   </div>`;
 
   html += accounts.map(a => {
@@ -6551,13 +6577,13 @@ function renderBalanceArcs() {
         <circle cx="${endPt.x.toFixed(2)}" cy="${endPt.y.toFixed(2)}" r="4" fill="#253347"/>
         <!-- Center: placeholder balance -->
         <text x="${CX}" y="${CY - 8}" text-anchor="middle"
-              font-family="JetBrains Mono,monospace" font-size="16" font-weight="700" fill="#253347">$0.00</text>
+              font-family="Space Grotesk,sans-serif" font-size="16" font-weight="700" fill="#253347">$0.00</text>
         <!-- Center: — -->
         <text x="${CX}" y="${CY + 13}" text-anchor="middle"
-              font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="#253347">—</text>
+              font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700" fill="#253347">—</text>
         <!-- Center: label -->
         <text x="${CX}" y="${CY + 29}" text-anchor="middle"
-              font-family="JetBrains Mono,monospace" font-size="8" fill="#253347" letter-spacing="0.5">NO ACCOUNT</text>
+              font-family="Space Grotesk,sans-serif" font-size="8" fill="#253347" letter-spacing="0.5">NO ACCOUNT</text>
       </svg>
     </div>`;
     return;
@@ -6699,17 +6725,17 @@ function renderBalanceArcs() {
       <!-- Start label -->
       <text x="${polarToXY(R + 18, START_ANGLE).x.toFixed(1)}"
             y="${(polarToXY(R + 18, START_ANGLE).y + 4).toFixed(1)}"
-            text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#546e7a">${startStr}</text>
+            text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="9" fill="#546e7a">${startStr}</text>
 
       <!-- Center: current balance -->
       <text x="${CX}" y="${CY - 8}" text-anchor="middle"
-            font-family="JetBrains Mono,monospace" font-size="20" font-weight="700" fill="#ffffff">${balStr}</text>
+            font-family="Space Grotesk,sans-serif" font-size="20" font-weight="700" fill="#ffffff">${balStr}</text>
       <!-- Center: % of account balance -->
       <text x="${CX}" y="${CY + 13}" text-anchor="middle"
-            font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="${balPctColor}">${balPctCenterStr}</text>
+            font-family="Space Grotesk,sans-serif" font-size="12" font-weight="700" fill="${balPctColor}">${balPctCenterStr}</text>
       <!-- Center: label -->
       <text x="${CX}" y="${CY + 29}" text-anchor="middle"
-            font-family="JetBrains Mono,monospace" font-size="8" fill="#546e7a" letter-spacing="0.5">${label.toUpperCase()}</text>
+            font-family="Space Grotesk,sans-serif" font-size="8" fill="#546e7a" letter-spacing="0.5">${label.toUpperCase()}</text>
     </svg>
   </div>`;
 }
@@ -7011,7 +7037,7 @@ const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
     const b = document.createElement('div');
     b.id = 'sbConfigBanner';
     b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff4757;color:#fff;
-      font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:10px 20px;text-align:center;
+      font-family:'Space Grotesk',sans-serif;font-size:0.75rem;padding:10px 20px;text-align:center;
       display:flex;align-items:center;justify-content:center;gap:12px;`;
     b.innerHTML = `<i data-lucide="alert-triangle"></i> Supabase not configured — set <strong>SUPABASE_URL</strong> and <strong>SUPABASE_ANON_KEY</strong>.
       <a href="https://supabase.com/dashboard" target="_blank" style="color:#fff;text-decoration:underline;">Open Dashboard</a>`;
@@ -7038,7 +7064,7 @@ function _showSbLoading(msg) {
     el.innerHTML = `
       <div style="width:36px;height:36px;border:3px solid #1e2a38;border-top-color:#00c8ff;
         border-radius:50%;animation:sbSpin 0.8s linear infinite;"></div>
-      <div id="sbLoadingMsg" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+      <div id="sbLoadingMsg" style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;
         color:#546e7a;letter-spacing:0.5px;"></div>
       <style>@keyframes sbSpin{to{transform:rotate(360deg)}}</style>`;
     document.body.appendChild(el);
