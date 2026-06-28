@@ -27,6 +27,16 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Reserve scrollbar space permanently so page width never changes
+       between tabs (Dashboard vs Trade Log have different content heights,
+       which otherwise toggles the scrollbar on/off and shifts centered
+       elements like .header-center sideways). */
+    html {
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      color-scheme: dark;
+    }
+
     /* ─── ICONS (Lucide) ─── */
     [data-lucide] {
       width: 1em;
