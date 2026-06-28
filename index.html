@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>8 Journals</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
     :root {
       --bg: #080b10;
@@ -26,6 +27,15 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ─── ICONS (Lucide) ─── */
+    [data-lucide] {
+      width: 1em;
+      height: 1em;
+      stroke-width: 2.1;
+      vertical-align: -0.15em;
+      flex-shrink: 0;
+    }
+
     body {
       font-family: 'Syne', sans-serif;
       background: var(--bg);
@@ -44,9 +54,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 50px;
-      padding-bottom: 0px;
-      border-bottom: none;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
       position: relative;
     }
 
@@ -86,7 +96,7 @@
     .header-left h1 span { color: var(--accent); }
 
     .header-left .subtitle {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       color: var(--muted);
       margin-top: 2px;
@@ -100,7 +110,7 @@
       gap: 32px;
       position: absolute;
       left: 50%;
-      top: 90%;
+      top: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
     }
@@ -115,7 +125,7 @@
     }
 
     .header-arc-stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -123,7 +133,7 @@
     }
 
     .header-arc-stat-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.35rem;
       font-weight: 700;
       color: #fff;
@@ -169,7 +179,7 @@
     .stat.purple-accent::before { background: var(--purple); }
 
     .stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       color: var(--muted);
       text-transform: uppercase;
@@ -178,7 +188,7 @@
     }
 
     .stat-value {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
       color: #fff;
@@ -225,7 +235,7 @@
     .form-group { display: flex; flex-direction: column; }
 
     label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       color: var(--muted);
       margin-bottom: 5px;
@@ -239,7 +249,7 @@
       color: var(--text);
       padding: 9px 11px;
       border-radius: 7px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.82rem;
       transition: border-color 0.2s;
     }
@@ -279,7 +289,7 @@
       color: var(--muted);
       padding: 3px 9px;
       border-radius: 20px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       cursor: pointer;
       transition: all 0.15s;
@@ -347,11 +357,11 @@
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
     }
 
     .table-count {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       color: var(--accent);
     }
@@ -369,7 +379,7 @@
 
     th {
       background: var(--surface2);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.7px;
@@ -380,7 +390,7 @@
     tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #ffffff04; }
 
-    .pnl { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+    .pnl { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
     .pnl.positive { color: var(--green); }
     .pnl.negative { color: var(--red); }
 
@@ -390,7 +400,7 @@
       gap: 4px;
       padding: 3px 10px;
       border-radius: 20px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       font-weight: 700;
     }
@@ -403,7 +413,7 @@
       display: inline-block;
       padding: 2px 8px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       font-weight: 600;
     }
@@ -416,7 +426,7 @@
       margin: 1px;
       padding: 2px 7px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       font-weight: 600;
       background: #00c8ff12;
@@ -429,7 +439,7 @@
       margin: 1px;
       padding: 2px 7px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       font-weight: 600;
     }
@@ -440,7 +450,7 @@
     .trend-premium { background: #a855f712; color: var(--purple); border: 1px solid #a855f730; }
 
     .rr-value {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.78rem;
       color: var(--accent);
     }
@@ -452,7 +462,7 @@
       font-size: 0.72rem;
       border: 1px solid var(--border);
       border-radius: 5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       white-space: nowrap;
     }
     .edit-btn:hover { background: #00c8ff10; border-color: var(--accent); color: var(--accent); transform: none; }
@@ -461,7 +471,7 @@
       display: inline-block;
       padding: 2px 8px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.3px;
@@ -476,7 +486,7 @@
     }
 
     .empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5; }
-    .empty-text { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+    .empty-text { font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; }
 
     /* ─── IMAGE UPLOAD ─── */
     .img-upload-area {
@@ -515,7 +525,7 @@
 
     .img-upload-icon { font-size: 1.4rem; opacity: 0.5; }
     .img-upload-hint {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       color: var(--muted);
     }
@@ -563,7 +573,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       color: var(--accent);
       cursor: pointer;
@@ -656,7 +666,7 @@
     #pairPopup { width: 320px; }
 
     .pp-name {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
       font-weight: 700;
       letter-spacing: 0.5px;
@@ -670,7 +680,7 @@
     }
 
     .pp-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.3rem;
       font-weight: 700;
       letter-spacing: -0.5px;
@@ -692,7 +702,7 @@
     }
 
     .pp-stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.52rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -701,7 +711,7 @@
     }
 
     .pp-stat-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
       color: #fff;
@@ -711,7 +721,7 @@
     #perfPopup { width: 400px; }
 
     .perf-pp-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -720,7 +730,7 @@
     }
 
     .perf-pp-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.2rem;
       font-weight: 700;
       letter-spacing: -0.5px;
@@ -742,7 +752,7 @@
     }
 
     .perf-pp-stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.52rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -751,14 +761,14 @@
     }
 
     .perf-pp-stat-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
       color: #fff;
     }
 
     .perf-pp-pairs-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       text-transform: uppercase;
       letter-spacing: 0.6px;
@@ -778,14 +788,14 @@
     }
 
     .perf-pp-pair-name {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       font-weight: 700;
       color: #fff;
     }
 
     .perf-pp-pair-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       font-weight: 700;
     }
@@ -804,7 +814,7 @@
     }
 
     .fp-filter-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       font-weight: 700;
       color: var(--muted);
@@ -816,7 +826,7 @@
       background: transparent;
       border: none;
       color: var(--red);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       cursor: pointer;
       padding: 0;
@@ -830,7 +840,7 @@
     .fp-filter-row { display: flex; flex-direction: column; gap: 6px; }
 
     .fp-filter-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       color: var(--muted);
       text-transform: uppercase;
@@ -845,7 +855,7 @@
       color: var(--muted);
       padding: 4px 10px;
       border-radius: 5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       cursor: pointer;
       transition: all 0.12s;
@@ -865,7 +875,7 @@
       color: var(--text);
       padding: 5px 24px 5px 9px;
       border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       cursor: pointer;
       appearance: none;
@@ -888,7 +898,7 @@
       color: var(--muted);
       padding: 6px 13px;
       border-radius: 7px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       font-weight: 600;
       cursor: pointer;
@@ -982,7 +992,7 @@
       padding: 7px 12px;
       font-size: 0.8rem;
       cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       transition: all 0.15s;
     }
     .lb-ctrl-btn:hover { color: #fff; background: var(--surface); border-color: var(--border2); transform: none; }
@@ -1010,7 +1020,7 @@
       position: fixed;
       top: 20px; left: 50%;
       transform: translateX(-50%);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       color: var(--muted);
       background: var(--surface2);
@@ -1036,7 +1046,7 @@
     }
     .equity-header-left { display: flex; align-items: center; gap: 10px; }
     .equity-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       font-weight: 700;
       color: var(--muted);
@@ -1044,7 +1054,7 @@
       letter-spacing: 0.8px;
     }
     .equity-pnl-badge {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.75rem;
       font-weight: 700;
       padding: 2px 10px;
@@ -1072,7 +1082,7 @@
       border: 1px solid var(--border2);
       border-radius: 6px;
       padding: 7px 11px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       color: var(--text);
       pointer-events: none;
@@ -1098,7 +1108,7 @@
       color: var(--muted);
       padding: 6px 14px;
       border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       font-weight: 600;
       cursor: pointer;
@@ -1136,14 +1146,14 @@
     }
     .cal-nav-btn:hover { border-color: var(--accent); color: var(--accent); background: transparent; transform: none; }
     .cal-month-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.9rem;
       font-weight: 700;
       color: #fff;
       letter-spacing: 1px;
     }
     .cal-month-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.99rem;
       font-weight: 700;
       letter-spacing: 0.3px;
@@ -1155,7 +1165,7 @@
     .cal-day-header {
       text-align: center;
       padding: 10px 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
       text-transform: uppercase;
@@ -1193,7 +1203,7 @@
     }
     .cal-cell.today::after { display: none; }
     .cal-day-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       color: var(--muted);
       position: relative;
@@ -1212,7 +1222,7 @@
       margin-bottom: 6px;
     }
     .cal-day-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.99rem;
       font-weight: 700;
       text-align: right;
@@ -1225,7 +1235,7 @@
       display: inline-block;
       padding: 2px 7px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       font-weight: 700;
       white-space: nowrap;
@@ -1267,7 +1277,7 @@
       border-bottom: 1px solid var(--border);
     }
     .cal-detail-date {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.9rem;
       font-weight: 700;
       color: #fff;
@@ -1284,14 +1294,14 @@
     }
     .cal-detail-stat { text-align: center; }
     .cal-detail-stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .cal-detail-stat-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.88rem;
       font-weight: 700;
       color: #fff;
@@ -1311,7 +1321,7 @@
       margin-bottom: 4px;
     }
     .cal-detail-pair {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
       font-size: 0.85rem;
       color: #fff;
@@ -1466,14 +1476,14 @@
     }
     .metric-item:last-child { border-right: none; }
     .metric-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .metric-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.78rem;
       font-weight: 700;
       color: #fff;
@@ -1504,7 +1514,7 @@
       border-bottom: 2px solid transparent;
       color: var(--muted);
       padding: 13px 12px 12px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -1523,7 +1533,7 @@
     .report-empty {
       text-align: center;
       padding: 40px 20px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       color: var(--muted);
       opacity: 0.5;
@@ -1564,7 +1574,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
       cursor: pointer;
@@ -1650,7 +1660,7 @@
       margin-bottom: 8px;
     }
     .perf-card-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.7px;
@@ -1678,7 +1688,7 @@
     .perf-card:not([class*="winner"]) { opacity: 0.6; }
     .perf-card:not([class*="winner"]):hover { opacity: 0.85; }
     .perf-card-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.05rem;
       font-weight: 700;
       margin-bottom: 7px;
@@ -1690,18 +1700,18 @@
     .perf-card.winner-ap .perf-card-pnl { font-size: 1.45rem; }
     .perf-card-stats { display: flex; gap: 10px; flex-wrap: wrap; }
     .perf-card-stat {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
     }
     .perf-card-stat span { color: var(--text); font-weight: 700; }
-    .perf-card-best { margin-top: 7px; font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; color: var(--muted); }
+    .perf-card-best { margin-top: 7px; font-family: 'Space Grotesk', sans-serif; font-size: 0.58rem; color: var(--muted); }
     .perf-card-best span { color: #fff; font-weight: 700; }
 
     /* comparison bar */
     .cmp-bar-wrap { margin-bottom: 8px; }
     .cmp-bar-labels { display: flex; justify-content: space-between; margin-bottom: 4px; }
-    .cmp-bar-label { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+    .cmp-bar-label { font-family: 'Space Grotesk', sans-serif; font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
     .cmp-bar-track { height: 5px; background: var(--bg); border-radius: 3px; display: flex; overflow: hidden; border: 1px solid var(--border); }
     .cmp-bar-london { background: var(--purple); transition: width 0.4s ease; }
     .cmp-bar-ny     { background: var(--accent); transition: width 0.4s ease; }
@@ -1711,7 +1721,7 @@
     /* TABLE FILTER */
     .tbl-filter-options { display: flex; flex-direction: column; gap: 4px; }
     .tbl-filter-section-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
       text-transform: uppercase;
@@ -1776,7 +1786,7 @@
       padding: 8px 12px;
       cursor: pointer;
       transition: all 0.15s;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       min-width: 190px;
       user-select: none;
     }
@@ -1828,11 +1838,11 @@
       border-bottom: 1px solid var(--border);
     }
     .accounts-panel-title {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.57rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.57rem;
       text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
     }
     .accounts-panel-add {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem;
       font-weight: 700; color: var(--accent); background: transparent;
       border: 1px solid #00c8ff30; border-radius: 6px;
       padding: 3px 9px; cursor: pointer; transition: all 0.15s;
@@ -1855,7 +1865,7 @@
     }
     .acc-row-all.active .acc-row-all-icon { border-color: #00c8ff40; background: #00c8ff10; }
     .acc-row-all-name {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem;
       font-weight: 700; color: #8899aa; flex: 1;
     }
     .acc-row-all.active .acc-row-all-name { color: var(--accent); }
@@ -1873,7 +1883,7 @@
     .acc-row-avatar {
       width: 36px; height: 36px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem;
       font-weight: 700; flex-shrink: 0; border: 1px solid transparent;
     }
     .acc-avatar-live   { background: #26d96a16; border-color: #26d96a35; color: #26d96a; }
@@ -1883,7 +1893,7 @@
 
     .acc-row-info { flex: 1; min-width: 0; }
     .acc-row-name {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.73rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.73rem;
       font-weight: 700; color: #cdd9e5;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
@@ -1891,12 +1901,12 @@
 
     .acc-row-meta { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
     .acc-row-broker {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.56rem;
       color: var(--muted); background: var(--surface2);
       border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px;
     }
     .acc-row-type {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.54rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.54rem;
       font-weight: 700; border-radius: 3px; padding: 1px 5px;
     }
     .acc-type-live   { color: #26d96a; background: #26d96a14; border: 1px solid #26d96a30; }
@@ -1906,11 +1916,11 @@
 
     .acc-row-right { text-align: right; flex-shrink: 0; }
     .acc-row-balance {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.73rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.73rem;
       font-weight: 700; color: #fff;
     }
     .acc-row-pnl {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.59rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.59rem;
       font-weight: 700; margin-top: 2px;
     }
     .acc-row-pnl.pos { color: var(--green); }
@@ -1933,7 +1943,7 @@
       border: 1px solid #00c8ff30;
       border-radius: 8px;
       margin-bottom: 14px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       color: var(--accent);
     }
@@ -1947,7 +1957,7 @@
       font-size: 0.65rem;
       cursor: pointer;
       padding: 0;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       transition: color 0.15s;
     }
     .active-account-banner-clear:hover { color: var(--accent); transform: none; background: transparent; }
@@ -1963,7 +1973,7 @@
       border: 1px solid var(--border2);
       border-radius: 8px;
       padding: 6px 12px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       font-weight: 700;
       white-space: nowrap;
@@ -1988,7 +1998,7 @@
       display: block;
     }
     .balance-arcs-empty {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       color: var(--muted);
       opacity: 0.4;
@@ -2019,7 +2029,7 @@
       pointer-events: all;
     }
     .wr-popup-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -2040,7 +2050,7 @@
       text-align: center;
     }
     .wr-popup-stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -2048,7 +2058,7 @@
       margin-bottom: 4px;
     }
     .wr-popup-stat-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
       font-weight: 700;
       color: #fff;
@@ -2056,7 +2066,7 @@
 
     /* ─── STATS AS PERCENTAGES ─── */
     .stat-sub {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
       margin-top: 1px;
@@ -2075,7 +2085,7 @@
       border: 1px solid var(--border2);
       border-radius: 10px;
       padding: 11px 20px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.75rem;
       font-weight: 600;
       color: var(--text);
@@ -2129,7 +2139,7 @@
       width: 100%;
     }
     .rr-gauge-tick {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.48rem;
       color: var(--muted);
       opacity: 0.55;
@@ -2181,7 +2191,7 @@
       border-bottom: none;
       border-radius: 10px 10px 0 0;
       color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -2268,7 +2278,7 @@
       opacity: 0.25;
     }
     .playbook-empty-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--muted);
@@ -2276,7 +2286,7 @@
       letter-spacing: 1px;
     }
     .playbook-empty-sub {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       color: var(--muted);
       opacity: 0.5;
@@ -2298,7 +2308,7 @@
       color: var(--muted);
       padding: 8px 13px;
       border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       font-weight: 700;
       cursor: pointer;
@@ -2347,7 +2357,7 @@
 
     .page-nav-header {
       padding: 9px 13px 7px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -2363,7 +2373,7 @@
       cursor: pointer;
       transition: background 0.12s;
       border-bottom: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       color: var(--text);
       font-weight: 600;
@@ -2394,7 +2404,7 @@
     }
     .calc-page-title span { color: var(--accent); }
     .calc-page-sub {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       color: var(--muted);
       margin-bottom: 24px;
@@ -2413,7 +2423,7 @@
       padding: 22px;
     }
     .calc-card-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       font-weight: 700;
       color: var(--accent);
@@ -2443,14 +2453,14 @@
       align-items: center;
     }
     .calc-result-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .calc-result-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
       font-weight: 700;
       color: #fff;
@@ -2469,7 +2479,7 @@
     }
     .calc-pip-table th {
       background: var(--surface2);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -2477,7 +2487,7 @@
       padding: 7px 10px;
     }
     .calc-pip-table td {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       padding: 7px 10px;
       border-bottom: 1px solid var(--border);
@@ -2544,19 +2554,6 @@
       display: block;
     }
 
-    /* ── Grid background ── */
-    .lp-grid-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      background-image:
-        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-    }
-
     /* ── Glow orbs ── */
     .lp-orb {
       position: fixed;
@@ -2586,41 +2583,6 @@
     @keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
     @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
     @keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,25px)} }
-
-    /* ── Ticker tape ── */
-    .lp-ticker-wrap {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 32px;
-      background: rgba(0,200,255,0.04);
-      border-bottom: 1px solid rgba(0,200,255,0.1);
-      overflow: hidden;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-    }
-    .lp-ticker-track {
-      display: flex;
-      gap: 0;
-      animation: tickerScroll 35s linear infinite;
-      white-space: nowrap;
-    }
-    .lp-ticker-item {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      font-weight: 600;
-      padding: 0 28px;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .lp-ticker-item .ti-pair { color: rgba(205,217,229,0.5); }
-    .lp-ticker-item .ti-val  { color: #00c8ff; }
-    .lp-ticker-item .ti-chg.up   { color: #26d96a; }
-    .lp-ticker-item .ti-chg.down { color: #ff4757; }
-    .lp-ticker-sep { color: rgba(0,200,255,0.2); }
-    @keyframes tickerScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
     /* ── Nav bar ── */
     .lp-nav {
@@ -2663,7 +2625,7 @@
       color: #00c8ff;
       padding: 9px 22px;
       border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.5px;
@@ -2694,7 +2656,7 @@
       border-radius: 20px;
       padding: 6px 16px;
       margin-bottom: 28px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 1.5px;
@@ -2802,7 +2764,7 @@
     }
     .lp-stat:last-child { border-right: none; }
     .lp-stat-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.3rem;
       font-weight: 700;
       color: #fff;
@@ -2811,7 +2773,7 @@
     .lp-stat-val.green { color: #26d96a; }
     .lp-stat-val.accent { color: #00c8ff; }
     .lp-stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -2828,7 +2790,7 @@
     }
     .lp-screens-label {
       text-align: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -2867,7 +2829,7 @@
     .lp-dot-g { background: #26d96a; }
     .lp-screen-url {
       margin-left: 8px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       color: rgba(84,110,122,0.6);
       flex: 1;
@@ -2876,7 +2838,7 @@
       border-radius: 4px;
     }
     .lp-screen-tag {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       font-weight: 700;
       letter-spacing: 0.8px;
@@ -2905,7 +2867,7 @@
     }
     .lp-mock-title span { color: #00c8ff; }
     .lp-mock-badge {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       padding: 2px 8px;
       border-radius: 4px;
@@ -2926,7 +2888,7 @@
       padding: 10px 10px;
     }
     .lp-kpi-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.5rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -2934,7 +2896,7 @@
       margin-bottom: 5px;
     }
     .lp-kpi-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
     }
@@ -2954,7 +2916,7 @@
       overflow: hidden;
     }
     .lp-chart-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.52rem;
       color: #546e7a;
       text-transform: uppercase;
@@ -2984,13 +2946,13 @@
       padding: 7px 10px;
     }
     .lp-trade-pair {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       font-weight: 700;
       color: #cdd9e5;
     }
     .lp-trade-dir {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.5rem;
       font-weight: 700;
       padding: 2px 6px;
@@ -2999,14 +2961,14 @@
     .lp-trade-dir.buy  { background: rgba(38,217,106,0.12); color: #26d96a; }
     .lp-trade-dir.sell { background: rgba(255,71,87,0.12);  color: #ff4757; }
     .lp-trade-pnl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       font-weight: 700;
     }
     .lp-trade-pnl.pos { color: #26d96a; }
     .lp-trade-pnl.neg { color: #ff4757; }
     .lp-trade-rr {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       color: #546e7a;
     }
@@ -3039,14 +3001,14 @@
       padding: 8px 12px;
     }
     .lp-input-lbl {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: #546e7a;
     }
     .lp-input-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       font-weight: 700;
       color: #cdd9e5;
@@ -3059,7 +3021,7 @@
       text-align: center;
     }
     .lp-calc-result-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.55rem;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -3067,13 +3029,13 @@
       margin-bottom: 6px;
     }
     .lp-calc-result-val {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.4rem;
       font-weight: 700;
       color: #00c8ff;
     }
     .lp-calc-result-sub {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       color: #546e7a;
       margin-top: 4px;
@@ -3093,8 +3055,8 @@
       justify-content: space-between;
       align-items: center;
     }
-    .lp-pip-pair { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: #546e7a; }
-    .lp-pip-val  { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; color: #26d96a; }
+    .lp-pip-pair { font-family: 'Space Grotesk', sans-serif; font-size: 0.55rem; color: #546e7a; }
+    .lp-pip-val  { font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem; font-weight: 700; color: #26d96a; }
 
     /* ── Features section ── */
     .lp-features {
@@ -3106,7 +3068,7 @@
     }
     .lp-section-tag {
       text-align: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -3223,7 +3185,7 @@
       text-align: center;
       padding: 24px;
       border-top: 1px solid rgba(30,42,56,0.5);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       color: rgba(84,110,122,0.4);
       letter-spacing: 0.5px;
@@ -3481,16 +3443,6 @@
     }
     #authScreen.active { display: flex; }
 
-    .auth-bg-grid {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-    }
     .auth-orb {
       position: fixed;
       border-radius: 50%;
@@ -3572,7 +3524,7 @@
       margin-bottom: 4px;
     }
     .auth-heading p {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       color: rgba(84,110,122,0.7);
       letter-spacing: 0.3px;
@@ -3595,7 +3547,7 @@
       color: #546e7a;
       padding: 9px 0;
       border-radius: 7px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -3614,7 +3566,7 @@
     .auth-form-fields { display: flex; flex-direction: column; gap: 14px; }
     .auth-field { display: flex; flex-direction: column; gap: 6px; }
     .auth-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -3629,7 +3581,7 @@
       color: #cdd9e5;
       padding: 12px 14px;
       border-radius: 9px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.84rem;
       transition: border-color 0.2s, box-shadow 0.2s;
       width: 100%;
@@ -3673,7 +3625,7 @@
       transition: width 0.3s ease, background 0.3s ease;
     }
     .auth-pw-hint {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       color: rgba(84,110,122,0.55);
       margin-top: 4px;
@@ -3698,7 +3650,7 @@
       border-radius: 3px;
     }
     .auth-terms label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.62rem;
       color: rgba(84,110,122,0.6);
       cursor: pointer;
@@ -3749,7 +3701,7 @@
       background: transparent;
       border: none;
       color: #00c8ff;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.65rem;
       cursor: pointer;
       padding: 0;
@@ -3774,7 +3726,7 @@
       background: rgba(30,42,56,0.8);
     }
     .auth-divider span {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.58rem;
       color: rgba(84,110,122,0.4);
       text-transform: uppercase;
@@ -3787,7 +3739,7 @@
       display: none;
       padding: 11px 14px;
       border-radius: 9px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       line-height: 1.5;
       margin-bottom: 2px;
@@ -3817,7 +3769,7 @@
       margin-top: 22px;
       padding-top: 18px;
       border-top: 1px solid rgba(30,42,56,0.5);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: rgba(84,110,122,0.35);
       letter-spacing: 0.3px;
@@ -3846,7 +3798,7 @@
       border-radius: 8px;
       padding: 7px 11px;
       cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.68rem;
       font-weight: 700;
       color: var(--text);
@@ -3897,7 +3849,7 @@
       margin-bottom: 2px;
     }
     .user-menu-email {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.6rem;
       color: var(--muted);
       overflow: hidden;
@@ -3909,7 +3861,7 @@
       align-items: center;
       gap: 9px;
       padding: 10px 14px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       color: var(--text);
       cursor: pointer;
@@ -3950,7 +3902,6 @@
      Views: signin | register | forgot
 ═══════════════════════════════════════════ -->
 <div id="authScreen">
-  <div class="auth-bg-grid"></div>
   <div class="auth-orb auth-orb-1"></div>
   <div class="auth-orb auth-orb-2"></div>
 
@@ -3983,7 +3934,7 @@
           <div class="auth-input-wrap">
             <input class="auth-input has-icon" id="signinPassword" type="password"
                    placeholder="••••••••" autocomplete="current-password" />
-            <button class="auth-eye" type="button" onclick="togglePw('signinPassword',this)" title="Show password">👁</button>
+            <button class="auth-eye" type="button" onclick="togglePw('signinPassword',this)" title="Show password"><i data-lucide="eye"></i></button>
           </div>
         </div>
 
@@ -4009,9 +3960,9 @@
         <div id="authRegisterNotice" class="auth-notice error"></div>
 
         <div class="auth-field">
-          <label class="auth-label" for="regDisplayName">user Name</label>
+          <label class="auth-label" for="regDisplayName">Display Name</label>
           <input class="auth-input" id="regDisplayName" type="text"
-                 placeholder="ABEL" autocomplete="name" />
+                 placeholder="Trader Joe" autocomplete="name" />
         </div>
 
         <div class="auth-field">
@@ -4026,7 +3977,7 @@
             <input class="auth-input has-icon" id="regPassword" type="password"
                    placeholder="Min. 8 characters" autocomplete="new-password"
                    oninput="updatePwStrength(this.value)" />
-            <button class="auth-eye" type="button" onclick="togglePw('regPassword',this)" title="Show password">👁</button>
+            <button class="auth-eye" type="button" onclick="togglePw('regPassword',this)" title="Show password"><i data-lucide="eye"></i></button>
           </div>
           <div class="auth-pw-strength"><div class="auth-pw-strength-bar" id="pwStrengthBar"></div></div>
           <div class="auth-pw-hint" id="pwStrengthHint">Enter a password</div>
@@ -4037,7 +3988,7 @@
           <div class="auth-input-wrap">
             <input class="auth-input has-icon" id="regPasswordConfirm" type="password"
                    placeholder="Repeat password" autocomplete="new-password" />
-            <button class="auth-eye" type="button" onclick="togglePw('regPasswordConfirm',this)" title="Show password">👁</button>
+            <button class="auth-eye" type="button" onclick="togglePw('regPasswordConfirm',this)" title="Show password"><i data-lucide="eye"></i></button>
           </div>
         </div>
 
@@ -4093,48 +4044,9 @@
 <div id="landingPage" class="active">
 
   <!-- Background effects -->
-  <div class="lp-grid-bg"></div>
   <div class="lp-orb lp-orb-1"></div>
   <div class="lp-orb lp-orb-2"></div>
   <div class="lp-orb lp-orb-3"></div>
-
-  <!-- Ticker tape -->
-  <div class="lp-ticker-wrap">
-    <div class="lp-ticker-track" id="lpTicker">
-      <span class="lp-ticker-item"><span class="ti-pair">EUR/USD</span><span class="ti-val">1.0842</span><span class="ti-chg up">+0.12%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">GBP/USD</span><span class="ti-val">1.2714</span><span class="ti-chg up">+0.08%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">USD/JPY</span><span class="ti-val">153.42</span><span class="ti-chg down">−0.21%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">XAU/USD</span><span class="ti-val">2,341</span><span class="ti-chg up">+0.54%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">NAS100</span><span class="ti-val">18,240</span><span class="ti-chg up">+0.33%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">AUD/USD</span><span class="ti-val">0.6582</span><span class="ti-chg down">−0.07%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">USD/CAD</span><span class="ti-val">1.3641</span><span class="ti-chg down">−0.05%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">USD/CHF</span><span class="ti-val">0.9012</span><span class="ti-chg up">+0.03%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <!-- duplicate for seamless loop -->
-      <span class="lp-ticker-item"><span class="ti-pair">EUR/USD</span><span class="ti-val">1.0842</span><span class="ti-chg up">+0.12%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">GBP/USD</span><span class="ti-val">1.2714</span><span class="ti-chg up">+0.08%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">USD/JPY</span><span class="ti-val">153.42</span><span class="ti-chg down">−0.21%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">XAU/USD</span><span class="ti-val">2,341</span><span class="ti-chg up">+0.54%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">NAS100</span><span class="ti-val">18,240</span><span class="ti-chg up">+0.33%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">AUD/USD</span><span class="ti-val">0.6582</span><span class="ti-chg down">−0.07%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">USD/CAD</span><span class="ti-val">1.3641</span><span class="ti-chg down">−0.05%</span></span>
-      <span class="lp-ticker-sep">·</span>
-      <span class="lp-ticker-item"><span class="ti-pair">USD/CHF</span><span class="ti-val">0.9012</span><span class="ti-chg up">+0.03%</span></span>
-    </div>
-  </div>
 
   <!-- Nav -->
   <nav class="lp-nav">
@@ -4162,7 +4074,7 @@
     </p>
     <div class="lp-cta-row">
       <button class="lp-cta-primary" onclick="showAuthScreen()">
-        <span>⚡</span> Launch App
+        <span><i data-lucide="zap"></i></span> Launch App
       </button>
       <button class="lp-cta-secondary" onclick="document.getElementById('lp-features-anchor').scrollIntoView({behavior:'smooth'})">
         Explore features ↓
@@ -4277,7 +4189,7 @@
           <div class="lp-screen-tag calc">Lot Calc</div>
         </div>
         <div class="lp-calc-mock">
-          <div class="lp-calc-title">🧮 Lot Size <span>Calculator</span></div>
+          <div class="lp-calc-title"><i data-lucide="calculator"></i> Lot Size <span>Calculator</span></div>
           <div class="lp-input-group">
             <div class="lp-input-row">
               <div class="lp-input-lbl">Account Balance</div>
@@ -4331,34 +4243,34 @@
     <div class="lp-section-title">Everything a serious trader <span>needs</span></div>
     <div class="lp-feat-grid">
       <div class="lp-feat-card c-accent">
-        <div class="lp-feat-icon accent">📊</div>
+        <div class="lp-feat-icon accent"><i data-lucide="bar-chart-3"></i></div>
         <div class="lp-feat-name">Live Dashboard</div>
         <div class="lp-feat-desc">Real-time equity curve, win rate arc, and KPI cards that update as you log trades. Full performance at a glance.</div>
       </div>
       <div class="lp-feat-card c-green">
-        <div class="lp-feat-icon green">🧮</div>
+        <div class="lp-feat-icon green"><i data-lucide="calculator"></i></div>
         <div class="lp-feat-name">Lot Size Calculator</div>
         <div class="lp-feat-desc">Instant position sizing across all major pairs. Enter balance, risk %, and stop loss — get your lot size in milliseconds.</div>
       </div>
       <div class="lp-feat-card c-gold">
-        <div class="lp-feat-icon gold">📅</div>
+        <div class="lp-feat-icon gold"><i data-lucide="calendar"></i></div>
         <div class="lp-feat-name">Trade Calendar</div>
         <div class="lp-feat-desc">Visualize your trading history by day. Spot patterns in your best and worst sessions across weeks and months.</div>
       </div>
       <div class="lp-feat-card c-accent">
-        <div class="lp-feat-icon" style="background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.2);">📉</div>
+        <div class="lp-feat-icon" style="background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.2);"><i data-lucide="trending-down"></i></div>
         <div class="lp-feat-name">Drawdown Tracking</div>
         <div class="lp-feat-desc">Monitor max drawdown, consecutive losses, and risk exposure in real time. Know your limits before the market does.</div>
       </div>
       <div class="lp-feat-card c-green">
-        <div class="lp-feat-icon" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);">💼</div>
+        <div class="lp-feat-icon" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);"><i data-lucide="briefcase"></i></div>
         <div class="lp-feat-name">Multi-Account</div>
         <div class="lp-feat-desc">Track multiple trading accounts simultaneously. Switch contexts instantly — prop firm, live, demo all in one place.</div>
       </div>
       <div class="lp-feat-card c-gold">
-        <div class="lp-feat-icon" style="background:rgba(0,188,212,0.1);border:1px solid rgba(0,188,212,0.2);">🔒</div>
-        <div class="lp-feat-name">100% Local & Private</div>
-        <div class="lp-feat-desc">User accounts and all trade data stored in your browser. No cloud, no subscriptions. Your trading data never leaves your device.</div>
+        <div class="lp-feat-icon" style="background:rgba(0,188,212,0.1);border:1px solid rgba(0,188,212,0.2);"><i data-lucide="lock"></i></div>
+        <div class="lp-feat-name">Secure & Private</div>
+        <div class="lp-feat-desc">Your trade data is synced securely to your account and protected with row-level security — only you can ever see it.</div>
       </div>
     </div>
   </div>
@@ -4366,16 +4278,16 @@
   <!-- Bottom CTA -->
   <div class="lp-bottom-cta lp-reveal">
     <h2>Ready to level up<br>your <span>trading edge</span>?</h2>
-    <p>Sign up for free — no subscription, no cloud. Your data stays in your browser.</p>
+    <p>Sign up for free — your data syncs securely across every device.</p>
     <button class="lp-cta-primary" style="font-size:1rem;padding:16px 40px;" onclick="showAuthScreen()">
-      <span>⚡</span> Open Dashboard
+      <span><i data-lucide="zap"></i></span> Open Dashboard
     </button>
     <div class="lp-bottom-divider" style="margin-top:60px;"></div>
   </div>
 
   <!-- Footer -->
   <div class="lp-footer">
-    8 Journals · Built for serious traders · All data stored locally
+    8 Journals · Built for serious traders · Secured with Supabase
   </div>
 
 </div><!-- end #landingPage -->
@@ -4392,7 +4304,7 @@
       </div>
       <!-- Lot Size Calc title -->
       <div class="header-title-lotsize">
-        <h1>🧮 Lot Size <span>Calculator</span></h1>
+        <h1><i data-lucide="calculator"></i> Lot Size <span>Calculator</span></h1>
         <div class="subtitle">// risk management · position sizing · pip value</div>
       </div>
     </div>
@@ -4468,7 +4380,7 @@
       <div class="page-nav-wrap" id="pageNavWrap">
         <button class="page-nav-btn" id="pageNavBtn" onclick="togglePageNav(event)">
           <span class="page-nav-btn-left">
-            <span class="page-nav-btn-icon" id="pageNavIcon">🏠</span>
+            <span class="page-nav-btn-icon" id="pageNavIcon"><i data-lucide="home"></i></span>
             <span class="page-nav-btn-label" id="pageNavLabel">Home</span>
           </span>
           <span class="page-nav-chevron">▼</span>
@@ -4476,12 +4388,12 @@
         <div class="page-nav-dropdown" id="pageNavDropdown">
           <div class="page-nav-header">Navigate To</div>
           <div class="page-nav-item active" id="pageItemHome" onclick="switchPage('home')">
-            <span class="page-nav-item-icon">🏠</span>
+            <span class="page-nav-item-icon"><i data-lucide="home"></i></span>
             <span class="page-nav-item-text">Home</span>
             <span class="page-nav-item-check">✓</span>
           </div>
           <div class="page-nav-item" id="pageItemLotsize" onclick="switchPage('lotsize')">
-            <span class="page-nav-item-icon">🧮</span>
+            <span class="page-nav-item-icon"><i data-lucide="calculator"></i></span>
             <span class="page-nav-item-text">Lot Size Calc</span>
             <span class="page-nav-item-check">✓</span>
           </div>
@@ -4502,7 +4414,7 @@
               <div class="user-menu-name" id="userMenuFullName">–</div>
               <div class="user-menu-email" id="userMenuUsername">–</div>
             </div>
-            <div class="user-menu-item" onclick="closeUserMenu();showChangePassword()">🔑 Change Password</div>
+            <div class="user-menu-item" onclick="closeUserMenu();showChangePassword()"><i data-lucide="key"></i> Change Password</div>
             <div class="user-menu-item danger" onclick="handleLogout()">⏻ Sign Out</div>
           </div>
         </div>
@@ -4521,7 +4433,7 @@
           <!-- Dropdown panel -->
           <div class="accounts-panel" id="accountsPanel">
             <div class="accounts-panel-header">
-              <div class="accounts-panel-title">💼 Trading Accounts</div>
+              <div class="accounts-panel-title"><i data-lucide="briefcase"></i> Trading Accounts</div>
               <button class="accounts-panel-add" onclick="openAccountModal();closeAccountsPanel()">+ New</button>
             </div>
             <div id="accountsList"></div>
@@ -4536,7 +4448,7 @@
   <div id="appPageHome" class="app-page active">
 
   <div class="active-account-banner" id="activeAccountBanner">
-    <span>📊 Viewing:</span>
+    <span><i data-lucide="bar-chart-3"></i> Viewing:</span>
     <span class="active-account-banner-name" id="activeAccountBannerName"></span>
     <button class="active-account-banner-clear" onclick="selectAccount(null)">✕ Show all accounts</button>
   </div>
@@ -4555,7 +4467,7 @@
   <div class="trade-modal-overlay" id="tradeModalOverlay" onclick="if(event.target===this)closeTradeModal()">
     <div class="trade-modal">
       <div class="trade-modal-header">
-        <div class="trade-modal-title" id="tradeModalTitle">➕ Log Trade</div>
+        <div class="trade-modal-title" id="tradeModalTitle"><i data-lucide="plus"></i> Log Trade</div>
         <button class="modal-close-btn" onclick="closeTradeModal()">✕</button>
       </div>
       <div class="form-grid">
@@ -4659,7 +4571,7 @@
           <label>Chart Screenshots</label>
           <div class="img-upload-area" id="imgDropZone">
             <input type="file" id="fImages" accept="image/*" multiple onchange="handleImageFiles(this.files)">
-            <div class="img-upload-icon">📷</div>
+            <div class="img-upload-icon"><i data-lucide="camera"></i></div>
             <div class="img-upload-hint">Click or drag &amp; drop images</div>
           </div>
           <div class="img-preview-strip" id="imgPreviewStrip"></div>
@@ -4671,11 +4583,11 @@
       </div>
       <div class="btn-row" style="justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-save-trade" id="btnSaveTrade" onclick="saveTrade()">💾 Save Trade</button>
+          <button class="btn-save-trade" id="btnSaveTrade" onclick="saveTrade()"><i data-lucide="save"></i> Save Trade</button>
           <button class="btn-secondary" onclick="clearForm()">Clear</button>
           <button class="btn-secondary" onclick="closeTradeModal()">Cancel</button>
         </div>
-        <button id="btnDeleteTrade" onclick="deleteEditingTrade()" style="display:none;background:transparent;border:1px solid var(--red);color:var(--red);padding:9px 16px;border-radius:7px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#ff475720'" onmouseout="this.style.background='transparent'">🗑 Delete Trade</button>
+        <button id="btnDeleteTrade" onclick="deleteEditingTrade()" style="display:none;background:transparent;border:1px solid var(--red);color:var(--red);padding:9px 16px;border-radius:7px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#ff475720'" onmouseout="this.style.background='transparent'"><i data-lucide="trash-2"></i> Delete Trade</button>
       </div>
     </div>
   </div>
@@ -4802,14 +4714,14 @@
   <!-- ─── MAIN NAVIGATION TABS ─── -->
   <nav class="main-nav">
     <button class="nav-tab active" id="navDashboard" onclick="switchMainTab('dashboard')">
-      <span class="nav-icon">📈</span> Dashboard
+      <span class="nav-icon"><i data-lucide="trending-up"></i></span> Dashboard
     </button>
     <button class="nav-tab" id="navTradelog" onclick="switchMainTab('tradelog')">
-      <span class="nav-icon">📋</span> Trade Log
+      <span class="nav-icon"><i data-lucide="clipboard-list"></i></span> Trade Log
       <span class="nav-badge" id="navTradeCount">0</span>
     </button>
     <button class="nav-tab" id="navPlaybook" onclick="switchMainTab('playbook')">
-      <span class="nav-icon">📒</span> Playbook
+      <span class="nav-icon"><i data-lucide="book-open"></i></span> Playbook
     </button>
   </nav>
 
@@ -4826,7 +4738,7 @@
       <div class="equity-section">
         <div class="equity-header">
           <div class="equity-header-left">
-            <span style="font-size:0.9rem">📈</span>
+            <span style="font-size:0.9rem"><i data-lucide="trending-up"></i></span>
             <span class="equity-title">Equity Curve</span>
             <span class="equity-pnl-badge flat" id="equityBadge">$0.00</span>
           </div>
@@ -4867,8 +4779,8 @@
       <div class="report-header">
         <div class="report-tabs">
           <button class="report-tab active" onclick="switchReportTab('pairs',this)">⬡ Pairs</button>
-          <button class="report-tab" onclick="switchReportTab('session',this)">🕐 Session</button>
-          <button class="report-tab" onclick="switchReportTab('setup',this)">⚡ Setup</button>
+          <button class="report-tab" onclick="switchReportTab('session',this)"><i data-lucide="clock"></i> Session</button>
+          <button class="report-tab" onclick="switchReportTab('setup',this)"><i data-lucide="zap"></i> Setup</button>
         </div>
 
       </div>
@@ -4891,13 +4803,13 @@
     <div class="table-header-row">
       <div style="display:flex;align-items:center;gap:14px;">
         <span class="table-title">Trade Log</span>
-        <button class="btn-add-trade" onclick="openTradeModal()">➕ Add Trade</button>
+        <button class="btn-add-trade" onclick="openTradeModal()"><i data-lucide="plus"></i> Add Trade</button>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span class="table-count" id="tableCount">0 trades</span>
         <div class="view-toggle">
-          <button class="view-toggle-btn active" id="btnTableView" onclick="switchView('table')">☰ Table</button>
-          <button class="view-toggle-btn" id="btnCalView" onclick="switchView('calendar')">📅 Calendar</button>
+          <button class="view-toggle-btn active" id="btnTableView" onclick="switchView('table')"><i data-lucide="table"></i> Table</button>
+          <button class="view-toggle-btn" id="btnCalView" onclick="switchView('calendar')"><i data-lucide="calendar"></i> Calendar</button>
         </div>
         <button class="fp-trigger-btn" id="tblFilterBtn"
           aria-expanded="false"
@@ -4922,7 +4834,7 @@
         <tbody id="tradesBody"></tbody>
       </table>
       <div class="empty" id="emptyState">
-        <div class="empty-icon">📋</div>
+        <div class="empty-icon"><i data-lucide="clipboard-list"></i></div>
         <div class="empty-text">No trades logged yet. Add your first trade above.</div>
       </div>
     </div>
@@ -4958,7 +4870,7 @@
   <!-- ─── PLAYBOOK SECTION ─── -->
   <div class="page-section" id="sectionPlaybook">
     <div class="playbook-empty">
-      <div class="playbook-empty-icon">📒</div>
+      <div class="playbook-empty-icon"><i data-lucide="book-open"></i></div>
       <div class="playbook-empty-title">Playbook Coming Soon</div>
       <div class="playbook-empty-sub">Document your setups, rules, and trading strategies. Build a personal playbook to stay disciplined and consistent.</div>
     </div>
@@ -4973,11 +4885,11 @@
       <div class="calc-grid">
         <!-- INPUT CARD -->
         <div class="calc-card">
-          <div class="calc-card-title">⚙ Parameters</div>
+          <div class="calc-card-title"><i data-lucide="sliders-horizontal"></i> Parameters</div>
 
           <!-- Account balance auto-fill banner -->
           <div id="calcAccBanner" style="display:none;align-items:center;gap:8px;padding:7px 12px;background:#00c8ff0c;border:1px solid #00c8ff30;border-radius:8px;margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent);">
-            <span>📊</span>
+            <span><i data-lucide="bar-chart-3"></i></span>
             <span id="calcAccBannerName" style="font-weight:700;flex:1;"></span>
             <span id="calcAccBannerBal" style="font-weight:700;"></span>
           </div>
@@ -5041,7 +4953,7 @@
 
         <!-- RESULT CARD -->
         <div class="calc-card">
-          <div class="calc-card-title">📊 Result</div>
+          <div class="calc-card-title"><i data-lucide="bar-chart-3"></i> Result</div>
           <div class="calc-result-box">
             <div class="calc-result-row">
               <span class="calc-result-label">Recommended Lot Size</span>
@@ -5078,7 +4990,7 @@
       <!-- Pip Reference Card -->
       <div class="calc-card">
         <button class="pip-ref-toggle" id="pipRefToggle" onclick="togglePipRef()">
-          <div class="calc-card-title">📐 Pip Reference</div>
+          <div class="calc-card-title"><i data-lucide="ruler"></i> Pip Reference</div>
           <span class="pip-ref-chevron" id="pipRefChevron">▼</span>
         </button>
         <div class="pip-ref-body" id="pipRefBody">
@@ -5104,7 +5016,7 @@
 <div class="trade-modal-overlay" id="accountModalOverlay" onclick="if(event.target===this)closeAccountModal()">
   <div class="trade-modal" style="max-width:420px;">
     <div class="trade-modal-header">
-      <div class="trade-modal-title">💼 Add New Account</div>
+      <div class="trade-modal-title"><i data-lucide="briefcase"></i> Add New Account</div>
       <button class="modal-close-btn" onclick="closeAccountModal()">✕</button>
     </div>
     <div class="form-grid" style="grid-template-columns:1fr;">
@@ -5115,10 +5027,10 @@
       <div class="form-group">
         <label>Account Type</label>
         <select id="acctType">
-          <option value="live">🟢 Live</option>
-          <option value="funded">🔵 Funded / Prop</option>
-          <option value="demo">🟡 Demo</option>
-          <option value="paper">🟣 Paper</option>
+          <option value="live">Live</option>
+          <option value="funded">Funded / Prop</option>
+          <option value="demo">Demo</option>
+          <option value="paper">Paper</option>
         </select>
       </div>
       <div class="form-group">
@@ -5132,10 +5044,10 @@
     </div>
     <div class="btn-row" style="justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:16px;">
       <div style="display:flex;gap:8px;">
-        <button class="btn-save-trade" onclick="saveAccount()">💾 Save Account</button>
+        <button class="btn-save-trade" onclick="saveAccount()"><i data-lucide="save"></i> Save Account</button>
         <button class="btn-secondary" onclick="closeAccountModal()">Cancel</button>
       </div>
-      <button id="btnDeleteAccount" onclick="deleteEditingAccount()" style="display:none;background:transparent;border:1px solid var(--red);color:var(--red);padding:9px 16px;border-radius:7px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#ff475720'" onmouseout="this.style.background='transparent'">🗑 Delete</button>
+      <button id="btnDeleteAccount" onclick="deleteEditingAccount()" style="display:none;background:transparent;border:1px solid var(--red);color:var(--red);padding:9px 16px;border-radius:7px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#ff475720'" onmouseout="this.style.background='transparent'"><i data-lucide="trash-2"></i> Delete</button>
     </div>
   </div>
 </div>
@@ -5144,7 +5056,7 @@
 <div class="trade-modal-overlay" id="changePwOverlay" onclick="if(event.target===this)closeChangePassword()">
   <div class="trade-modal" style="max-width:380px;">
     <div class="trade-modal-header">
-      <div class="trade-modal-title">🔑 Change Password</div>
+      <div class="trade-modal-title"><i data-lucide="key"></i> Change Password</div>
       <button class="modal-close-btn" onclick="closeChangePassword()">✕</button>
     </div>
     <div class="form-grid" style="grid-template-columns:1fr;gap:14px;">
@@ -5163,7 +5075,7 @@
       </div>
     </div>
     <div class="btn-row" style="margin-top:20px;">
-      <button class="btn-save-trade" onclick="handleChangePassword()">💾 Update Password</button>
+      <button class="btn-save-trade" onclick="handleChangePassword()"><i data-lucide="save"></i> Update Password</button>
       <button class="btn-secondary" onclick="closeChangePassword()">Cancel</button>
     </div>
   </div>
@@ -5280,11 +5192,11 @@ let _toastTimer = null;
 function showToast(msg, type = 'warn') {
   const el = document.getElementById('tjToast');
   if (!el) return;
-  const icon = type === 'warn' ? '⚠️' : type === 'success' ? '✓' : '❌';
-  el.textContent = '';
+  const iconName = type === 'warn' ? 'alert-triangle' : type === 'success' ? 'check-circle' : 'x-circle';
   el.className = 'tj-toast ' + type;
-  el.textContent = icon + '  ' + msg;
+  el.innerHTML = `<i data-lucide="${iconName}"></i><span>${msg}</span>`;
   el.classList.add('visible');
+  if (window.lucide) lucide.createIcons();
   clearTimeout(_toastTimer);
   _toastTimer = setTimeout(() => el.classList.remove('visible'), 3200);
 }
@@ -5396,8 +5308,8 @@ function openTradeModal() {
     return;
   }
   editingTradeId = null;
-  document.getElementById('tradeModalTitle').textContent = '➕ Log Trade';
-  document.getElementById('btnSaveTrade').textContent    = '💾 Save Trade';
+  document.getElementById('tradeModalTitle').innerHTML = '<i data-lucide="plus"></i> Log Trade';
+  document.getElementById('btnSaveTrade').innerHTML    = '<i data-lucide="save"></i> Save Trade';
   clearForm();
   populateAccountDropdown();
   document.getElementById('fDate').valueAsDate = new Date();
@@ -5409,8 +5321,8 @@ function openEditModal(id) {
   const t = trades.find(tr => tr.id === id);
   if (!t) return;
   editingTradeId = id;
-  document.getElementById('tradeModalTitle').textContent = '✎ Edit Trade';
-  document.getElementById('btnSaveTrade').textContent    = '💾 Update Trade';
+  document.getElementById('tradeModalTitle').innerHTML = '<i data-lucide="pencil"></i> Edit Trade';
+  document.getElementById('btnSaveTrade').innerHTML    = '<i data-lucide="save"></i> Update Trade';
   clearForm();
   populateAccountDropdown();
   document.getElementById('fDate').value      = t.date || '';
@@ -5747,7 +5659,7 @@ function render() {
     const trendTags = (t.trend||[]).length ? t.trend.map(tr=>`<span class="trend-tag ${trendClassMap[tr]||''}">${tr}</span>`).join('') : '<span style="color:var(--muted);font-size:0.7rem">—</span>';
     const rrStr = t.rr ? `<span class="rr-value">${t.rr}R</span>` : '<span style="color:var(--muted)">—</span>';
     const imgs = t.images || [];
-    const imgCell = imgs.length ? `<span class="td-img-count" onclick='openLightbox(${JSON.stringify(imgs)}, 0)'>📷 ${imgs.length}</span>` : '<span style="color:var(--muted);font-size:0.7rem">—</span>';
+    const imgCell = imgs.length ? `<span class="td-img-count" onclick='openLightbox(${JSON.stringify(imgs)}, 0)'><i data-lucide="image"></i> ${imgs.length}</span>` : '<span style="color:var(--muted);font-size:0.7rem">—</span>';
     const setupCell = t.setup === 'A+' ? '<span class="setup-badge setup-aplus">A+</span>' : t.setup === 'A' ? '<span class="setup-badge setup-a">A</span>' : '<span style="color:var(--muted);font-size:0.7rem">—</span>';
     const sClass = sessionClass[t.session] || '';
     return `<tr>
@@ -5761,7 +5673,7 @@ function render() {
       <td><span class="outcome-badge ${outcomeMap[oc]||''}">${outcomeIcon[oc]||''} ${oc}</span></td>
       <td>${imgCell}</td>
       <td style="font-size:0.75rem;color:var(--muted);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.notes||''}">${t.notes||'—'}</td>
-      <td><button class="edit-btn" onclick="openEditModal(${t.id})">✎ Edit</button></td>
+      <td><button class="edit-btn" onclick="openEditModal(${t.id})"><i data-lucide="pencil"></i> Edit</button></td>
     </tr>`;
   }).join('');
 }
@@ -6150,7 +6062,7 @@ function renderSessionReport() {
     return `<div class="perf-card ${key} ${isWinner?'winner-'+key:''}" onclick="openPerfPopup(event,'${key}','${label}')">
       <div class="perf-card-header">
         <div class="perf-card-label">
-          <span class="winner-pip">👑</span>${label}
+          <span class="winner-pip"><i data-lucide="crown"></i></span>${label}
         </div>
       </div>
       <div class="perf-card-pnl" style="color:${pnlColor}">${pnlDisplay}</div>
@@ -6162,8 +6074,8 @@ function renderSessionReport() {
   const londonPct=Math.round(londonTrades/total*100), nyPct=100-londonPct;
 
   el.innerHTML=`<div class="perf-cards">
-    ${card('london','London 🇬🇧',sessions.London,'var(--purple)')}
-    ${card('ny','New York 🗽',sessions.NY,'var(--accent)')}
+    ${card('london','London',sessions.London,'var(--purple)')}
+    ${card('ny','New York',sessions.NY,'var(--accent)')}
   </div>
   <div class="cmp-bar-wrap">
     <div class="cmp-bar-labels"><span class="cmp-bar-label">London ${londonPct}%</span><span class="cmp-bar-label">NY ${nyPct}%</span></div>
@@ -6205,7 +6117,7 @@ function renderSetupReport() {
       : fmt$(setup.pnl);
     return `<div class="perf-card setup-${key} ${isWinner?'winner-'+key:''}" onclick="openPerfPopup(event,'setup_${key}','${label}')">
       <div class="perf-card-header">
-        <div class="perf-card-label"><span class="winner-pip">👑</span>${label}</div>
+        <div class="perf-card-label"><span class="winner-pip"><i data-lucide="crown"></i></span>${label}</div>
       </div>
       <div class="perf-card-pnl" style="color:${pnlColor}">${pnlDisplay}</div>
     </div>`;
@@ -6429,7 +6341,7 @@ function populateAccountDropdown() {
 
 function openAccountModal() {
   editingAccountId = null;
-  document.querySelector('#accountModalOverlay .trade-modal-title').textContent = '💼 Add New Account';
+  document.querySelector('#accountModalOverlay .trade-modal-title').innerHTML = '<i data-lucide="briefcase"></i> Add New Account';
   document.getElementById('acctName').value = '';
   document.getElementById('acctBalance').value = '';
   document.getElementById('acctBroker').value = '';
@@ -6443,7 +6355,7 @@ function openEditAccountModal(id) {
   const a = accounts.find(a => a.id === id);
   if (!a) return;
   editingAccountId = id;
-  document.querySelector('#accountModalOverlay .trade-modal-title').textContent = '✎ Edit Account';
+  document.querySelector('#accountModalOverlay .trade-modal-title').innerHTML = '<i data-lucide="pencil"></i> Edit Account';
   document.getElementById('acctName').value = a.name || '';
   document.getElementById('acctBalance').value = a.balance !== undefined ? a.balance : '';
   document.getElementById('acctBroker').value = a.broker || '';
@@ -6556,7 +6468,7 @@ function renderAccounts() {
 
   if (!accounts.length) {
     list.innerHTML = `<div class="acc-row-all ${allActive ? 'active' : ''}" onclick="selectAccount(null);closeAccountsPanel()">
-      <div class="acc-row-all-icon">🌐</div>
+      <div class="acc-row-all-icon"><i data-lucide="globe"></i></div>
       <div class="acc-row-all-name">All Accounts</div>
     </div>
     <div style="padding:20px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);opacity:0.5;">No accounts yet</div>`;
@@ -6564,7 +6476,7 @@ function renderAccounts() {
   }
 
   let html = `<div class="acc-row-all ${allActive ? 'active' : ''}" onclick="selectAccount(null);closeAccountsPanel()">
-    <div class="acc-row-all-icon">🌐</div>
+    <div class="acc-row-all-icon"><i data-lucide="globe"></i></div>
     <div class="acc-row-all-name">All Accounts</div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-right:6px;">${accounts.length} acct${accounts.length!==1?'s':''}</div>
   </div>`;
@@ -6592,7 +6504,7 @@ function renderAccounts() {
         <div class="acc-row-balance">${balStr}</div>
         <div class="acc-row-pnl ${pnlCls}">${pnlStr}</div>
       </div>
-      <button class="acc-row-edit" onclick="event.stopPropagation();closeAccountsPanel();openEditAccountModal(${a.id})" title="Edit">✎</button>
+      <button class="acc-row-edit" onclick="event.stopPropagation();closeAccountsPanel();openEditAccountModal(${a.id})" title="Edit"><i data-lucide="pencil"></i></button>
     </div>`;
   }).join('');
 
@@ -6844,8 +6756,8 @@ document.addEventListener('click', function(e) {
 });
 
 const _pageConfig = {
-  home:    { icon: '🏠', label: 'Home',          pageId: 'appPageHome',    itemId: 'pageItemHome'    },
-  lotsize: { icon: '🧮', label: 'Lot Size Calc', pageId: 'appPageLotsize', itemId: 'pageItemLotsize' },
+  home:    { icon: '<i data-lucide="home"></i>', label: 'Home',          pageId: 'appPageHome',    itemId: 'pageItemHome'    },
+  lotsize: { icon: '<i data-lucide="calculator"></i>', label: 'Lot Size Calc', pageId: 'appPageLotsize', itemId: 'pageItemLotsize' },
 };
 
 function switchPage(page) {
@@ -6866,7 +6778,8 @@ function switchPage(page) {
   if (item) item.classList.add('active');
 
   // Update button label
-  document.getElementById('pageNavIcon').textContent  = cfg.icon;
+  document.getElementById('pageNavIcon').innerHTML  = cfg.icon;
+  if (window.lucide) lucide.createIcons();
   document.getElementById('pageNavLabel').textContent = cfg.label;
 
   // Close dropdown
@@ -7081,8 +6994,8 @@ document.body.classList.add('on-landing');
    SUPABASE CONFIG — Replace with your project credentials
    Dashboard → Project Settings → API
 ═══════════════════════════════════════════════════════════════════ */
-const SUPABASE_URL  = 'https://ieukghjifozgyqxubhbe.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY';
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
 
 const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth: {
@@ -7091,6 +7004,20 @@ const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
     detectSessionInUrl: true   // handles email-confirmation & password-reset redirects
   }
 });
+
+/* ── Config warning banner ── */
+(function checkConfig() {
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON === 'YOUR_SUPABASE_ANON_KEY') {
+    const b = document.createElement('div');
+    b.id = 'sbConfigBanner';
+    b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff4757;color:#fff;
+      font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:10px 20px;text-align:center;
+      display:flex;align-items:center;justify-content:center;gap:12px;`;
+    b.innerHTML = `<i data-lucide="alert-triangle"></i> Supabase not configured — set <strong>SUPABASE_URL</strong> and <strong>SUPABASE_ANON_KEY</strong>.
+      <a href="https://supabase.com/dashboard" target="_blank" style="color:#fff;text-decoration:underline;">Open Dashboard</a>`;
+    document.body.prepend(b);
+  }
+})();
 
 /* ─────────────────────────────────────────
    STATE
@@ -7127,14 +7054,15 @@ function _hideSbLoading() {
 /* ─────────────────────────────────────────
    NOTICE HELPERS
 ───────────────────────────────────────── */
-const _noticeIcons = { error: '⚠', success: '✓', info: 'ℹ' };
+const _noticeIcons = { error: 'alert-triangle', success: 'check-circle', info: 'info' };
 
 function _showNotice(id, msg, type = 'error') {
   const el = document.getElementById(id);
   if (!el) return;
   el.className = `auth-notice ${type} visible`;
-  el.innerHTML = `<span class="auth-notice-icon">${_noticeIcons[type] || '•'}</span>
+  el.innerHTML = `<span class="auth-notice-icon"><i data-lucide="${_noticeIcons[type] || 'circle'}"></i></span>
                   <span class="auth-notice-msg">${msg}</span>`;
+  if (window.lucide) lucide.createIcons();
 }
 function _clearNotice(id) {
   const el = document.getElementById(id);
@@ -7207,7 +7135,8 @@ function togglePw(inputId, btn) {
   if (!inp) return;
   const show = inp.type === 'password';
   inp.type = show ? 'text' : 'password';
-  btn.textContent = show ? '🙈' : '👁';
+  btn.innerHTML = `<i data-lucide="${show ? 'eye-off' : 'eye'}"></i>`;
+  if (window.lucide) lucide.createIcons();
 }
 
 function updatePwStrength(pw) {
@@ -7270,7 +7199,7 @@ async function handleSignin() {
 }
 
 /* ─────────────────────────────────────────
-   REGISTER  (email + password + user name)
+   REGISTER  (email + password + display name)
 ───────────────────────────────────────── */
 async function handleRegister() {
   const displayName = (document.getElementById('regDisplayName')?.value || '').trim();
@@ -7279,7 +7208,7 @@ async function handleRegister() {
   const confirm     =  document.getElementById('regPasswordConfirm')?.value || '';
   _clearNotice('authRegisterNotice');
 
-  if (!displayName) return _showNotice('authRegisterNotice', 'Please enter your User name.');
+  if (!displayName) return _showNotice('authRegisterNotice', 'Please enter your display name.');
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return _showNotice('authRegisterNotice', 'Please enter a valid email address.');
   if (password.length < 8) return _showNotice('authRegisterNotice', 'Password must be at least 8 characters.');
@@ -7649,6 +7578,19 @@ function deleteTrade(id) {
     }
   });
 })();
+</script>
+<script>
+/* ─── ICON AUTO-RENDER ───
+   Lucide only converts [data-lucide] tags into SVGs when createIcons() runs.
+   This re-runs it on load and whenever the DOM changes (dynamic re-renders),
+   so icons inserted by render(), toasts, popups, etc. always show up. */
+function _renderIcons() { if (window.lucide) lucide.createIcons(); }
+document.addEventListener('DOMContentLoaded', _renderIcons);
+let _iconRenderTimer = null;
+new MutationObserver(() => {
+  clearTimeout(_iconRenderTimer);
+  _iconRenderTimer = setTimeout(_renderIcons, 40);
+}).observe(document.documentElement, { childList: true, subtree: true });
 </script>
 </body>
 </html>
