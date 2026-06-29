@@ -3442,6 +3442,7 @@
 
     /* ═══════════════════════════════════════════
        LOGIN / REGISTER SCREEN — Supabase Native Auth
+       Diagonal sliding-glass blade pattern
     ═══════════════════════════════════════════ */
     #authScreen {
       display: none;
@@ -3453,6 +3454,7 @@
       font-family: 'Space Grotesk', sans-serif;
       align-items: center;
       justify-content: center;
+      padding: 24px;
     }
     #authScreen.active { display: flex; }
 
@@ -3473,64 +3475,145 @@
       bottom: -100px; right: -100px;
     }
 
-    .auth-card {
+    /* ── Diagonal split container ── */
+    .auth-container {
       position: relative;
       z-index: 2;
+      width: 100%;
+      max-width: 800px;
+      height: 540px;
+      border-radius: 22px;
+      overflow: hidden;
       background: rgba(15,20,25,0.97);
       border: 1px solid rgba(30,42,56,0.9);
-      border-radius: 22px;
-      padding: 40px 38px;
-      width: 100%;
-      max-width: 430px;
-      margin: 24px 16px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset, 0 0 60px rgba(0,200,255,0.04);
-      animation: authCardIn 0.35s cubic-bezier(0.22,1,0.36,1);
+      box-shadow: 0 32px 90px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset, 0 0 70px rgba(0,200,255,0.05);
+      display: flex;
+      animation: authCardIn 0.4s cubic-bezier(0.22,1,0.36,1);
     }
     @keyframes authCardIn {
       from { opacity:0; transform: translateY(20px) scale(0.97); }
       to   { opacity:1; transform: translateY(0) scale(1); }
     }
 
+    .form-panel {
+      width: 50%;
+      flex-shrink: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 48px;
+      overflow-y: auto;
+    }
+
+    /* Forms fade/blur out as the glass blade slides over them */
+    .form-panel--login,
+    .form-panel--register {
+      transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+    }
+    .auth-container.active .form-panel--login {
+      opacity: 0;
+      transform: translateX(-80px);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+    .auth-container:not(.active) .form-panel--register {
+      opacity: 0;
+      transform: translateX(80px);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    /* ── Diagonal glass overlay blade ── */
+    .overlay-panel {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      z-index: 5;
+      background: linear-gradient(150deg, rgba(0,200,255,0.18), rgba(168,85,247,0.14));
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 40px;
+      transition:
+        transform 900ms cubic-bezier(.77,0,.18,1),
+        clip-path 900ms cubic-bezier(.77,0,.18,1);
+    }
+    .auth-container.active .overlay-panel {
+      transform: translateX(-100%);
+      clip-path: polygon(0 0, 86% 0, 100% 100%, 0 100%);
+    }
+
+    .overlay-content h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .overlay-content p {
+      font-size: 0.74rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .overlay-content button {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.55);
+      color: #fff;
+      padding: 11px 28px;
+      border-radius: 9px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.74rem;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .overlay-content button:hover { background: rgba(255,255,255,0.14); border-color: #fff; }
+
     /* Logo */
     .auth-logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 28px;
-      justify-content: center;
+      margin-bottom: 24px;
     }
     .auth-logo-icon {
-      width: 38px; height: 38px;
+      width: 36px; height: 36px;
       background: linear-gradient(135deg, #00c8ff, #0090b8);
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #05080d;
       box-shadow: 0 0 24px rgba(0,200,255,0.35);
       letter-spacing: -1px;
     }
     .auth-logo-text {
       font-family: 'Syne', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       color: #fff;
     }
     .auth-logo-text span { color: #00c8ff; }
 
-    /* View switcher — sign-in / register / forgot */
-    .auth-view { display: flex; flex-direction: column; gap: 0; }
-    .auth-view.hidden { display: none; }
+    /* sub-view toggle for forgot-password, nested inside the login panel */
+    .login-subview { display: flex; flex-direction: column; gap: 0; }
+    .login-subview.hidden { display: none; }
 
-    /* Heading inside each view */
-    .auth-heading {
-      margin-bottom: 22px;
-      text-align: center;
-    }
+    /* Heading inside the forgot-password sub-view */
+    .auth-heading { margin-bottom: 20px; }
     .auth-heading h2 {
       font-family: 'Syne', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: #fff;
       letter-spacing: -0.4px;
@@ -3543,40 +3626,8 @@
       letter-spacing: 0.3px;
     }
 
-    /* Tabs (signin only) */
-    .auth-tabs {
-      display: flex;
-      background: rgba(8,11,16,0.8);
-      border: 1px solid rgba(30,42,56,0.8);
-      border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 26px;
-      gap: 4px;
-    }
-    .auth-tab {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: #546e7a;
-      padding: 9px 0;
-      border-radius: 7px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      cursor: pointer;
-      transition: all 0.18s;
-    }
-    .auth-tab:hover { color: var(--text); transform: none; }
-    .auth-tab.active {
-      background: rgba(0,200,255,0.1);
-      color: #00c8ff;
-      border: 1px solid rgba(0,200,255,0.2);
-    }
-
     /* Form field */
-    .auth-form-fields { display: flex; flex-direction: column; gap: 14px; }
+    .auth-form-fields { display: flex; flex-direction: column; gap: 13px; }
     .auth-field { display: flex; flex-direction: column; gap: 6px; }
     .auth-label {
       font-family: 'Space Grotesk', sans-serif;
@@ -3592,10 +3643,10 @@
       background: rgba(8,11,16,0.85);
       border: 1px solid rgba(30,42,56,0.9);
       color: #cdd9e5;
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: 9px;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       transition: border-color 0.2s, box-shadow 0.2s;
       width: 100%;
     }
@@ -3644,7 +3695,7 @@
       margin-top: 4px;
     }
 
-    /* Terms checkbox */
+    /* Terms checkbox (unused currently, kept for future use) */
     .auth-terms {
       display: flex;
       align-items: flex-start;
@@ -3680,14 +3731,14 @@
       background: linear-gradient(135deg, #00c8ff, #0090b8);
       color: #05080d;
       border: none;
-      padding: 13px 0;
+      padding: 12px 0;
       border-radius: 9px;
       font-family: 'Syne', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
-      margin-top: 6px;
+      margin-top: 4px;
       letter-spacing: -0.2px;
       box-shadow: 0 0 30px rgba(0,200,255,0.2);
       width: 100%;
@@ -3724,7 +3775,7 @@
     }
     .auth-link-btn:hover { opacity: 0.75; transform: none; background: transparent; }
 
-    /* Divider */
+    /* Divider (unused currently, kept for future use) */
     .auth-divider {
       display: flex;
       align-items: center;
@@ -3750,10 +3801,10 @@
     /* Error / success notices */
     .auth-notice {
       display: none;
-      padding: 11px 14px;
+      padding: 10px 13px;
       border-radius: 9px;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       line-height: 1.5;
       margin-bottom: 2px;
     }
@@ -3773,30 +3824,59 @@
       border: 1px solid rgba(0,200,255,0.2);
       color: #00c8ff;
     }
-    .auth-notice-icon { flex-shrink: 0; font-size: 0.9rem; margin-top: 1px; }
+    .auth-notice-icon { flex-shrink: 0; font-size: 0.88rem; margin-top: 1px; }
     .auth-notice-msg { flex: 1; }
 
-    /* Footer bar */
-    .auth-footer {
+    /* Footer bar — pinned to the bottom of the diagonal container */
+    .auth-footer-fixed {
+      position: absolute;
+      bottom: 14px; left: 0; right: 0;
       text-align: center;
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(30,42,56,0.5);
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       color: rgba(84,110,122,0.35);
       letter-spacing: 0.3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      z-index: 1;
+      pointer-events: none;
     }
-    .auth-footer-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(84,110,122,0.25); flex-shrink: 0; }
 
-    /* ── Mobile auth ── */
-    @media (max-width: 480px) {
-      .auth-card { padding: 28px 22px; }
+    /* Mobile mode-switch link — hidden on desktop, shown when the overlay blade is hidden */
+    .mobile-switch-link {
+      display: none;
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.68rem;
+      color: var(--muted);
     }
+    .mobile-switch-link button {
+      color: #00c8ff; background: none; border: none; font-weight: 700;
+      cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 0.68rem;
+    }
+
+    /* ── Mobile: diagonal blade doesn't fit narrow screens — fall back to a single stacked card ── */
+    @media (max-width: 760px) {
+      .auth-container {
+        flex-direction: column;
+        height: auto;
+        max-width: 420px;
+      }
+      .form-panel {
+        width: 100%;
+        height: auto;
+        padding: 36px 26px 28px;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        pointer-events: auto !important;
+      }
+      .form-panel--register { display: none; }
+      .auth-container.active .form-panel--login { display: none; }
+      .auth-container.active .form-panel--register { display: flex; }
+      .overlay-panel { display: none; }
+      .mobile-switch-link { display: block; }
+      .auth-footer-fixed { position: static; margin-top: 4px; padding-bottom: 22px; }
+    }
+
 
     /* User menu in app header */
     .user-menu-wrap {
@@ -3886,11 +3966,6 @@
     .user-menu-item.danger { color: var(--red); }
     .user-menu-item.danger:hover { background: rgba(255,71,87,0.07); }
 
-    /* ── Mobile auth ── */
-    @media (max-width: 480px) {
-      .auth-card { padding: 28px 20px; }
-    }
-
     /* Very small phones */
     @media (max-width: 380px) {
       .form-grid { grid-template-columns: 1fr; }
@@ -3918,55 +3993,80 @@
   <div class="auth-orb auth-orb-1"></div>
   <div class="auth-orb auth-orb-2"></div>
 
-  <div class="auth-card">
+  <div class="auth-container" id="authContainer">
 
-    <!-- Logo -->
-    <div class="auth-logo">
-      <div class="auth-logo-icon">8</div>
-      <div class="auth-logo-text">8<span>Journals</span></div>
-    </div>
-
-    <!-- ── VIEW: SIGN IN ── -->
-    <div class="auth-view" id="authViewSignin">
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="authTabLogin"    onclick="switchAuthTab('login')">Sign In</button>
-        <button class="auth-tab"        id="authTabRegister" onclick="switchAuthTab('register')">Create Account</button>
+    <!-- LOGIN PANEL (left) -->
+    <div class="form-panel form-panel--login">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">8</div>
+        <div class="auth-logo-text">8<span>Journals</span></div>
       </div>
 
-      <div class="auth-form-fields">
-        <div id="authSigninNotice" class="auth-notice error"></div>
+      <!-- Sign-in sub-view -->
+      <div class="login-subview" id="loginSubviewSignin">
+        <div class="auth-form-fields">
+          <div id="authSigninNotice" class="auth-notice error"></div>
 
-        <div class="auth-field">
-          <label class="auth-label" for="signinEmail">Email</label>
-          <input class="auth-input" id="signinEmail" type="email"
-                 placeholder="you@email.com" autocomplete="email" />
+          <div class="auth-field">
+            <label class="auth-label" for="signinEmail">Email</label>
+            <input class="auth-input" id="signinEmail" type="email"
+                   placeholder="you@email.com" autocomplete="email" />
+          </div>
+
+          <div class="auth-field">
+            <label class="auth-label" for="signinPassword">Password</label>
+            <div class="auth-input-wrap">
+              <input class="auth-input has-icon" id="signinPassword" type="password"
+                     placeholder="••••••••" autocomplete="current-password" />
+              <button class="auth-eye" type="button" onclick="togglePw('signinPassword',this)" title="Show password"><i data-lucide="eye"></i></button>
+            </div>
+          </div>
+
+          <div style="text-align:right;margin-top:-4px;">
+            <button class="auth-link-btn" onclick="showAuthView('forgot')">Forgot password?</button>
+          </div>
+
+          <button class="auth-btn" id="signinBtn" onclick="handleSignin()">
+            <span class="auth-btn-spinner"></span>
+            <span class="auth-btn-label">Sign In →</span>
+          </button>
+        </div>
+        <div class="mobile-switch-link">New here? <button onclick="setAuthMode('register')">Create Account</button></div>
+      </div>
+
+      <!-- Forgot-password sub-view -->
+      <div class="login-subview hidden" id="loginSubviewForgot">
+        <div class="auth-heading">
+          <h2>Reset Password</h2>
+          <p>We'll send a reset link to your email</p>
         </div>
 
-        <div class="auth-field">
-          <label class="auth-label" for="signinPassword">Password</label>
-          <div class="auth-input-wrap">
-            <input class="auth-input has-icon" id="signinPassword" type="password"
-                   placeholder="••••••••" autocomplete="current-password" />
-            <button class="auth-eye" type="button" onclick="togglePw('signinPassword',this)" title="Show password"><i data-lucide="eye"></i></button>
+        <div class="auth-form-fields">
+          <div id="authForgotNotice" class="auth-notice error"></div>
+
+          <div class="auth-field">
+            <label class="auth-label" for="forgotEmail">Email</label>
+            <input class="auth-input" id="forgotEmail" type="email"
+                   placeholder="you@email.com" autocomplete="email" />
+          </div>
+
+          <button class="auth-btn" id="forgotBtn" onclick="handleForgotPassword()">
+            <span class="auth-btn-spinner"></span>
+            <span class="auth-btn-label">Send Reset Link →</span>
+          </button>
+
+          <div style="text-align:center;margin-top:4px;">
+            <button class="auth-link-btn" onclick="showAuthView('signin')">← Back to Sign In</button>
           </div>
         </div>
-
-        <div style="text-align:right;margin-top:-4px;">
-          <button class="auth-link-btn" onclick="showAuthView('forgot')">Forgot password?</button>
-        </div>
-
-        <button class="auth-btn" id="signinBtn" onclick="handleSignin()">
-          <span class="auth-btn-spinner"></span>
-          <span class="auth-btn-label">Sign In →</span>
-        </button>
       </div>
     </div>
 
-    <!-- ── VIEW: REGISTER ── -->
-    <div class="auth-view hidden" id="authViewRegister">
-      <div class="auth-tabs">
-        <button class="auth-tab"        id="authTabLogin2"    onclick="switchAuthTab('login')">Sign In</button>
-        <button class="auth-tab active" id="authTabRegister2" onclick="switchAuthTab('register')">Create Account</button>
+    <!-- REGISTER PANEL (right) -->
+    <div class="form-panel form-panel--register">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">8</div>
+        <div class="auth-logo-text">8<span>Journals</span></div>
       </div>
 
       <div class="auth-form-fields">
@@ -4010,45 +4110,24 @@
           <span class="auth-btn-label">Create Account →</span>
         </button>
       </div>
+      <div class="mobile-switch-link">Already a member? <button onclick="setAuthMode('login')">Sign In</button></div>
     </div>
 
-    <!-- ── VIEW: FORGOT PASSWORD ── -->
-    <div class="auth-view hidden" id="authViewForgot">
-      <div class="auth-heading">
-        <h2>Reset Password</h2>
-        <p>We'll send a reset link to your email</p>
-      </div>
-
-      <div class="auth-form-fields">
-        <div id="authForgotNotice" class="auth-notice error"></div>
-
-        <div class="auth-field">
-          <label class="auth-label" for="forgotEmail">Email</label>
-          <input class="auth-input" id="forgotEmail" type="email"
-                 placeholder="you@email.com" autocomplete="email" />
-        </div>
-
-        <button class="auth-btn" id="forgotBtn" onclick="handleForgotPassword()">
-          <span class="auth-btn-spinner"></span>
-          <span class="auth-btn-label">Send Reset Link →</span>
-        </button>
-
-        <div style="text-align:center;margin-top:4px;">
-          <button class="auth-link-btn" onclick="showAuthView('signin')">← Back to Sign In</button>
-        </div>
+    <!-- DIAGONAL GLASS OVERLAY BLADE -->
+    <div class="overlay-panel" id="authOverlay">
+      <div class="overlay-content">
+        <h3 id="overlayTitle">New here?</h3>
+        <p id="overlayDesc">Create a free account and start tracking your edge with real data, not guesswork.</p>
+        <button onclick="toggleAuthMode()" id="overlayBtn">Create Account</button>
       </div>
     </div>
 
     <!-- Footer -->
-    <div class="auth-footer">
-      <span>Secured with Supabase Auth</span>
-      <span class="auth-footer-dot"></span>
-      <span>Row Level Security</span>
-      <span class="auth-footer-dot"></span>
-      <span>End-to-End Encrypted</span>
+    <div class="auth-footer-fixed">
+      Secured with Supabase Auth · Row Level Security · End-to-End Encrypted
     </div>
 
-  </div><!-- /.auth-card -->
+  </div><!-- /.auth-container -->
 </div><!-- /#authScreen -->
 
 <!-- ═══════════════════════════════════════════
@@ -7006,8 +7085,8 @@ document.body.classList.add('on-landing');
    SUPABASE CONFIG — Replace with your project credentials
    Dashboard → Project Settings → API
 ═══════════════════════════════════════════════════════════════════ */
-const SUPABASE_URL  = 'https://ieukghjifozgyqxubhbe.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY';
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
 
 const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth: {
@@ -7019,7 +7098,7 @@ const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
 
 /* ── Config warning banner ── */
 (function checkConfig() {
-  if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON === 'YOUR_SUPABASE_ANON_KEY') {
+  if (SUPABASE_URL === 'https://ieukghjifozgyqxubhbe.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY') {
     const b = document.createElement('div');
     b.id = 'sbConfigBanner';
     b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff4757;color:#fff;
@@ -7106,37 +7185,68 @@ function showAuthScreen(defaultTab = 'login') {
     }, 300);
   }
   document.getElementById('authScreen').classList.add('active');
-  showAuthView(defaultTab === 'register' ? 'register' : 'signin');
+  setAuthMode(defaultTab === 'register' ? 'register' : 'login');
+  showAuthView('signin');
   _bindAuthKeys();
 }
 
-function showAuthView(view) {
-  ['signin','register','forgot'].forEach(v => {
-    const el = document.getElementById('authView' + v.charAt(0).toUpperCase() + v.slice(1));
-    if (el) el.classList.toggle('hidden', v !== view);
-  });
+/* Drives the diagonal glass blade: 'login' or 'register' */
+function setAuthMode(mode) {
+  const container = document.getElementById('authContainer');
+  if (!container) return;
+  const isRegister = mode === 'register';
+  container.classList.toggle('active', isRegister);
+
+  const title = document.getElementById('overlayTitle');
+  const desc  = document.getElementById('overlayDesc');
+  const btn   = document.getElementById('overlayBtn');
+  if (title) title.textContent = isRegister ? 'Already a member?' : 'New here?';
+  if (desc)  desc.textContent  = isRegister
+    ? 'Sign back in to pick up exactly where you left off.'
+    : 'Create a free account and start tracking your edge with real data, not guesswork.';
+  if (btn)   btn.textContent   = isRegister ? 'Sign In' : 'Create Account';
+
   ['authSigninNotice','authRegisterNotice','authForgotNotice'].forEach(_clearNotice);
 }
 
-/* Tab-click also hides the forgot view */
+/* Overlay CTA button — flips based on whichever mode is currently active */
+function toggleAuthMode() {
+  const container = document.getElementById('authContainer');
+  const isActive = container && container.classList.contains('active');
+  setAuthMode(isActive ? 'login' : 'register');
+}
+
+/* Backward-compat alias — old tab-click handler now just sets the mode */
 function switchAuthTab(tab) {
-  showAuthView(tab === 'register' ? 'register' : 'signin');
-  /* sync both tab sets */
-  ['authTabLogin','authTabLogin2'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.classList.toggle('active', tab === 'login');
-  });
-  ['authTabRegister','authTabRegister2'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.classList.toggle('active', tab === 'register');
-  });
+  setAuthMode(tab === 'register' ? 'register' : 'login');
+}
+
+/* Toggles the forgot-password sub-view nested inside the login panel */
+function showAuthView(view) {
+  const signinEl = document.getElementById('loginSubviewSignin');
+  const forgotEl = document.getElementById('loginSubviewForgot');
+  if (signinEl) signinEl.classList.toggle('hidden', view === 'forgot');
+  if (forgotEl) forgotEl.classList.toggle('hidden', view !== 'forgot');
+  ['authSigninNotice','authRegisterNotice','authForgotNotice'].forEach(_clearNotice);
 }
 
 function _bindAuthKeys() {
-  const enter = id => {
+  const enter = (id, btnSelector) => {
     const el = document.getElementById(id);
-    if (el) el.onkeydown = e => { if (e.key === 'Enter') e.target.closest('.auth-view').querySelector('.auth-btn').click(); };
+    if (el) el.onkeydown = e => {
+      if (e.key === 'Enter') {
+        const btn = document.querySelector(btnSelector);
+        if (btn) btn.click();
+      }
+    };
   };
-  ['signinEmail','signinPassword','regDisplayName','regEmail','regPassword',
-   'regPasswordConfirm','forgotEmail'].forEach(enter);
+  enter('signinEmail', '#signinBtn');
+  enter('signinPassword', '#signinBtn');
+  enter('regDisplayName', '#registerBtn');
+  enter('regEmail', '#registerBtn');
+  enter('regPassword', '#registerBtn');
+  enter('regPasswordConfirm', '#registerBtn');
+  enter('forgotEmail', '#forgotBtn');
 }
 
 /* ─────────────────────────────────────────
