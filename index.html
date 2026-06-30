@@ -7486,14 +7486,17 @@ async function handleForgotPassword() {
 async function handleGoogleAuth() {
   const { error } = await _sb.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.href }
+    options: {
+      redirectTo: window.location.href,
+      queryParams: {
+        prompt: 'select_account'  /* always show Google account picker */
+      }
+    }
   });
   if (error) {
     _showNotice('authSigninNotice', error.message);
     _showNotice('authRegisterNotice', error.message);
   }
-  /* On success, the browser redirects to Google then back here.
-     onAuthStateChange('SIGNED_IN') further down picks up the session. */
 }
 
 /* ─────────────────────────────────────────
@@ -7534,14 +7537,21 @@ async function handleChangePassword() {
 ───────────────────────────────────────── */
 async function handleLogout() {
   _showSbLoading('Signing out…');
-  await _sb.auth.signOut();
+  await _sb.auth.signOut({ scope: 'local' });
   _hideSbLoading();
 
-  _sbUser = null;
+  /* Clear any OAuth hash fragment left in the URL (#access_token=...) so
+     Supabase doesn't auto-sign the old user back in on the next page load */
+  if (window.location.hash) {
+    window.history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+
+  _sbUser    = null;
   _sbProfile = null;
-  trades   = [];
-  accounts = [];
+  trades     = [];
+  accounts   = [];
   if (typeof activeAccountId !== 'undefined') activeAccountId = null;
+  if (typeof playbookSets   !== 'undefined') playbookSets    = [];
 
   closeUserMenu();
   const container = document.getElementById('appContainer') || document.querySelector('.container');
@@ -7777,16 +7787,39 @@ function deleteTrade(id) {
   /* Listen for auth events (token refresh, email confirmation, password reset) */
   _sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session) {
-      if (!_sbUser || _sbUser.id !== session.user.id) {
+      /* Strip the OAuth hash fragment from the URL now that the session is captured */
+      if (window.location.hash) {
+        window.history.replaceState(null, '8 Journals', window.location.pathname + window.location.search);
+        document.title = '8 Journals';
+      }
+
+      const incomingId = session.user.id;
+      const currentId  = _sbUser?.id;
+
+      if (incomingId !== currentId) {
+        /* Different user (or first login) — full reset before loading */
+        _sbUser    = null;
+        _sbProfile = null;
+        trades     = [];
+        accounts   = [];
+        if (typeof activeAccountId !== 'undefined') activeAccountId = null;
+        if (typeof playbookSets   !== 'undefined') playbookSets    = [];
+
         _sbUser = session.user;
         await _loadUserData();
       } else {
-        _sbUser = session.user;  // silent token update
+        _sbUser = session.user; /* silent token refresh — same user */
       }
+
     } else if (event === 'SIGNED_OUT') {
-      _sbUser = null;
+      _sbUser    = null;
+      _sbProfile = null;
+      trades     = [];
+      accounts   = [];
+      if (typeof activeAccountId !== 'undefined') activeAccountId = null;
+      if (typeof playbookSets   !== 'undefined') playbookSets    = [];
+
     } else if (event === 'PASSWORD_RECOVERY') {
-      /* User arrived via reset-password link — show auth screen, change-password modal */
       _hideSbLoading();
       showAuthScreen();
       setTimeout(() => showChangePassword(), 400);
