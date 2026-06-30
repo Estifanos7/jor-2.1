@@ -7540,11 +7540,9 @@ async function handleLogout() {
   await _sb.auth.signOut({ scope: 'local' });
   _hideSbLoading();
 
-  /* Clear any OAuth hash fragment left in the URL (#access_token=...) so
-     Supabase doesn't auto-sign the old user back in on the next page load */
-  if (window.location.hash) {
-    window.history.replaceState(null, '', window.location.pathname + window.location.search);
-  }
+  /* Always wipe the URL hash on logout — covers both #access_token=... and
+     bare # left by some browsers after OAuth completes */
+  window.history.replaceState(null, '', window.location.pathname + window.location.search);
 
   _sbUser    = null;
   _sbProfile = null;
