@@ -7156,8 +7156,8 @@ document.body.classList.add('on-landing');
    SUPABASE CONFIG — Replace with your project credentials
    Dashboard → Project Settings → API
 ═══════════════════════════════════════════════════════════════════ */
-const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL  = 'https://ieukghjifozgyqxubhbe.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY';
 
 const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth: {
@@ -7169,7 +7169,7 @@ const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
 
 /* ── Config warning banner ── */
 (function checkConfig() {
-  if (SUPABASE_URL === 'https://ieukghjifozgyqxubhbe.supabase.co' || SUPABASE_ANON === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY') {
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON === 'YOUR_SUPABASE_ANON_KEY') {
     const b = document.createElement('div');
     b.id = 'sbConfigBanner';
     b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff4757;color:#fff;
