@@ -7156,15 +7156,6 @@ document.body.classList.add('on-landing');
    SUPABASE CONFIG — Replace with your project credentials
    Dashboard → Project Settings → API
 ═══════════════════════════════════════════════════════════════════ */
-/* ── Strip OAuth hash from URL immediately on page load ──
-   Supabase reads #access_token from the URL and then leaves it there.
-   We clean it as the very first thing so it never appears in the address bar. */
-(function stripOAuthHash() {
-  if (window.location.hash && window.location.hash.includes('access_token')) {
-    window.history.replaceState(null, '', window.location.pathname + window.location.search);
-  }
-})();
-
 const SUPABASE_URL  = 'https://ieukghjifozgyqxubhbe.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlldWtnaGppZm96Z3lxeHViaGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDEwOTMsImV4cCI6MjA5NDMxNzA5M30.ykRbXI6wtib_H-_ri8p0HyoCJ9-9ocphH4IKmKw_hNY';
 
