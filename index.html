@@ -4022,6 +4022,258 @@
       .metric-item:nth-child(n+3):nth-last-child(-n+2) { border-bottom: none; }
     }
 
+    /* ═══════════════════════════════════════════════════════
+       SIDEBAR LAYOUT
+    ═══════════════════════════════════════════════════════ */
+    :root {
+      --sb-rail: 64px;
+      --sb-full: 230px;
+      --topbar-h: 56px;
+      --sb-bg: rgba(12,17,23,0.92);
+      --topbar-bg: rgba(12,17,23,0.88);
+    }
+    html.light {
+      --bg:       #f0f4f8;
+      --surface:  #ffffff;
+      --surface2: #e8edf2;
+      --surface3: #dde4ec;
+      --border:   #d0d9e4;
+      --border2:  #bfcad6;
+      --text:     #2a3a4a;
+      --muted:    #6b7f93;
+      --heading:  #0f1c28;
+      --sb-bg:    rgba(240,244,248,0.95);
+      --topbar-bg:rgba(240,244,248,0.92);
+    }
+    html.light body { color-scheme: light; }
+
+    .app-shell { display:flex; min-height:100vh; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position:fixed; top:12px; left:12px; bottom:12px;
+      width:var(--sb-rail); border-radius:16px;
+      background:var(--sb-bg); border:1px solid var(--border);
+      backdrop-filter:blur(24px) saturate(160%);
+      -webkit-backdrop-filter:blur(24px) saturate(160%);
+      box-shadow:0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03) inset;
+      z-index:300; display:flex; flex-direction:column;
+      overflow:hidden;
+      transition:width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s;
+    }
+    .sidebar.sb-expanded {
+      width:var(--sb-full);
+      box-shadow:0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 0 40px rgba(0,200,255,0.06);
+    }
+
+    /* Logo row */
+    .sb-logo {
+      display:flex; align-items:center; justify-content:center;
+      padding:0 15px; height:var(--topbar-h);
+      border-bottom:1px solid var(--border);
+      flex-shrink:0; overflow:hidden; gap:10px;
+    }
+    .sb-hamburger-icon {
+      width:34px; height:34px; border-radius:10px; flex-shrink:0;
+      background:transparent; border:1px solid var(--border2);
+      color:var(--muted); cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:all 0.15s; font-size:1rem;
+    }
+    .sb-hamburger-icon:hover { border-color:var(--accent); color:var(--accent); background:rgba(0,200,255,0.08); }
+    .sidebar.sb-expanded .sb-hamburger-icon { display:none; }
+    .sb-logo-inner { display:none; align-items:center; gap:10px; flex:1; overflow:hidden; }
+    .sidebar.sb-expanded .sb-logo-inner { display:flex; }
+    .sb-logo-icon {
+      width:32px; height:32px; border-radius:9px; flex-shrink:0;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Syne',sans-serif; font-weight:800; font-size:0.95rem;
+      color:#05080d; box-shadow:0 0 16px rgba(0,200,255,0.3);
+    }
+    .sb-logo-text { font-family:'Syne',sans-serif; font-weight:800; font-size:1rem; color:var(--heading); white-space:nowrap; }
+    .sb-logo-text span { color:var(--accent); }
+    .sb-collapse-btn {
+      width:28px; height:28px; border-radius:8px; flex-shrink:0; margin-left:auto;
+      background:transparent; border:1px solid var(--border2);
+      color:var(--muted); cursor:pointer; display:flex;
+      align-items:center; justify-content:center; font-size:0.85rem; transition:all 0.15s;
+    }
+    .sb-collapse-btn:hover { background:rgba(255,255,255,0.07); color:var(--text); }
+
+    /* Nav */
+    .sb-nav {
+      flex:1; display:flex; flex-direction:column;
+      padding:10px 8px; gap:2px;
+      overflow-y:auto; overflow-x:hidden; scrollbar-width:none;
+    }
+    .sb-nav::-webkit-scrollbar { display:none; }
+    .sb-section-label {
+      font-size:0.55rem; text-transform:uppercase; letter-spacing:1.2px;
+      color:var(--muted); padding:10px 12px 4px;
+      white-space:nowrap; overflow:hidden;
+      opacity:0; transition:opacity 0.18s;
+    }
+    .sidebar.sb-expanded .sb-section-label { opacity:1; }
+    .sb-item {
+      display:flex; align-items:center; gap:12px;
+      padding:10px 12px; border-radius:10px; cursor:pointer;
+      transition:background 0.15s, color 0.15s, border-color 0.15s;
+      color:var(--muted); font-size:0.82rem; font-weight:600;
+      white-space:nowrap; overflow:hidden;
+      border:1px solid transparent; position:relative; text-decoration:none;
+      background:transparent; font-family:'Space Grotesk',sans-serif; width:100%; text-align:left;
+    }
+    .sb-item:hover { background:rgba(128,128,128,0.08); color:var(--text); }
+    .sb-item.sb-active {
+      background:rgba(0,200,255,0.1); border-color:rgba(0,200,255,0.18); color:var(--accent);
+    }
+    .sb-item.sb-active::before {
+      content:''; position:absolute; left:-8px; top:22%; bottom:22%;
+      width:3px; background:var(--accent); border-radius:0 3px 3px 0; box-shadow:0 0 8px var(--accent);
+    }
+    .sb-icon { font-size:1.05rem; flex-shrink:0; }
+    .sb-label { flex:1; opacity:0; transition:opacity 0.18s 0.06s; pointer-events:none; color:inherit; }
+    .sidebar.sb-expanded .sb-label { opacity:1; pointer-events:auto; }
+    .sb-badge {
+      background:var(--accent); color:#05080d;
+      font-size:0.58rem; font-weight:700; padding:1px 6px; border-radius:8px; flex-shrink:0;
+      opacity:0; transition:opacity 0.18s 0.06s;
+    }
+    .sidebar.sb-expanded .sb-badge { opacity:1; }
+    .sb-divider { height:1px; background:var(--border); margin:6px 8px; }
+
+    /* Bottom section */
+    .sb-bottom { padding:8px; border-top:1px solid var(--border); flex-shrink:0; position:relative; }
+    .sb-mode-row { display:flex; align-items:center; justify-content:center; padding:4px 8px 6px; }
+    .sb-mode-btn {
+      width:34px; height:34px; border-radius:50%;
+      background:transparent; border:1px solid var(--border2);
+      color:var(--muted); cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:all 0.2s; font-size:1rem; flex-shrink:0;
+    }
+    .sb-mode-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(255,193,7,0.08); }
+    .sb-mode-btn.light-on { border-color:var(--gold); color:var(--gold); }
+
+    /* Profile button */
+    .sb-profile-btn {
+      display:flex; align-items:center; gap:12px;
+      padding:8px 10px; border-radius:12px; cursor:pointer;
+      transition:background 0.15s; overflow:hidden; white-space:nowrap;
+      border:none; background:transparent; width:100%;
+    }
+    .sb-profile-btn:hover { background:rgba(128,128,128,0.08); }
+    .sb-avatar {
+      width:34px; height:34px; border-radius:50%; flex-shrink:0;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Syne',sans-serif; font-weight:800; font-size:0.65rem;
+      color:#05080d; box-shadow:0 0 12px rgba(0,200,255,0.25);
+      border:2px solid rgba(0,200,255,0.3);
+    }
+    .sb-profile-info { flex:1; text-align:left; opacity:0; transition:opacity 0.18s 0.06s; pointer-events:none; }
+    .sidebar.sb-expanded .sb-profile-info { opacity:1; pointer-events:auto; }
+    .sb-profile-name { font-size:0.78rem; font-weight:700; color:var(--heading); }
+    .sb-profile-email { font-size:0.6rem; color:var(--muted); }
+    .sb-profile-chevron { font-size:0.7rem; color:var(--muted); opacity:0; transition:opacity 0.18s, transform 0.2s; flex-shrink:0; }
+    .sidebar.sb-expanded .sb-profile-chevron { opacity:1; }
+    .sb-profile-btn.sb-prof-open .sb-profile-chevron { transform:rotate(180deg); }
+
+    /* Profile popup — fixed so it escapes sidebar overflow:hidden */
+    .sb-profile-menu {
+      position:fixed; bottom:20px;
+      left:calc(var(--sb-rail) + 20px);
+      width:220px;
+      background:var(--surface); border:1px solid var(--border2); border-radius:14px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+      overflow:hidden; opacity:0; transform:translateX(-8px); pointer-events:none;
+      transition:opacity 0.2s, transform 0.2s; z-index:400;
+    }
+    .sb-profile-menu.sb-prof-visible { opacity:1; transform:translateX(0); pointer-events:auto; }
+    .sb-menu-header { padding:14px 16px 10px; border-bottom:1px solid var(--border); }
+    .sb-menu-name { font-size:0.82rem; font-weight:700; color:var(--heading); }
+    .sb-menu-email { font-size:0.65rem; color:var(--muted); margin-top:2px; }
+    .sb-menu-item {
+      display:flex; align-items:center; gap:10px;
+      padding:11px 16px; cursor:pointer; font-size:0.78rem;
+      color:var(--text); transition:background 0.12s;
+      border:none; background:transparent; width:100%; text-align:left;
+      font-family:'Space Grotesk',sans-serif;
+    }
+    .sb-menu-item:hover { background:rgba(128,128,128,0.08); }
+    .sb-menu-item.sb-danger { color:var(--red); }
+    .sb-menu-item.sb-danger:hover { background:rgba(255,71,87,0.08); }
+    .sb-menu-item [data-lucide] { color:var(--muted); }
+    .sb-menu-item.sb-danger [data-lucide] { color:var(--red); }
+
+    /* Topbar */
+    .sb-topbar {
+      position:fixed; top:12px;
+      left:calc(var(--sb-rail) + 24px); right:12px;
+      height:var(--topbar-h);
+      background:var(--topbar-bg); border:1px solid var(--border); border-radius:14px;
+      backdrop-filter:blur(24px); z-index:200;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 20px; gap:16px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      transition:left 0.32s cubic-bezier(0.4,0,0.2,1), background 0.3s;
+    }
+    .sb-topbar.sb-topbar-expanded { left:calc(var(--sb-full) + 24px); }
+    .sb-topbar-left { display:flex; align-items:center; gap:12px; }
+    .sb-topbar-title { font-family:'Syne',sans-serif; font-weight:800; font-size:0.95rem; color:var(--heading); }
+    .sb-topbar-crumb { font-size:0.62rem; color:var(--muted); display:flex; align-items:center; gap:5px; }
+    .sb-topbar-right { display:flex; align-items:center; gap:10px; }
+
+    /* Mobile-only topbar hamburger */
+    .sb-topbar-hamburger {
+      display:none; width:34px; height:34px; border-radius:9px; flex-shrink:0;
+      background:var(--surface2); border:1px solid var(--border2);
+      color:var(--muted); cursor:pointer; align-items:center; justify-content:center;
+      transition:all 0.15s;
+    }
+    .sb-topbar-hamburger:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* Main app content area */
+    .sb-main {
+      margin-left:calc(var(--sb-rail) + 12px);
+      padding-top:calc(var(--topbar-h) + 24px);
+      padding-left:16px; padding-right:16px; padding-bottom:24px;
+      min-height:100vh;
+      transition:margin-left 0.32s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sb-main.sb-main-expanded { margin-left:calc(var(--sb-full) + 12px); }
+
+    /* App pages */
+    .sb-page { display:none; }
+    .sb-page.sb-page-active { display:block; }
+
+    /* Mobile overlay */
+    .sb-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:299; backdrop-filter:blur(4px); }
+
+    /* Settings page — accounts list */
+    .settings-section { margin-bottom:28px; }
+    .settings-section-title {
+      font-family:'Syne',sans-serif; font-weight:800; font-size:0.9rem; color:var(--heading);
+      margin-bottom:14px; display:flex; align-items:center; gap:8px;
+    }
+
+    @media (max-width:768px) {
+      .sidebar { transform:translateX(calc(-100% - 20px)); width:var(--sb-full) !important; transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+      .sidebar.sb-expanded { transform:translateX(0); }
+      .sidebar.sb-expanded .sb-label,
+      .sidebar.sb-expanded .sb-logo-text,
+      .sidebar.sb-expanded .sb-section-label,
+      .sidebar.sb-expanded .sb-badge,
+      .sidebar.sb-expanded .sb-profile-info,
+      .sidebar.sb-expanded .sb-profile-chevron { opacity:1 !important; pointer-events:auto !important; }
+      .sb-overlay.sb-overlay-active { display:block; }
+      .sb-main { margin-left:0 !important; }
+      .sb-topbar { left:12px !important; }
+      .sb-topbar-hamburger { display:flex; }
+      .sb-profile-menu { left:calc(var(--sb-full) + 8px) !important; }
+    }
+
   </style>
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -4455,156 +4707,145 @@
 
 </div><!-- end #landingPage -->
 
-<div class="container" style="display:none;" id="appContainer">
+<div id="appContainer" style="display:none;">
 
-  <!-- ─── HEADER ─── -->
-  <header>
-    <div class="header-left">
-      <!-- Home title -->
-      <div class="header-title-home">
-        <h1>8 <span>Journals</span></h1>
-        <div class="subtitle">// track · analyze · improve</div>
+<!-- ── Sidebar ── -->
+<aside class="sidebar" id="sbSidebar">
+  <div class="sb-logo">
+    <button class="sb-hamburger-icon" onclick="sbToggle()" title="Expand"><i data-lucide="menu"></i></button>
+    <div class="sb-logo-inner">
+      <div class="sb-logo-icon">8</div>
+      <div class="sb-logo-text">8<span>Journals</span></div>
+      <button class="sb-collapse-btn" onclick="sbToggle()" title="Collapse"><i data-lucide="chevrons-left"></i></button>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section-label">Main</div>
+    <button class="sb-item sb-active" id="sbItemDashboard" onclick="sbNav('dashboard')">
+      <span class="sb-icon"><i data-lucide="trending-up"></i></span>
+      <span class="sb-label">Dashboard</span>
+    </button>
+    <button class="sb-item" id="sbItemTradelog" onclick="sbNav('tradelog')">
+      <span class="sb-icon"><i data-lucide="clipboard-list"></i></span>
+      <span class="sb-label">Trade Log</span>
+      <span class="sb-badge" id="sbBadgeCount">0</span>
+    </button>
+    <button class="sb-item" id="sbItemPlaybook" onclick="sbNav('playbook')">
+      <span class="sb-icon"><i data-lucide="book-open"></i></span>
+      <span class="sb-label">Playbook</span>
+    </button>
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Tools</div>
+    <button class="sb-item" id="sbItemCalculator" onclick="sbNav('calculator')">
+      <span class="sb-icon"><i data-lucide="calculator"></i></span>
+      <span class="sb-label">Calculator</span>
+    </button>
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Manage</div>
+    <button class="sb-item" id="sbItemSettings" onclick="sbNav('settings')">
+      <span class="sb-icon"><i data-lucide="settings"></i></span>
+      <span class="sb-label">Settings</span>
+    </button>
+  </nav>
+
+  <div class="sb-bottom">
+    <!-- Profile popup -->
+    <div class="sb-profile-menu" id="sbProfileMenu">
+      <div class="sb-menu-header">
+        <div class="sb-menu-name" id="sbMenuName">–</div>
+        <div class="sb-menu-email" id="sbMenuEmail">–</div>
       </div>
-      <!-- Lot Size Calc title -->
-      <div class="header-title-lotsize">
-        <h1><i data-lucide="calculator"></i> Lot Size <span>Calculator</span></h1>
-        <div class="subtitle">// risk management · position sizing · pip value</div>
+      <button class="sb-menu-item" onclick="closeSbProfile();showChangePassword()"><i data-lucide="key"></i> Change Password</button>
+      <button class="sb-menu-item sb-danger" onclick="handleLogout()"><i data-lucide="log-out"></i> Sign Out</button>
+    </div>
+    <!-- Mode toggle -->
+    <div class="sb-mode-row">
+      <button class="sb-mode-btn" id="sbModeBtn" onclick="sbToggleMode()" title="Toggle light/dark"><i data-lucide="moon" id="sbModeIcon"></i></button>
+    </div>
+    <!-- Profile button -->
+    <button class="sb-profile-btn" id="sbProfileBtn" onclick="toggleSbProfile()">
+      <div class="sb-avatar" id="sbAvatar">?</div>
+      <div class="sb-profile-info">
+        <div class="sb-profile-name" id="sbProfileName">–</div>
+        <div class="sb-profile-email" id="sbProfileEmail">–</div>
+      </div>
+      <i data-lucide="chevron-up" class="sb-profile-chevron"></i>
+    </button>
+  </div>
+</aside>
+
+<!-- Mobile overlay -->
+<div class="sb-overlay" id="sbOverlay" onclick="sbClose()"></div>
+
+<!-- ── Topbar ── -->
+<div class="sb-topbar" id="sbTopbar">
+  <div class="sb-topbar-left">
+    <button class="sb-topbar-hamburger" onclick="sbToggle()" title="Menu"><i data-lucide="menu"></i></button>
+    <div>
+      <div class="sb-topbar-title" id="sbTopbarTitle">Dashboard</div>
+      <div class="sb-topbar-crumb"><i data-lucide="home"></i> 8 Journals / <span id="sbTopbarCrumb">Dashboard</span></div>
+    </div>
+  </div>
+  <div class="sb-topbar-right">
+    <!-- Accounts trigger (kept from original) -->
+    <div class="accounts-section" id="accountsSection">
+      <div class="accounts-trigger" id="accountsTrigger" onclick="toggleAccountsPanel(event)">
+        <div class="accounts-trigger-dot" id="accountsTriggerDot"></div>
+        <div class="accounts-trigger-inner">
+          <div class="accounts-trigger-label">Account</div>
+          <div class="accounts-trigger-name" id="accountsTriggerName">No accounts</div>
+          <div class="accounts-trigger-bal" id="accountsTriggerBal"></div>
+        </div>
+        <div class="accounts-trigger-chevron"><i data-lucide="chevron-down"></i></div>
+      </div>
+      <div class="accounts-panel" id="accountsPanel">
+        <div class="accounts-panel-header">
+          <div class="accounts-panel-title"><i data-lucide="briefcase"></i> Trading Accounts</div>
+          <button class="accounts-panel-add" onclick="openAccountModal();closeAccountsPanel()">+ New</button>
+        </div>
+        <div id="accountsList"></div>
       </div>
     </div>
-
-    <!-- CENTER: Avg RR · Arc · Win Rate -->
-    <div class="header-center">
-
-      <!-- AVG R:R with SVG ring (matches Win Rate ring, 1–5R scale) -->
+    <!-- Stats (arcs) moved to topbar center area -->
+    <div class="header-center" style="position:relative;transform:none;left:auto;top:auto;">
       <div class="header-arc-stat rr-gauge-wrap" id="rrGaugeWrap">
         <div class="header-arc-stat-label">Avg R:R</div>
-        <svg class="wr-ring-svg" width="64" height="64" viewBox="0 0 64 64">
+        <svg class="wr-ring-svg" width="54" height="54" viewBox="0 0 64 64">
           <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="6"/>
-          <circle class="wr-ring-fill" id="rrRingFill"
-            cx="32" cy="32" r="25"
-            stroke-width="6"
-            stroke="#00c8ff"
-            stroke-dasharray="157.08"
-            stroke-dashoffset="157.08"
-            transform="rotate(-90 32 32)"/>
-          <text x="32" y="36" text-anchor="middle"
-            font-family="Space Grotesk,sans-serif"
-            font-size="11" font-weight="700"
-            fill="#546e7a" id="rrRingLabel">—</text>
+          <circle class="wr-ring-fill" id="rrRingFill" cx="32" cy="32" r="25" stroke-width="6" stroke="#00c8ff" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
+          <text x="32" y="36" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700" fill="#546e7a" id="rrRingLabel">—</text>
         </svg>
       </div>
-
-      <div id="balanceArcsContainer">
-        <div class="balance-arcs-empty">No accounts yet</div>
-      </div>
-
-      <!-- WIN RATE with SVG ring -->
+      <div id="balanceArcsContainer"><div class="balance-arcs-empty">No accounts yet</div></div>
       <div class="header-arc-stat clickable wr-ring-wrap">
         <div class="header-arc-stat-label">Win Rate</div>
-        <!-- SVG ring -->
-        <svg class="wr-ring-svg" width="64" height="64" viewBox="0 0 64 64">
+        <svg class="wr-ring-svg" width="54" height="54" viewBox="0 0 64 64">
           <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="6"/>
-          <circle class="wr-ring-fill" id="wrRingFill"
-            cx="32" cy="32" r="25"
-            stroke-width="6"
-            stroke="#26d96a"
-            stroke-dasharray="157.08"
-            stroke-dashoffset="157.08"
-            transform="rotate(-90 32 32)"/>
-          <text x="32" y="36" text-anchor="middle"
-            font-family="Space Grotesk,sans-serif"
-            font-size="11" font-weight="700"
-            fill="#ffffff" id="wrRingLabel">0%</text>
+          <circle class="wr-ring-fill" id="wrRingFill" cx="32" cy="32" r="25" stroke-width="6" stroke="#26d96a" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
+          <text x="32" y="36" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700" fill="#ffffff" id="wrRingLabel">0%</text>
         </svg>
         <div class="wr-popup" id="wrPopup">
           <div class="wr-popup-title">Trade Breakdown</div>
           <div class="wr-popup-grid">
-            <div class="wr-popup-stat">
-              <div class="wr-popup-stat-label">Wins</div>
-              <div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div>
-            </div>
-            <div class="wr-popup-stat">
-              <div class="wr-popup-stat-label">Losses</div>
-              <div class="wr-popup-stat-val" id="wrPopupLosses" style="color:var(--red)">0</div>
-            </div>
-            <div class="wr-popup-stat">
-              <div class="wr-popup-stat-label">Total</div>
-              <div class="wr-popup-stat-val" id="wrPopupTotal">0</div>
-            </div>
+            <div class="wr-popup-stat"><div class="wr-popup-stat-label">Wins</div><div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div></div>
+            <div class="wr-popup-stat"><div class="wr-popup-stat-label">Losses</div><div class="wr-popup-stat-val" id="wrPopupLosses" style="color:var(--red)">0</div></div>
+            <div class="wr-popup-stat"><div class="wr-popup-stat-label">Total</div><div class="wr-popup-stat-val" id="wrPopupTotal">0</div></div>
           </div>
         </div>
       </div>
-
     </div>
+  </div>
+</div>
 
-    <div class="header-right">
+<!-- ── Main content ── -->
+<div class="sb-main" id="sbMain">
 
-      <!-- PAGE NAVIGATION — always top-right -->
-      <div class="page-nav-wrap" id="pageNavWrap">
-        <button class="page-nav-btn" id="pageNavBtn" onclick="togglePageNav(event)" title="Switch page">
-          <span class="page-nav-btn-left">
-            <span class="page-nav-btn-icon" id="pageNavIcon"><i data-lucide="home"></i></span>
-            <span class="page-nav-btn-label" id="pageNavLabel">Home</span>
-          </span>
-          <span class="page-nav-chevron"><i data-lucide="chevron-down"></i></span>
-        </button>
-        <div class="page-nav-dropdown" id="pageNavDropdown">
-          <div class="page-nav-header">Navigate To</div>
-          <div class="page-nav-item active" id="pageItemHome" onclick="switchPage('home')">
-            <span class="page-nav-item-icon"><i data-lucide="home"></i></span>
-            <span class="page-nav-item-text">Home</span>
-            <span class="page-nav-item-check">✓</span>
-          </div>
-          <div class="page-nav-item" id="pageItemLotsize" onclick="switchPage('lotsize')">
-            <span class="page-nav-item-icon"><i data-lucide="calculator"></i></span>
-            <span class="page-nav-item-text">Lot Size Calc</span>
-            <span class="page-nav-item-check">✓</span>
-          </div>
-        </div>
-      </div>
+  <!-- Stats row (originally below header) -->
+  <div class="stats-row" id="mainStatsRow"></div>
 
-      <!-- ACTION BUTTONS ROW — accounts + user menu -->
-      <div class="header-right-actions">
-        <div class="accounts-section" id="accountsSection">
-          <!-- Trigger button -->
-          <div class="accounts-trigger" id="accountsTrigger" onclick="toggleAccountsPanel(event)">
-            <div class="accounts-trigger-dot" id="accountsTriggerDot"></div>
-            <div class="accounts-trigger-inner">
-              <div class="accounts-trigger-label">Account</div>
-              <div class="accounts-trigger-name" id="accountsTriggerName">No accounts</div>
-              <div class="accounts-trigger-bal" id="accountsTriggerBal"></div>
-            </div>
-            <div class="accounts-trigger-chevron"><i data-lucide="chevron-down"></i></div>
-          </div>
-          <!-- Dropdown panel -->
-          <div class="accounts-panel" id="accountsPanel">
-            <div class="accounts-panel-header">
-              <div class="accounts-panel-title"><i data-lucide="briefcase"></i> Trading Accounts</div>
-              <button class="accounts-panel-add" onclick="openAccountModal();closeAccountsPanel()">+ New</button>
-            </div>
-            <div id="accountsList"></div>
-          </div>
-        </div>
-
-        <!-- User menu -->
-        <div class="user-menu-wrap" id="userMenuWrap">
-          <button class="user-menu-btn" onclick="toggleUserMenu(event)" title="Account menu">
-            <div class="user-avatar" id="userAvatar">?</div>
-            <span id="userMenuName">User</span>
-          </button>
-          <div class="user-menu-dropdown" id="userMenuDropdown">
-            <div class="user-menu-header">
-              <div class="user-menu-name" id="userMenuFullName">–</div>
-              <div class="user-menu-email" id="userMenuUsername">–</div>
-            </div>
-            <div class="user-menu-item" onclick="closeUserMenu();showChangePassword()"><i data-lucide="key"></i> Change Password</div>
-            <div class="user-menu-item danger" onclick="handleLogout()">⏻ Sign Out</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </header>
+  <!-- PAGE: Home (Dashboard + Trade Log + Playbook) -->
+  <div class="sb-page sb-page-active" id="sbPageHome">
 
   <!-- ─── ACTIVE ACCOUNT BANNER ─── -->
   <div id="appPageHome" class="app-page active">
@@ -5038,11 +5279,11 @@
     </div>
   </div>
   </div><!-- end #appPageHome -->
+  </div><!-- end #sbPageHome -->
 
-  <!-- ══════════════════════════════════════
-       LOT SIZE CALCULATOR PAGE
-  ══════════════════════════════════════ -->
-  <div id="appPageLotsize" class="app-page">
+  <!-- PAGE: Calculator -->
+  <div class="sb-page" id="sbPageCalculator">
+  <div id="appPageLotsize" class="app-page active">
     <div class="calc-page">
       <div class="calc-grid">
         <!-- INPUT CARD -->
@@ -5171,8 +5412,26 @@
       </div>
     </div>
   </div>
+  </div><!-- end sbPageCalculator -->
 
-</div><!-- end .container -->
+  <!-- PAGE: Settings -->
+  <div class="sb-page" id="sbPageSettings">
+    <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:var(--heading);margin-bottom:22px;display:flex;align-items:center;gap:10px;">
+      <i data-lucide="settings" style="color:var(--accent)"></i> Settings
+    </h2>
+    <div class="settings-section">
+      <div class="settings-section-title"><i data-lucide="briefcase" style="color:var(--accent)"></i> Trading Accounts</div>
+      <div id="settingsAccountsList"></div>
+      <button class="btn-save-trade" style="margin-top:12px;" onclick="openAccountModal()"><i data-lucide="plus"></i> Add Account</button>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title"><i data-lucide="sliders-horizontal" style="color:var(--accent)"></i> Preferences</div>
+      <div style="color:var(--muted);font-size:0.78rem;padding:12px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;">More settings coming soon.</div>
+    </div>
+  </div><!-- end sbPageSettings -->
+
+</div><!-- end sb-main -->
+</div><!-- end appContainer -->
 
 <!-- ─── ACCOUNT MODAL — outside container so visible on all pages ─── -->
 <div class="trade-modal-overlay" id="accountModalOverlay" onclick="if(event.target===this)closeAccountModal()">
@@ -7646,6 +7905,11 @@ function _updateUserMenuUI() {
   safe('userMenuFullName', displayName);
   safe('userMenuUsername', email);
   safe('userAvatar',       initials);
+
+  /* Also update sidebar profile UI */
+  if (typeof _updateSbProfileUI === 'function') _updateSbProfileUI();
+  /* Update trade log badge */
+  if (typeof _sbUpdateBadge === 'function') _sbUpdateBadge();
 }
 
 /* ─────────────────────────────────────────
@@ -7653,7 +7917,7 @@ function _updateUserMenuUI() {
 ───────────────────────────────────────── */
 function _enterAppFromAuth() {
   const authEl    = document.getElementById('authScreen');
-  const container = document.getElementById('appContainer') || document.querySelector('.container');
+  const container = document.getElementById('appContainer');
   const lp        = document.getElementById('landingPage');
 
   if (lp) { lp.classList.remove('active'); lp.style.display = 'none'; }
@@ -7677,14 +7941,23 @@ function _enterAppFromAuth() {
         try { populateAccountDropdown?.(); } catch(e) {}
         try { renderBalanceArcs?.(); } catch(e) {}
         try { render?.(); } catch(e) {}
-        setTimeout(() => { try { drawEquityCurve?.(); } catch(e) {} }, 80);
+        try { _sbUpdateBadge?.(); } catch(e) {}
+        /* Init sidebar to correct route from URL */
+        const pathMap = { '/dashboard':'dashboard', '/trades':'tradelog', '/playbook':'playbook', '/calculator':'calculator', '/settings':'settings' };
+        const startPage = pathMap[window.location.pathname] || 'dashboard';
+        setTimeout(() => {
+          try { sbNav(startPage); } catch(e) { try { drawEquityCurve?.(); } catch(e2){} }
+        }, 80);
       }));
     }, 350);
   } else {
     if (container) container.style.display = '';
     try { renderBalanceArcs?.(); } catch(e) {}
     try { render?.(); } catch(e) {}
-    setTimeout(() => { try { drawEquityCurve?.(); } catch(e) {} }, 80);
+    try { _sbUpdateBadge?.(); } catch(e) {}
+    const pathMap = { '/dashboard':'dashboard', '/trades':'tradelog', '/playbook':'playbook', '/calculator':'calculator', '/settings':'settings' };
+    const startPage = pathMap[window.location.pathname] || 'dashboard';
+    setTimeout(() => { try { sbNav(startPage); } catch(e) { try { drawEquityCurve?.(); } catch(e2){} } }, 80);
   }
 }
 
@@ -7826,7 +8099,201 @@ function deleteTrade(id) {
 })();
 </script>
 <script>
-/* ─── ICON AUTO-RENDER ───
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION SYSTEM
+═══════════════════════════════════════════════════════════ */
+let _sbOpen   = false;
+let _sbMode   = false; // false = dark, true = light
+let _sbProf   = false;
+let _sbCurrent = 'dashboard';
+
+const _sbRoutes = {
+  dashboard:  { label:'Dashboard',  crumb:'Dashboard' },
+  tradelog:   { label:'Trade Log',  crumb:'Trade Log' },
+  playbook:   { label:'Playbook',   crumb:'Playbook'  },
+  calculator: { label:'Calculator', crumb:'Calculator' },
+  settings:   { label:'Settings',  crumb:'Settings'  },
+};
+
+/* Toggle sidebar open/closed */
+function sbToggle() {
+  _sbOpen = !_sbOpen;
+  const sb = document.getElementById('sbSidebar');
+  const tb = document.getElementById('sbTopbar');
+  const mc = document.getElementById('sbMain');
+  const ov = document.getElementById('sbOverlay');
+  const pm = document.getElementById('sbProfileMenu');
+  const isMob = window.innerWidth <= 768;
+
+  sb.classList.toggle('sb-expanded', _sbOpen);
+  if (!isMob) {
+    tb.classList.toggle('sb-topbar-expanded', _sbOpen);
+    mc.classList.toggle('sb-main-expanded', _sbOpen);
+  }
+  if (isMob) ov.classList.toggle('sb-overlay-active', _sbOpen);
+
+  /* Reposition profile popup */
+  if (pm && !isMob) {
+    pm.style.left = _sbOpen ? 'calc(var(--sb-full) + 20px)' : 'calc(var(--sb-rail) + 20px)';
+  }
+  if (window.lucide) lucide.createIcons();
+}
+
+function sbClose() {
+  _sbOpen = false;
+  const pm = document.getElementById('sbProfileMenu');
+  document.getElementById('sbSidebar').classList.remove('sb-expanded');
+  document.getElementById('sbTopbar').classList.remove('sb-topbar-expanded');
+  document.getElementById('sbMain').classList.remove('sb-main-expanded');
+  document.getElementById('sbOverlay').classList.remove('sb-overlay-active');
+  if (pm) pm.style.left = 'calc(var(--sb-rail) + 20px)';
+  closeSbProfile();
+}
+
+/* Navigate between pages */
+function sbNav(page) {
+  const pages   = ['dashboard','tradelog','playbook','calculator','settings'];
+  const pageMap = {
+    dashboard:  'sbPageHome',
+    tradelog:   'sbPageHome',
+    playbook:   'sbPageHome',
+    calculator: 'sbPageCalculator',
+    settings:   'sbPageSettings',
+  };
+
+  /* Hide all sb-pages */
+  pages.forEach(p => {
+    const pid = pageMap[p];
+    const el  = document.getElementById(pid);
+    if (el && pid !== pageMap[page]) el.classList.remove('sb-page-active');
+  });
+  const target = document.getElementById(pageMap[page]);
+  if (target) target.classList.add('sb-page-active');
+
+  /* Active sidebar item */
+  pages.forEach(p => {
+    const btn = document.getElementById('sbItem' + p.charAt(0).toUpperCase() + p.slice(1));
+    if (btn) btn.classList.toggle('sb-active', p === page);
+  });
+
+  /* If home page, also switch main tab */
+  if (['dashboard','tradelog','playbook'].includes(page)) {
+    const tabMap = { dashboard:'dashboard', tradelog:'tradelog', playbook:'playbook' };
+    if (typeof switchMainTab === 'function') switchMainTab(tabMap[page] || 'dashboard');
+  }
+
+  /* Topbar title */
+  const r = _sbRoutes[page] || {};
+  const t = document.getElementById('sbTopbarTitle');
+  const c = document.getElementById('sbTopbarCrumb');
+  if (t) t.textContent = r.label || page;
+  if (c) c.textContent = r.crumb || page;
+
+  _sbCurrent = page;
+
+  /* URL routing */
+  const urlMap = { dashboard:'/dashboard', tradelog:'/trades', playbook:'/playbook', calculator:'/calculator', settings:'/settings' };
+  window.history.pushState({ sbPage: page }, '', urlMap[page] || '/');
+
+  /* Page-specific init */
+  if (page === 'dashboard') setTimeout(() => { try { drawEquityCurve?.(); } catch(e){} }, 40);
+  if (page === 'settings')  _renderSettingsAccounts();
+
+  /* Close mobile sidebar */
+  if (window.innerWidth <= 768) sbClose();
+  if (window.lucide) lucide.createIcons();
+}
+
+/* Render accounts in settings page */
+function _renderSettingsAccounts() {
+  const el = document.getElementById('settingsAccountsList');
+  if (!el) return;
+  if (!accounts || !accounts.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.78rem;padding:12px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;">No accounts yet.</div>';
+    return;
+  }
+  el.innerHTML = accounts.map(a => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <div style="font-weight:700;color:var(--heading);font-size:0.82rem;">${a.name || 'Account'}</div>
+        <div style="font-size:0.65rem;color:var(--muted);">${a.type || ''} · $${parseFloat(a.balance||0).toLocaleString()}</div>
+      </div>
+      <button onclick="openAccountModal('${a.id}')" style="background:transparent;border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:7px;cursor:pointer;font-size:0.7rem;font-family:'Space Grotesk',sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)';">
+        <i data-lucide="pencil"></i> Edit
+      </button>
+    </div>`).join('');
+  if (window.lucide) lucide.createIcons();
+}
+
+/* Profile popup */
+function toggleSbProfile() {
+  _sbProf = !_sbProf;
+  document.getElementById('sbProfileMenu').classList.toggle('sb-prof-visible', _sbProf);
+  document.getElementById('sbProfileBtn').classList.toggle('sb-prof-open', _sbProf);
+}
+function closeSbProfile() {
+  _sbProf = false;
+  document.getElementById('sbProfileMenu')?.classList.remove('sb-prof-visible');
+  document.getElementById('sbProfileBtn')?.classList.remove('sb-prof-open');
+}
+document.addEventListener('click', e => {
+  if (_sbProf && !document.querySelector('.sb-bottom')?.contains(e.target)) closeSbProfile();
+});
+
+/* Light/dark mode */
+function sbToggleMode() {
+  _sbMode = !_sbMode;
+  document.documentElement.classList.toggle('light', _sbMode);
+  const icon = document.getElementById('sbModeIcon');
+  const btn  = document.getElementById('sbModeBtn');
+  if (icon) { icon.setAttribute('data-lucide', _sbMode ? 'sun' : 'moon'); if (window.lucide) lucide.createIcons(); }
+  if (btn)  { btn.classList.toggle('light-on', _sbMode); }
+}
+
+/* Update sidebar profile UI after login */
+function _updateSbProfileUI() {
+  const displayName = (_sbProfile?.display_name) || (_sbUser?.email) || 'Trader';
+  const email       = _sbUser?.email || '';
+  const initials    = displayName.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+
+  const safe = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  safe('sbMenuName',     displayName);
+  safe('sbMenuEmail',    email);
+  safe('sbProfileName',  displayName.split(' ')[0]);
+  safe('sbProfileEmail', email);
+  safe('sbAvatar',       initials);
+  /* Keep old user menu IDs in sync in case other code references them */
+  safe('userMenuFullName', displayName);
+  safe('userMenuUsername', email);
+  safe('userAvatar',       initials);
+}
+
+/* Handle browser back/forward */
+window.addEventListener('popstate', e => {
+  const pageMap = { '/dashboard':'dashboard', '/trades':'tradelog', '/playbook':'playbook', '/calculator':'calculator', '/settings':'settings' };
+  const page = e.state?.sbPage || pageMap[window.location.pathname] || 'dashboard';
+  sbNav(page);
+});
+
+/* Init routing on load — read URL path */
+(function sbInitRoute() {
+  const pathMap = { '/dashboard':'dashboard', '/trades':'tradelog', '/playbook':'playbook', '/calculator':'calculator', '/settings':'settings' };
+  const page = pathMap[window.location.pathname] || 'dashboard';
+  _sbCurrent = page;
+  /* We don't call sbNav() here since _enterAppFromAuth handles the initial render;
+     just mark the correct sidebar item active */
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('sb-active'));
+  const btn = document.getElementById('sbItem' + page.charAt(0).toUpperCase() + page.slice(1));
+  if (btn) btn.classList.add('sb-active');
+})();
+
+/* Update badge count whenever trades change */
+function _sbUpdateBadge() {
+  const el = document.getElementById('sbBadgeCount');
+  if (el) el.textContent = (typeof trades !== 'undefined' ? trades.length : 0);
+}
+</script>
    Lucide only converts [data-lucide] tags into SVGs when createIcons() runs.
    This re-runs it on load and whenever the DOM changes (dynamic re-renders),
    so icons inserted by render(), toasts, popups, etc. always show up. */
