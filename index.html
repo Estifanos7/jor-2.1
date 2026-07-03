@@ -1788,6 +1788,7 @@
       gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 20px;
+      margin-top: 4px;
     }
     .stats-row .stat { flex: 1; min-width: 100px; }
 
@@ -5114,20 +5115,6 @@
     <div class="lb-strip" id="lbStrip"></div>
   </div>
 
-  <!-- ─── MAIN NAVIGATION TABS ─── -->
-  <nav class="main-nav">
-    <button class="nav-tab active" id="navDashboard" onclick="switchMainTab('dashboard')">
-      <span class="nav-icon"><i data-lucide="trending-up"></i></span> Dashboard
-    </button>
-    <button class="nav-tab" id="navTradelog" onclick="switchMainTab('tradelog')">
-      <span class="nav-icon"><i data-lucide="clipboard-list"></i></span> Trade Log
-      <span class="nav-badge" id="navTradeCount">0</span>
-    </button>
-    <button class="nav-tab" id="navPlaybook" onclick="switchMainTab('playbook')">
-      <span class="nav-icon"><i data-lucide="book-open"></i></span> Playbook
-    </button>
-  </nav>
-
   <!-- ─── DASHBOARD SECTION ─── -->
   <div class="page-section active" id="sectionDashboard">
 
@@ -5283,7 +5270,7 @@
 
   <!-- PAGE: Calculator -->
   <div class="sb-page" id="sbPageCalculator">
-  <div id="appPageLotsize" class="app-page active">
+  <div id="appPageLotsize" class="app-page">
     <div class="calc-page">
       <div class="calc-grid">
         <!-- INPUT CARD -->
@@ -7176,50 +7163,41 @@ document.addEventListener('click', function(e) {
   }
 });
 
-const _pageConfig = {
-  home:    { icon: '<i data-lucide="home"></i>', label: 'Home',          pageId: 'appPageHome',    itemId: 'pageItemHome'    },
-  lotsize: { icon: '<i data-lucide="calculator"></i>', label: 'Lot Size Calc', pageId: 'appPageLotsize', itemId: 'pageItemLotsize' },
+/* switchPage — now delegates to sidebar nav */
+function switchPage(page) {
+  const map = { home: 'dashboard', lotsize: 'calculator' };
+  sbNav(map[page] || 'dashboard');
+}
+
+function switchMainTab(tab) {
+  const tabs = ['dashboard', 'tradelog', 'playbook'];
+  tabs.forEach(t => {
+    const sec = document.getElementById('section' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (sec) sec.classList.toggle('active', t === tab);
+  });
+  /* Sync sidebar active item */
+  tabs.forEach(t => {
+    const btn = document.getElementById('sbItem' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) btn.classList.toggle('sb-active', t === tab);
+  });
+  if (tab === 'dashboard') {
+    setTimeout(() => { try { drawEquityCurve?.(); } catch(e){} }, 30);
+  }
+}
+
+/* Keep sidebar badge updated */
+function updateNavTradeCount() {
+  const badge = document.getElementById('sbBadgeCount');
+  if (badge) badge.textContent = trades.length;
+}
+
+/* Patch render() to also update the badge */
+const _origRender = render;
+render = function() {
+  _origRender.apply(this, arguments);
+  updateNavTradeCount();
 };
 
-function switchPage(page) {
-  // Hide all pages
-  Object.values(_pageConfig).forEach(cfg => {
-    const el = document.getElementById(cfg.pageId);
-    if (el) el.classList.remove('active');
-    const item = document.getElementById(cfg.itemId);
-    if (item) item.classList.remove('active');
-  });
-
-  // Show selected
-  const cfg = _pageConfig[page];
-  if (!cfg) return;
-  const el = document.getElementById(cfg.pageId);
-  if (el) el.classList.add('active');
-  const item = document.getElementById(cfg.itemId);
-  if (item) item.classList.add('active');
-
-  // Update button label
-  document.getElementById('pageNavIcon').innerHTML  = cfg.icon;
-  if (window.lucide) lucide.createIcons();
-  document.getElementById('pageNavLabel').textContent = cfg.label;
-
-  // Close dropdown
-  document.getElementById('pageNavBtn').classList.remove('open');
-  document.getElementById('pageNavDropdown').classList.remove('open');
-
-  _currentPage = page;
-
-  // Update body class so CSS can hide/show header elements per page
-  document.body.className = document.body.className
-    .replace(/\bpage-\S+/g, '').trim();
-  document.body.classList.add('page-' + page);
-
-  // Page-specific init
-  if (page === 'home') {
-    setTimeout(() => { drawEquityCurve && drawEquityCurve(); }, 30);
-  }
-  if (page === 'lotsize') { syncCalcBalance(); }
-}
 
 /* ══════════════════════════════════════════════
    LOT SIZE CALCULATOR
@@ -7317,31 +7295,6 @@ function calcLotSize() {
 }
 
 /* ─── MAIN TAB NAVIGATION ─── */
-function switchMainTab(tab) {
-  const tabs = ['dashboard', 'tradelog', 'playbook'];
-  tabs.forEach(t => {
-    const btn = document.getElementById('nav' + t.charAt(0).toUpperCase() + t.slice(1));
-    const sec = document.getElementById('section' + t.charAt(0).toUpperCase() + t.slice(1));
-    if (btn) btn.classList.toggle('active', t === tab);
-    if (sec) sec.classList.toggle('active', t === tab);
-  });
-  if (tab === 'dashboard') {
-    setTimeout(() => { drawEquityCurve && drawEquityCurve(); }, 30);
-  }
-}
-
-// Keep trade count badge updated
-function updateNavTradeCount() {
-  const badge = document.getElementById('navTradeCount');
-  if (badge) badge.textContent = trades.length;
-}
-
-// Patch render() to also update the nav badge
-const _origRender = render;
-render = function() {
-  _origRender.apply(this, arguments);
-  updateNavTradeCount();
-};
 
 </script>
 
@@ -8198,6 +8151,7 @@ function sbNav(page) {
   /* Page-specific init */
   if (page === 'dashboard') setTimeout(() => { try { drawEquityCurve?.(); } catch(e){} }, 40);
   if (page === 'settings')  _renderSettingsAccounts();
+  if (page === 'calculator') setTimeout(() => { try { syncCalcBalance?.(); } catch(e){} }, 40);
 
   /* Close mobile sidebar */
   if (window.innerWidth <= 768) sbClose();
@@ -8294,6 +8248,8 @@ function _sbUpdateBadge() {
   if (el) el.textContent = (typeof trades !== 'undefined' ? trades.length : 0);
 }
 </script>
+<script>
+/* ─── ICON AUTO-RENDER ───
    Lucide only converts [data-lucide] tags into SVGs when createIcons() runs.
    This re-runs it on load and whenever the DOM changes (dynamic re-renders),
    so icons inserted by render(), toasts, popups, etc. always show up. */
