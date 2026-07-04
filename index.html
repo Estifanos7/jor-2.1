@@ -4277,7 +4277,8 @@
     .tl-subnav-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,0.04); }
     .tl-subnav-btn [data-lucide], .tl-subnav-btn i { pointer-events:none; }
 
-    /* Settings page — accounts list */
+    /* Topbar accounts panel — display only, no edit button */
+    #accountsPanel .acc-row-edit { display: none !important; }
     .settings-section { margin-bottom:28px; }
     .settings-section-title {
       font-family:'Syne',sans-serif; font-weight:800; font-size:0.9rem; color:var(--heading);
@@ -5212,18 +5213,7 @@
   <!-- ─── TRADE LOG SECTION ─── -->
   <div class="page-section" id="sectionTradelog">
 
-  <!-- Trade Log sub-nav: Table / Calendar -->
-  <div class="tl-subnav" id="tlSubnav">
-    <button class="tl-subnav-btn active" id="tlBtnTable" onclick="switchTlView('table')">
-      <i data-lucide="table"></i> Table
-    </button>
-    <button class="tl-subnav-btn" id="tlBtnCalendar" onclick="switchTlView('calendar')">
-      <i data-lucide="calendar"></i> Calendar
-    </button>
-  </div>
-
-  <!-- Table view -->
-  <div id="tlViewTable">
+  <!-- ─── TRADES TABLE ─── -->
   <div class="table-wrapper">
     <div class="table-header-row">
       <div style="display:flex;align-items:center;gap:14px;">
@@ -5263,11 +5253,10 @@
         <div class="empty-text">No trades logged yet. Add your first trade above.</div>
       </div>
     </div>
-  </div><!-- end #tlViewTable -->
+  </div><!-- end table-wrapper -->
 
-  <!-- Calendar view -->
-  <div id="tlViewCalendar" style="display:none;">
-    <div class="cal-wrapper active" id="calView">
+  <!-- CALENDAR VIEW — shown/hidden by switchView() via .cal-wrapper.active CSS -->
+  <div class="cal-wrapper" id="calView">
       <div class="cal-nav">
         <button class="cal-nav-btn" onclick="calPrev()">‹ Prev</button>
         <div style="text-align:center;">
@@ -5277,8 +5266,7 @@
         <button class="cal-nav-btn" onclick="calNext()">Next ›</button>
       </div>
       <div class="cal-grid" id="calGrid"></div>
-    </div>
-  </div><!-- end #tlViewCalendar -->
+  </div>
 
   <!-- DAY DETAIL MODAL -->
   <div class="cal-detail-overlay" id="calDetailOverlay" onclick="if(event.target===this)closeCalDetail()">
@@ -8142,7 +8130,6 @@ function sbClose() {
 
 /* Navigate between pages */
 function sbNav(page) {
-  const pages   = ['dashboard','tradelog','playbook','calculator','settings'];
   const pageMap = {
     dashboard:  'sbPageHome',
     tradelog:   'sbPageHome',
@@ -8151,25 +8138,25 @@ function sbNav(page) {
     settings:   'sbPageSettings',
   };
 
-  /* Hide all sb-pages */
-  pages.forEach(p => {
-    const pid = pageMap[p];
-    const el  = document.getElementById(pid);
-    if (el && pid !== pageMap[page]) el.classList.remove('sb-page-active');
+  /* Hide ALL sb-pages then show the target */
+  ['sbPageHome','sbPageCalculator','sbPageSettings'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('sb-page-active');
   });
-  const target = document.getElementById(pageMap[page]);
+  const targetId = pageMap[page];
+  const target = document.getElementById(targetId);
   if (target) target.classList.add('sb-page-active');
 
   /* Active sidebar item */
-  pages.forEach(p => {
-    const btn = document.getElementById('sbItem' + p.charAt(0).toUpperCase() + p.slice(1));
+  ['dashboard','tradelog','playbook','calculator','settings'].forEach(p => {
+    const key = 'sbItem' + p.charAt(0).toUpperCase() + p.slice(1);
+    const btn = document.getElementById(key);
     if (btn) btn.classList.toggle('sb-active', p === page);
   });
 
   /* If home page, also switch main tab */
   if (['dashboard','tradelog','playbook'].includes(page)) {
-    const tabMap = { dashboard:'dashboard', tradelog:'tradelog', playbook:'playbook' };
-    if (typeof switchMainTab === 'function') switchMainTab(tabMap[page] || 'dashboard');
+    if (typeof switchMainTab === 'function') switchMainTab(page);
   }
 
   /* Topbar title */
@@ -8274,15 +8261,14 @@ window.addEventListener('popstate', e => {
 
 /* ── Trade Log sub-nav (Table / Calendar) ── */
 function switchTlView(view) {
-  const tableEl = document.getElementById('tlViewTable');
-  const calEl   = document.getElementById('tlViewCalendar');
-  const btnT    = document.getElementById('tlBtnTable');
-  const btnC    = document.getElementById('tlBtnCalendar');
-  if (tableEl) tableEl.style.display = view === 'table'    ? '' : 'none';
-  if (calEl)   calEl.style.display   = view === 'calendar' ? '' : 'none';
-  if (btnT)    btnT.classList.toggle('active', view === 'table');
-  if (btnC)    btnC.classList.toggle('active', view === 'calendar');
-  if (view === 'calendar') { try { renderCalendar?.(); } catch(e){} }
+  /* Delegate to switchView() which manages calVisible + renderCalendar */
+  if (typeof switchView === 'function') {
+    switchView(view === 'calendar' ? 'calendar' : 'table');
+  }
+  const btnT = document.getElementById('tlBtnTable');
+  const btnC = document.getElementById('tlBtnCalendar');
+  if (btnT) btnT.classList.toggle('active', view !== 'calendar');
+  if (btnC) btnC.classList.toggle('active', view === 'calendar');
 }
 
 /* ── Show/hide topbar stats — only on dashboard ── */
