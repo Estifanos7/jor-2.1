@@ -1966,7 +1966,7 @@
     }
     .acc-row-edit:hover { color: var(--accent); background: #00c8ff12; transform: none; }
 
-    .active-account-banner {
+    .active-account-banner { display: none !important; }
       display: none;
       align-items: center;
       gap: 8px;
@@ -4156,9 +4156,8 @@
       background:transparent; border:none;
       color:var(--muted); cursor:pointer;
       display:flex; align-items:center; justify-content:center;
-      transition:all 0.2s; font-size:1.15rem; flex-shrink:0;
+      transition:color 0.2s; font-size:1.15rem; flex-shrink:0;
     }
-    .sb-mode-btn:hover { color:var(--gold); }
     .sb-mode-btn.light-on { color:var(--gold); }
     .sb-mode-btn [data-lucide], .sb-mode-btn i { pointer-events:none; }
 
@@ -4276,6 +4275,29 @@
     .tl-subnav-btn.active { background:rgba(0,200,255,0.1); color:var(--accent); border:1px solid rgba(0,200,255,0.2); }
     .tl-subnav-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,0.04); }
     .tl-subnav-btn [data-lucide], .tl-subnav-btn i { pointer-events:none; }
+
+    /* Trade Log view nav — above the table */
+    .tl-viewnav {
+      display:flex; gap:28px; margin-bottom:16px;
+      border-bottom:1px solid var(--border);
+      position:relative;
+    }
+    .tl-viewnav-btn {
+      display:flex; align-items:center; gap:7px;
+      background:transparent; border:none; color:var(--muted);
+      font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size:0.78rem; font-weight:700;
+      padding:4px 2px 13px; cursor:pointer;
+      transition:color 0.15s; position:relative;
+    }
+    .tl-viewnav-btn.active { color:#fff; }
+    .tl-viewnav-btn.active::after {
+      content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px;
+      background:linear-gradient(90deg, var(--accent), var(--purple));
+      border-radius:2px; box-shadow:0 0 8px var(--accent);
+    }
+    .tl-viewnav-btn:hover:not(.active) { color:var(--text); }
+    .tl-viewnav-btn [data-lucide], .tl-viewnav-btn i { pointer-events:none; }
 
     /* Topbar accounts panel — display only, no edit button */
     #accountsPanel .acc-row-edit { display: none !important; }
@@ -5213,6 +5235,12 @@
   <!-- ─── TRADE LOG SECTION ─── -->
   <div class="page-section" id="sectionTradelog">
 
+  <!-- Table / Calendar nav above the table -->
+  <div class="tl-viewnav">
+    <button class="tl-viewnav-btn active" id="btnTableView" onclick="switchView('table')"><i data-lucide="table"></i> Table</button>
+    <button class="tl-viewnav-btn" id="btnCalView" onclick="switchView('calendar')"><i data-lucide="calendar"></i> Calendar</button>
+  </div>
+
   <!-- ─── TRADES TABLE ─── -->
   <div class="table-wrapper">
     <div class="table-header-row">
@@ -5222,10 +5250,6 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span class="table-count" id="tableCount">0 trades</span>
-        <div class="view-toggle">
-          <button class="view-toggle-btn active" id="btnTableView" onclick="switchView('table')"><i data-lucide="table"></i> Table</button>
-          <button class="view-toggle-btn" id="btnCalView" onclick="switchView('calendar')"><i data-lucide="calendar"></i> Calendar</button>
-        </div>
         <button class="fp-trigger-btn" id="tblFilterBtn"
           aria-expanded="false"
           aria-controls="tblFilterPopup"
@@ -8200,7 +8224,7 @@ function _renderSettingsAccounts() {
         <div style="font-weight:700;color:var(--heading);font-size:0.82rem;">${a.name || 'Account'}</div>
         <div style="font-size:0.65rem;color:var(--muted);">${a.type || ''} · $${parseFloat(a.balance||0).toLocaleString()}</div>
       </div>
-      <button onclick="openAccountModal('${a.id}')" style="background:transparent;border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:7px;cursor:pointer;font-size:0.7rem;font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)';">
+      <button onclick="openEditAccountModal(${a.id})" style="background:transparent;border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:7px;cursor:pointer;font-size:0.7rem;font-family:Inter,sans-serif;transition:border-color 0.15s,color 0.15s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)';">
         <i data-lucide="pencil"></i> Edit
       </button>
     </div>`).join('');
