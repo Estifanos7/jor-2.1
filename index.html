@@ -1111,7 +1111,7 @@
     .equity-section {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px 14px 0 0;
+      border-radius: 12px 12px 0 0;
       margin-bottom: 0;
       overflow: hidden;
     }
@@ -1515,6 +1515,82 @@
       transition: all 0.2s;
     }
     .btn-save-trade:hover { background: var(--green); transform: translateY(-1px); }
+
+    /* ════ DASHBOARD NEW LAYOUT ════ */
+    .db-top-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .db-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 20px 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      min-height: 130px;
+    }
+    .db-card-label {
+      font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--muted); font-weight: 600; margin-bottom: 8px;
+    }
+    .db-card-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.65rem; font-weight: 800;
+      color: var(--heading); line-height: 1; margin-bottom: 4px;
+    }
+    .db-card-val.profit { color: var(--green); }
+    .db-card-val.loss   { color: var(--red); }
+    .db-card-sub { font-size: 0.62rem; color: var(--muted); }
+    .db-card-wr-bar-wrap {
+      position: relative; height: 5px;
+      background: linear-gradient(90deg, var(--red) 0%, #f59e0b 48%, var(--green) 100%);
+      border-radius: 4px; margin: 10px 0 6px;
+    }
+    .db-card-wr-dot {
+      position: absolute; top: 50%; transform: translate(-50%,-50%);
+      width: 13px; height: 13px; border-radius: 50%;
+      background: #fff; border: 2px solid var(--surface);
+      box-shadow: 0 0 0 1px var(--border2);
+      transition: left 0.4s ease; left: 0%;
+    }
+    .db-card-gauge-wrap { position:absolute; bottom:12px; right:14px; width:70px; }
+    .db-gauge-svg { width:100%; height:auto; }
+    .db-gauge-val {
+      position:absolute; bottom:0; left:0; right:0;
+      text-align:center; font-family:'Syne',sans-serif;
+      font-size:0.72rem; font-weight:800; color:var(--accent);
+    }
+    .db-main-row {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 12px; align-items: start;
+    }
+    .db-left-col  { display:flex; flex-direction:column; gap:0; }
+    .db-right-col { display:flex; flex-direction:column; gap:12px; }
+    .db-metrics-bar {
+      display:flex; background:var(--surface);
+      border:1px solid var(--border); border-top:none;
+      border-radius:0 0 12px 12px; overflow:hidden;
+      margin-bottom:14px;
+    }
+    .db-metric { flex:1; padding:9px 10px; border-right:1px solid var(--border); text-align:center; }
+    .db-metric:last-child { border-right:none; }
+    .db-metric-label { font-size:0.55rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); margin-bottom:2px; }
+    .db-metric-val { font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700; color:var(--text); }
+    .db-metric-val.profit { color:var(--green); }
+    .db-metric-val.loss   { color:var(--red); }
+    .db-panel { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .perf-bar-item { margin-bottom:14px; }
+    .perf-bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:0.75rem; font-weight:600; color:var(--text); }
+    .perf-bar-meta { font-size:0.6rem; color:var(--muted); }
+    .perf-bar-track { height:6px; background:var(--surface3); border-radius:4px; overflow:hidden; }
+    .perf-bar-fill { height:100%; border-radius:4px; background:var(--accent); transition:width 0.5s ease; }
+    .perf-bar-fill.neg { background:var(--red); }
+    /* ════ END DASHBOARD LAYOUT ════ */
 
     /* ─── ANALYTICS ROW ─── */
     .analytics-row {
@@ -5179,68 +5255,76 @@
   <!-- ─── DASHBOARD SECTION ─── -->
   <div class="page-section active" id="sectionDashboard">
 
-  <!-- ─── ANALYTICS ROW ─── -->
-  <div class="analytics-row">
+  <!-- ══ TOP STAT CARDS ══ -->
+  <div class="db-top-cards">
 
-    <!-- LEFT COLUMN: Equity Curve + Metrics -->
-    <div class="equity-metrics-col">
+    <div class="db-card db-card-pnl">
+      <div class="db-card-label">Total P&amp;L</div>
+      <div class="db-card-val" id="dbCardPnl">$0.00</div>
+      <div class="db-card-sub" id="dbCardPnlSub">0 closed positions</div>
+      <div class="db-card-chart-area" id="dbCardSparkline"></div>
+    </div>
 
-      <!-- KEY STATS CARDS -->
-      <div class="dash-stat-cards" id="dashStatCards">
-        <div class="dash-stat-card">
-          <div class="dash-stat-label">Win Rate</div>
-          <div class="dash-stat-val" id="dscWinRate">—</div>
-          <div class="dash-stat-sub" id="dscWinRateSub"></div>
-          <div class="dash-stat-ring-wrap">
-            <svg width="48" height="48" viewBox="0 0 64 64">
-              <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="5"/>
-              <circle class="wr-ring-fill" id="wrRingFill" cx="32" cy="32" r="25" stroke-width="5" stroke="#22c55e" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
-              <text x="32" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#22c55e" id="wrRingLabel">0%</text>
-            </svg>
-          </div>
-          <div class="wr-popup" id="wrPopup" style="display:none;">
-            <div class="wr-popup-title">Trade Breakdown</div>
-            <div class="wr-popup-grid">
-              <div class="wr-popup-stat"><div class="wr-popup-stat-label">Wins</div><div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div></div>
-              <div class="wr-popup-stat"><div class="wr-popup-stat-label">Losses</div><div class="wr-popup-stat-val" id="wrPopupLosses" style="color:var(--red)">0</div></div>
-              <div class="wr-popup-stat"><div class="wr-popup-stat-label">Total</div><div class="wr-popup-stat-val" id="wrPopupTotal">0</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="dash-stat-card">
-          <div class="dash-stat-label">Avg R:R</div>
-          <div class="dash-stat-val" id="dscRR">—</div>
-          <div class="dash-stat-sub">reward : risk</div>
-          <div class="dash-stat-ring-wrap" id="rrGaugeWrap">
-            <svg width="48" height="48" viewBox="0 0 64 64">
-              <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="5"/>
-              <circle class="wr-ring-fill" id="rrRingFill" cx="32" cy="32" r="25" stroke-width="5" stroke="#3b82f6" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
-              <text x="32" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#3b82f6" id="rrRingLabel">—</text>
-            </svg>
-          </div>
-        </div>
-        <div class="dash-stat-card" id="balanceArcsContainer">
-          <div class="balance-arcs-empty">No accounts yet</div>
+    <div class="db-card">
+      <div class="db-card-label">Win Rate</div>
+      <div class="db-card-val" id="dbCardWR">0%</div>
+      <div class="db-card-wr-bar-wrap">
+        <div class="db-card-wr-bar" id="dbCardWRBar"></div>
+        <div class="db-card-wr-dot" id="dbCardWRDot"></div>
+      </div>
+      <div class="db-card-sub" id="dbCardWRSub">L: 0 &nbsp; BE: 0 &nbsp; W: 0</div>
+      <div class="wr-popup" id="wrPopup" style="display:none;">
+        <div class="wr-popup-title">Trade Breakdown</div>
+        <div class="wr-popup-grid">
+          <div class="wr-popup-stat"><div class="wr-popup-stat-label">Wins</div><div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div></div>
+          <div class="wr-popup-stat"><div class="wr-popup-stat-label">Losses</div><div class="wr-popup-stat-val" id="wrPopupLosses" style="color:var(--red)">0</div></div>
+          <div class="wr-popup-stat"><div class="wr-popup-stat-label">Total</div><div class="wr-popup-stat-val" id="wrPopupTotal">0</div></div>
         </div>
       </div>
+    </div>
 
-      <!-- EQUITY CURVE -->
+    <div class="db-card">
+      <div class="db-card-label">Avg R:R</div>
+      <div class="db-card-val" id="dbCardRR">—</div>
+      <div class="db-card-sub">reward : risk ratio</div>
+      <div class="db-card-gauge-wrap" id="rrGaugeWrap">
+        <svg class="db-gauge-svg" viewBox="0 0 80 46">
+          <path d="M8,44 A32,32 0 0,1 72,44" fill="none" stroke="var(--border2)" stroke-width="6" stroke-linecap="round"/>
+          <path id="rrGaugePath" d="M8,44 A32,32 0 0,1 72,44" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="100.5"/>
+        </svg>
+        <div class="db-gauge-val" id="rrRingLabel">—</div>
+      </div>
+      <!-- keep hidden SVG refs for JS compatibility -->
+      <svg style="display:none">
+        <circle id="rrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/>
+        <circle id="wrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/>
+        <text id="wrRingLabel">0%</text>
+      </svg>
+    </div>
+
+    <div class="db-card" id="balanceArcsContainer">
+      <div class="balance-arcs-empty">No accounts yet</div>
+    </div>
+
+  </div><!-- end .db-top-cards -->
+
+  <!-- ══ EQUITY + ANALYTICS ══ -->
+  <div class="db-main-row">
+
+    <!-- LEFT: equity curve + metrics bar -->
+    <div class="db-left-col">
+
       <div class="equity-section">
         <div class="equity-header">
           <div class="equity-header-left">
             <span style="font-size:0.9rem"><i data-lucide="trending-up"></i></span>
-            <span class="equity-title">Equity Curve</span>
+            <span class="equity-title">Net P&amp;L Chart</span>
             <span class="equity-pnl-badge flat" id="equityBadge">$0.00</span>
           </div>
-          <div>
-            <button class="fp-trigger-btn" id="eqFilterBtn"
-              aria-expanded="false"
-              aria-controls="eqFilterPopup"
-              onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
-              <span class="fp-dot" id="eqFilterDot"></span>
-            </button>
-          </div>
+          <button class="fp-trigger-btn" id="eqFilterBtn" aria-expanded="false" aria-controls="eqFilterPopup" onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
+            <span class="fp-dot" id="eqFilterDot"></span>
+          </button>
         </div>
         <div class="equity-body">
           <div class="equity-canvas-wrap">
@@ -5250,40 +5334,43 @@
         </div>
       </div>
 
-      <!-- METRICS (attached below equity curve) -->
-      <div class="metrics-bar">
-        <div class="metric-item"><div class="metric-label">Max DD</div><div class="metric-val loss" id="eqMaxDD">—</div></div>
-        <div class="metric-item"><div class="metric-label">Best</div><div class="metric-val profit" id="eqBest">—</div></div>
-        <div class="metric-item"><div class="metric-label">Worst</div><div class="metric-val loss" id="eqWorst">—</div></div>
-        <div class="metric-item"><div class="metric-label">Win Streak</div><div class="metric-val" id="eqWinStreak">—</div></div>
-        <div class="metric-item"><div class="metric-label">Loss Streak</div><div class="metric-val" id="eqLossStreak">—</div></div>
-        <div class="metric-item"><div class="metric-label">Avg Win</div><div class="metric-val profit" id="eqAvgWin">—</div></div>
-        <div class="metric-item"><div class="metric-label">Avg Loss</div><div class="metric-val loss" id="eqAvgLoss">—</div></div>
-        <div class="metric-item metric-item-pf"><div class="metric-label">Prof. Factor</div><div class="metric-val" id="eqProfitFactor">—</div></div>
+      <div class="db-metrics-bar">
+        <div class="db-metric"><div class="db-metric-label">Max DD</div><div class="db-metric-val loss" id="eqMaxDD">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Best Trade</div><div class="db-metric-val profit" id="eqBest">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Worst Trade</div><div class="db-metric-val loss" id="eqWorst">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Win Streak</div><div class="db-metric-val" id="eqWinStreak">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Loss Streak</div><div class="db-metric-val" id="eqLossStreak">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Avg Win</div><div class="db-metric-val profit" id="eqAvgWin">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Avg Loss</div><div class="db-metric-val loss" id="eqAvgLoss">—</div></div>
+        <div class="db-metric"><div class="db-metric-label">Prof. Factor</div><div class="db-metric-val" id="eqProfitFactor">—</div></div>
       </div>
 
-    </div><!-- end .equity-metrics-col -->
+    </div><!-- end .db-left-col -->
 
-    <!-- RIGHT COLUMN: Analytics Report Panel -->
-    <div class="report-panel">
-      <div class="report-header">
-        <div class="report-tabs">
-          <button class="report-tab active" onclick="switchReportTab('pairs',this)">⬡ Pairs</button>
-          <button class="report-tab" onclick="switchReportTab('session',this)"><i data-lucide="clock"></i> Session</button>
-          <button class="report-tab" onclick="switchReportTab('setup',this)"><i data-lucide="zap"></i> Setup</button>
+    <!-- RIGHT: analytics panel -->
+    <div class="db-right-col">
+
+      <div class="db-panel">
+        <div class="report-header">
+          <div class="report-tabs">
+            <button class="report-tab active" onclick="switchReportTab('pairs',this)">⬡ Pairs</button>
+            <button class="report-tab" onclick="switchReportTab('session',this)"><i data-lucide="clock"></i> Session</button>
+            <button class="report-tab" onclick="switchReportTab('setup',this)"><i data-lucide="zap"></i> Setup</button>
+          </div>
         </div>
-
+        <div class="report-body">
+          <div class="report-view active" id="reportPairs"></div>
+          <div class="report-view" id="reportSession"></div>
+          <div class="report-view" id="reportSetup"></div>
+        </div>
       </div>
-      <div class="report-body">
-        <div class="report-view active" id="reportPairs"></div>
-        <div class="report-view" id="reportSession"></div>
-        <div class="report-view" id="reportSetup"></div>
-      </div>
-    </div>
 
-  </div><!-- end .analytics-row -->
+    </div><!-- end .db-right-col -->
+
+  </div><!-- end .db-main-row -->
 
   </div><!-- end #sectionDashboard -->
+
 
   <!-- ─── TRADE LOG SECTION ─── -->
   <div class="page-section" id="sectionTradelog">
@@ -6100,6 +6187,11 @@ function render() {
   document.getElementById('statWins').textContent    = allWins;
   document.getElementById('statLosses').textContent  = allLosses;
   document.getElementById('statWinRate').textContent = allRate + '%';
+  /* P&L top card */
+  const pnlCard = document.getElementById('dbCardPnl');
+  const pnlSub  = document.getElementById('dbCardPnlSub');
+  if (pnlCard) { pnlCard.textContent = (allPnl >= 0 ? '+$' : '-$') + Math.abs(allPnl).toFixed(2); pnlCard.className = 'db-card-val ' + (allPnl >= 0 ? 'profit' : 'loss'); }
+  if (pnlSub)  pnlSub.textContent = all.length + ' closed position' + (all.length !== 1 ? 's' : '');
   document.getElementById('statAvgRR').textContent   = allAvgRR ? allAvgRR + 'R' : '—';
   document.getElementById('statTrades').textContent  = all.length;
 
@@ -6137,12 +6229,20 @@ function render() {
     ringLabel.setAttribute('fill', ringColor);
   }
   /* Also update the new stat card text values */
-  const dscWR = document.getElementById('dscWinRate');
-  const dscRR = document.getElementById('dscRR');
-  const dscWRSub = document.getElementById('dscWinRateSub');
+  const dscWR = document.getElementById('dbCardWR');
+  const dscRR = document.getElementById('dbCardRR');
+  const dscWRSub = document.getElementById('dbCardWRSub');
+  const wrDot = document.getElementById('dbCardWRDot');
   if (dscWR) dscWR.textContent = allRate + '%';
   if (dscRR) dscRR.textContent = allAvgRR ? allAvgRR + 'R' : '—';
-  if (dscWRSub) dscWRSub.textContent = allWins + 'W / ' + allLosses + 'L';
+  if (dscWRSub) dscWRSub.innerHTML = 'L:&nbsp;' + allLosses + '&nbsp;&nbsp;W:&nbsp;' + allWins;
+  if (wrDot) wrDot.style.left = allRate + '%';
+  /* Gauge arc for RR */
+  const gaugePath = document.getElementById('rrGaugePath');
+  if (gaugePath && allAvgRR) {
+    const pct = Math.min(allAvgRR / 5, 1);
+    gaugePath.style.strokeDashoffset = 100.5 * (1 - pct);
+  }
   // Win rate popup values
   const wpW = document.getElementById('wrPopupWins');
   const wpL = document.getElementById('wrPopupLosses');
