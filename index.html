@@ -8,27 +8,51 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
     :root {
-      --bg: #080b10;
-      --surface: #0f1419;
-      --surface2: #161d26;
-      --border: #1e2a38;
-      --border2: #253347;
-      --text: #cdd9e5;
-      --muted: #546e7a;
-      --accent: #00c8ff;
-      --accent2: #0090b8;
-      --green: #26d96a;
-      --green2: #1aab52;
-      --red: #ff4757;
-      --red2: #cc2f3d;
-      --gold: #ffc107;
-      --purple: #a855f7;
+      --bg:      #060b14;
+      --surface: #0d1526;
+      --surface2: #121d30;
+      --surface3: #172038;
+      --border:  #1e2d45;
+      --border2: #243552;
+      --text:    #cbd5e1;
+      --heading: #f1f5f9;
+      --muted:   #64748b;
+      --accent:  #3b82f6;
+      --accent2: #1d4ed8;
+      --green:   #22c55e;
+      --green2:  #16a34a;
+      --red:     #ef4444;
+      --red2:    #dc2626;
+      --gold:    #f59e0b;
+      --purple:  #8b5cf6;
+    }
+
+    html.light {
+      --bg:       #f8fafc;
+      --surface:  #ffffff;
+      --surface2: #f1f5f9;
+      --surface3: #e9ecef;
+      --border:   #e5e7eb;
+      --border2:  #d1d5db;
+      --text:     #374151;
+      --heading:  #0f172a;
+      --muted:    #94a3b8;
+      --accent:   #2563eb;
+      --accent2:  #1d4ed8;
+      --sb-bg:    rgba(255,255,255,0.98);
+      --topbar-bg:rgba(255,255,255,0.96);
+    }
+    html.light body {
+      color-scheme: light;
+      background: var(--bg);
+      background-image: none;
+      animation: none;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* Reserve scrollbar space permanently so page width never changes
-       between tabs (Dashboard vs Trade Log have different content heights,
+       between tabs (Dashboard vs Journal have different content heights,
        which otherwise toggles the scrollbar on/off and shifts centered
        elements like .header-center sideways). */
     html {
@@ -53,15 +77,9 @@
       min-height: 100vh;
       padding: 24px;
       background-image:
-        radial-gradient(circle, rgba(0,200,255,0.08) 0%, transparent 55%),
-        radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 55%),
-        radial-gradient(circle, rgba(38,217,106,0.055) 0%, transparent 55%),
-        radial-gradient(circle, rgba(255,193,7,0.04) 0%, transparent 55%);
-      background-position: 0% 0%, 100% 100%, 100% 0%, 0% 100%;
-      background-size: 70% 70%, 65% 65%, 50% 50%, 55% 55%;
-      background-repeat: no-repeat;
+        radial-gradient(ellipse 70% 50% at 20% 0%,   rgba(59,130,246,0.08) 0%, transparent 100%),
+        radial-gradient(ellipse 50% 40% at 90% 100%,  rgba(29,78,216,0.06)  0%, transparent 100%);
       background-attachment: fixed;
-      animation: auroraDrift 32s ease-in-out infinite alternate;
     }
     @keyframes auroraDrift {
       0%   { background-position: 0% 0%,  100% 100%, 100% 0%, 0% 100%; }
@@ -924,23 +942,23 @@
     .equity-select:focus { outline: none; border-color: var(--accent); }
     .equity-select.has-value { border-color: var(--accent); color: var(--accent); background-color: #00c8ff10; }
 
-    /* Toggle buttons for filter triggers */
+    /* Toggle buttons for filter triggers — icon only */
     .fp-trigger-btn {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 0;
       background: var(--surface2);
       border: 1px solid var(--border);
       color: var(--muted);
-      padding: 6px 13px;
-      border-radius: 7px;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 0.68rem;
-      font-weight: 600;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.15s;
-      letter-spacing: 0.3px;
       position: relative;
+      flex-shrink: 0;
     }
     .fp-trigger-btn:hover, .fp-trigger-btn[aria-expanded="true"] {
       border-color: var(--accent);
@@ -1065,6 +1083,29 @@
       border-radius: 20px;
       z-index: 5001;
     }
+
+    /* ── Dashboard stat cards (above equity curve) ── */
+    .dash-stat-cards {
+      display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;
+    }
+    .dash-stat-card {
+      flex:1; min-width:140px;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:12px; padding:16px 18px;
+      display:flex; flex-direction:column; gap:4px;
+      position:relative; box-shadow:0 1px 4px rgba(0,0,0,0.1);
+    }
+    .dash-stat-label {
+      font-size:0.62rem; text-transform:uppercase; letter-spacing:0.8px;
+      color:var(--muted); font-weight:600;
+    }
+    .dash-stat-val {
+      font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+      color:var(--heading); line-height:1;
+    }
+    .dash-stat-sub { font-size:0.65rem; color:var(--muted); }
+    .dash-stat-ring-wrap { position:absolute; top:14px; right:14px; opacity:0.9; }
+    .dash-stat-card .wr-popup { position:absolute; top:calc(100% + 6px); left:0; z-index:50; }
 
     /* ─── EQUITY CURVE ─── */
     .equity-section {
@@ -4034,17 +4075,17 @@
       --topbar-bg: rgba(12,17,23,0.88);
     }
     html.light {
-      --bg:       #f0f4f8;
+      --bg:       #f9fafb;
       --surface:  #ffffff;
-      --surface2: #e8edf2;
-      --surface3: #dde4ec;
-      --border:   #d0d9e4;
-      --border2:  #bfcad6;
-      --text:     #2a3a4a;
-      --muted:    #6b7f93;
-      --heading:  #0f1c28;
-      --sb-bg:    rgba(240,244,248,0.95);
-      --topbar-bg:rgba(240,244,248,0.92);
+      --surface2: #f3f4f6;
+      --surface3: #e9ecef;
+      --border:   #e5e7eb;
+      --border2:  #d1d5db;
+      --text:     #374151;
+      --heading:  #111827;
+      --muted:    #9ca3af;
+      --sb-bg:    rgba(255,255,255,0.97);
+      --topbar-bg:rgba(255,255,255,0.95);
     }
     html.light body { color-scheme: light; }
 
@@ -4276,7 +4317,7 @@
     .tl-subnav-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,0.04); }
     .tl-subnav-btn [data-lucide], .tl-subnav-btn i { pointer-events:none; }
 
-    /* Trade Log view nav — above the table */
+    /* Journal view nav — above the table */
     .tl-viewnav {
       display:flex; gap:28px; margin-bottom:16px;
       border-bottom:1px solid var(--border);
@@ -4296,7 +4337,7 @@
       background:linear-gradient(90deg, var(--accent), var(--purple));
       border-radius:2px; box-shadow:0 0 8px var(--accent);
     }
-    .tl-viewnav-btn:hover:not(.active) { color:var(--text); }
+    .tl-viewnav-btn:hover:not(.active) { color:var(--muted); }
     .tl-viewnav-btn [data-lucide], .tl-viewnav-btn i { pointer-events:none; }
 
     /* Topbar accounts panel — display only, no edit button */
@@ -4505,7 +4546,7 @@
 <!-- ═══════════════════════════════════════════
      LANDING PAGE
 ═══════════════════════════════════════════ -->
-<div id="landingPage" class="active">
+<div id="landingPage" style="display:none;">
 
   <!-- Background effects -->
   <div class="lp-orb lp-orb-1"></div>
@@ -4777,7 +4818,7 @@
     </button>
     <button class="sb-item" id="sbItemTradelog" onclick="sbNav('tradelog')">
       <span class="sb-icon"><i data-lucide="clipboard-list"></i></span>
-      <span class="sb-label">Trade Log</span>
+      <span class="sb-label">Journal</span>
       <span class="sb-badge" id="sbBadgeCount">0</span>
     </button>
     <button class="sb-item" id="sbItemPlaybook" onclick="sbNav('playbook')">
@@ -4855,34 +4896,7 @@
         <div id="accountsList"></div>
       </div>
     </div>
-    <!-- Stats (arcs) moved to topbar center area -->
-    <div class="header-center" id="sbTopbarStats" style="position:relative;transform:none;left:auto;top:auto;">
-      <div class="header-arc-stat rr-gauge-wrap" id="rrGaugeWrap">
-        <div class="header-arc-stat-label">Avg R:R</div>
-        <svg class="wr-ring-svg" width="54" height="54" viewBox="0 0 64 64">
-          <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="6"/>
-          <circle class="wr-ring-fill" id="rrRingFill" cx="32" cy="32" r="25" stroke-width="6" stroke="#00c8ff" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
-          <text x="32" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#546e7a" id="rrRingLabel">—</text>
-        </svg>
-      </div>
-      <div id="balanceArcsContainer"><div class="balance-arcs-empty">No accounts yet</div></div>
-      <div class="header-arc-stat clickable wr-ring-wrap">
-        <div class="header-arc-stat-label">Win Rate</div>
-        <svg class="wr-ring-svg" width="54" height="54" viewBox="0 0 64 64">
-          <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="6"/>
-          <circle class="wr-ring-fill" id="wrRingFill" cx="32" cy="32" r="25" stroke-width="6" stroke="#26d96a" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
-          <text x="32" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#ffffff" id="wrRingLabel">0%</text>
-        </svg>
-        <div class="wr-popup" id="wrPopup">
-          <div class="wr-popup-title">Trade Breakdown</div>
-          <div class="wr-popup-grid">
-            <div class="wr-popup-stat"><div class="wr-popup-stat-label">Wins</div><div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div></div>
-            <div class="wr-popup-stat"><div class="wr-popup-stat-label">Losses</div><div class="wr-popup-stat-val" id="wrPopupLosses" style="color:var(--red)">0</div></div>
-            <div class="wr-popup-stat"><div class="wr-popup-stat-label">Total</div><div class="wr-popup-stat-val" id="wrPopupTotal">0</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>
 
@@ -4892,7 +4906,7 @@
   <!-- Stats row (originally below header) -->
   <div class="stats-row" id="mainStatsRow"></div>
 
-  <!-- PAGE: Home (Dashboard + Trade Log + Playbook) -->
+  <!-- PAGE: Home (Dashboard + Journal + Playbook) -->
   <div class="sb-page sb-page-active" id="sbPageHome">
 
   <!-- ─── ACTIVE ACCOUNT BANNER ─── -->
@@ -5171,6 +5185,45 @@
     <!-- LEFT COLUMN: Equity Curve + Metrics -->
     <div class="equity-metrics-col">
 
+      <!-- KEY STATS CARDS -->
+      <div class="dash-stat-cards" id="dashStatCards">
+        <div class="dash-stat-card">
+          <div class="dash-stat-label">Win Rate</div>
+          <div class="dash-stat-val" id="dscWinRate">—</div>
+          <div class="dash-stat-sub" id="dscWinRateSub"></div>
+          <div class="dash-stat-ring-wrap">
+            <svg width="48" height="48" viewBox="0 0 64 64">
+              <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="5"/>
+              <circle class="wr-ring-fill" id="wrRingFill" cx="32" cy="32" r="25" stroke-width="5" stroke="#22c55e" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
+              <text x="32" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#22c55e" id="wrRingLabel">0%</text>
+            </svg>
+          </div>
+          <div class="wr-popup" id="wrPopup" style="display:none;">
+            <div class="wr-popup-title">Trade Breakdown</div>
+            <div class="wr-popup-grid">
+              <div class="wr-popup-stat"><div class="wr-popup-stat-label">Wins</div><div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div></div>
+              <div class="wr-popup-stat"><div class="wr-popup-stat-label">Losses</div><div class="wr-popup-stat-val" id="wrPopupLosses" style="color:var(--red)">0</div></div>
+              <div class="wr-popup-stat"><div class="wr-popup-stat-label">Total</div><div class="wr-popup-stat-val" id="wrPopupTotal">0</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-label">Avg R:R</div>
+          <div class="dash-stat-val" id="dscRR">—</div>
+          <div class="dash-stat-sub">reward : risk</div>
+          <div class="dash-stat-ring-wrap" id="rrGaugeWrap">
+            <svg width="48" height="48" viewBox="0 0 64 64">
+              <circle class="wr-ring-track" cx="32" cy="32" r="25" stroke-width="5"/>
+              <circle class="wr-ring-fill" id="rrRingFill" cx="32" cy="32" r="25" stroke-width="5" stroke="#3b82f6" stroke-dasharray="157.08" stroke-dashoffset="157.08" transform="rotate(-90 32 32)"/>
+              <text x="32" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#3b82f6" id="rrRingLabel">—</text>
+            </svg>
+          </div>
+        </div>
+        <div class="dash-stat-card" id="balanceArcsContainer">
+          <div class="balance-arcs-empty">No accounts yet</div>
+        </div>
+      </div>
+
       <!-- EQUITY CURVE -->
       <div class="equity-section">
         <div class="equity-header">
@@ -5183,8 +5236,8 @@
             <button class="fp-trigger-btn" id="eqFilterBtn"
               aria-expanded="false"
               aria-controls="eqFilterPopup"
-              onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)">
-              <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:5px"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>Filters</span>
+              onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
               <span class="fp-dot" id="eqFilterDot"></span>
             </button>
           </div>
@@ -5245,7 +5298,7 @@
   <div class="table-wrapper">
     <div class="table-header-row">
       <div style="display:flex;align-items:center;gap:14px;">
-        <span class="table-title">Trade Log</span>
+        <span class="table-title">Journal</span>
         <button class="btn-add-trade" onclick="openTradeModal()"><i data-lucide="plus"></i> Add Trade</button>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
@@ -5253,8 +5306,8 @@
         <button class="fp-trigger-btn" id="tblFilterBtn"
           aria-expanded="false"
           aria-controls="tblFilterPopup"
-          onclick="toggleFilterPopup('tblFilterPopup','tblFilterBtn',event)">
-          <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:5px"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>Filter</span>
+          onclick="toggleFilterPopup('tblFilterPopup','tblFilterBtn',event)" title="Filter">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
           <span class="fp-dot" id="tblFilterDot"></span>
         </button>
       </div>
@@ -6083,6 +6136,13 @@ function render() {
     ringLabel.textContent = allRate + '%';
     ringLabel.setAttribute('fill', ringColor);
   }
+  /* Also update the new stat card text values */
+  const dscWR = document.getElementById('dscWinRate');
+  const dscRR = document.getElementById('dscRR');
+  const dscWRSub = document.getElementById('dscWinRateSub');
+  if (dscWR) dscWR.textContent = allRate + '%';
+  if (dscRR) dscRR.textContent = allAvgRR ? allAvgRR + 'R' : '—';
+  if (dscWRSub) dscWRSub.textContent = allWins + 'W / ' + allLosses + 'L';
   // Win rate popup values
   const wpW = document.getElementById('wrPopupWins');
   const wpL = document.getElementById('wrPopupLosses');
@@ -7956,6 +8016,7 @@ function _enterAppFromAuth() {
     if (container) container.style.display = '';
     try { renderBalanceArcs?.(); } catch(e) {}
     try { render?.(); } catch(e) {}
+    try { renderReports?.(); } catch(e) {}
     try { _sbUpdateBadge?.(); } catch(e) {}
     const pathMap = { '/dashboard':'dashboard', '/trades':'tradelog', '/playbook':'playbook', '/calculator':'calculator', '/settings':'settings' };
     const startPage = pathMap[window.location.pathname] || 'dashboard';
@@ -8050,7 +8111,18 @@ function deleteTrade(id) {
       await _loadUserData();
     } else {
       _hideSbLoading();
-      /* No session — show landing page as usual */
+      /* No session — reveal landing page with fade */
+      const lp = document.getElementById('landingPage');
+      if (lp) {
+        lp.classList.add('active');
+        document.body.classList.add('on-landing');
+        lp.style.opacity = '0';
+        lp.style.display = '';
+        requestAnimationFrame(() => {
+          lp.style.transition = 'opacity 0.4s';
+          lp.style.opacity = '1';
+        });
+      }
     }
   } catch(e) {
     _hideSbLoading();
@@ -8111,7 +8183,7 @@ let _sbCurrent = 'dashboard';
 
 const _sbRoutes = {
   dashboard:  { label:'Dashboard',  crumb:'Dashboard' },
-  tradelog:   { label:'Trade Log',  crumb:'Trade Log' },
+  tradelog:   { label:'Journal',  crumb:'Journal' },
   playbook:   { label:'Playbook',   crumb:'Playbook'  },
   calculator: { label:'Calculator', crumb:'Calculator' },
   settings:   { label:'Settings',  crumb:'Settings'  },
@@ -8202,8 +8274,6 @@ function sbNav(page) {
   if (page === 'calculator') setTimeout(() => { try { syncCalcBalance?.(); } catch(e){} }, 40);
 
   /* Show stats arcs only on dashboard */
-  try { _sbUpdateStatsVisibility(page); } catch(e) {}
-
   /* Close mobile sidebar */
   if (window.innerWidth <= 768) sbClose();
   if (window.lucide) lucide.createIcons();
@@ -8283,7 +8353,7 @@ window.addEventListener('popstate', e => {
   if (btn) btn.classList.add('sb-active');
 })();
 
-/* ── Trade Log sub-nav (Table / Calendar) ── */
+/* ── Journal sub-nav (Table / Calendar) ── */
 function switchTlView(view) {
   /* Delegate to switchView() which manages calVisible + renderCalendar */
   if (typeof switchView === 'function') {
@@ -8295,12 +8365,6 @@ function switchTlView(view) {
   if (btnC) btnC.classList.toggle('active', view === 'calendar');
 }
 
-/* ── Show/hide topbar stats — only on dashboard ── */
-function _sbUpdateStatsVisibility(page) {
-  const el = document.getElementById('sbTopbarStats');
-  if (!el) return;
-  el.style.display = (page === 'dashboard') ? '' : 'none';
-}
 
 /* ── Light/dark mode — persisted to localStorage ── */
 function sbToggleMode() {
