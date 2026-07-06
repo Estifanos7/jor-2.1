@@ -1516,83 +1516,164 @@
     }
     .btn-save-trade:hover { background: var(--green); transform: translateY(-1px); }
 
-    /* ════ DASHBOARD NEW LAYOUT ════ */
-    .db-top-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .db-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 20px 16px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-      min-height: 130px;
-    }
-    .db-card-label {
-      font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.8px;
-      color: var(--muted); font-weight: 600; margin-bottom: 8px;
-    }
-    .db-card-val {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.65rem; font-weight: 800;
-      color: var(--heading); line-height: 1; margin-bottom: 4px;
-    }
-    .db-card-val.profit { color: var(--green); }
-    .db-card-val.loss   { color: var(--red); }
-    .db-card-sub { font-size: 0.62rem; color: var(--muted); }
-    .db-card-wr-bar-wrap {
-      position: relative; height: 5px;
-      background: linear-gradient(90deg, var(--red) 0%, #f59e0b 48%, var(--green) 100%);
-      border-radius: 4px; margin: 10px 0 6px;
-    }
-    .db-card-wr-dot {
-      position: absolute; top: 50%; transform: translate(-50%,-50%);
-      width: 13px; height: 13px; border-radius: 50%;
-      background: #fff; border: 2px solid var(--surface);
-      box-shadow: 0 0 0 1px var(--border2);
-      transition: left 0.4s ease; left: 0%;
-    }
-    .db-card-gauge-wrap { position:absolute; bottom:12px; right:14px; width:70px; }
-    .db-gauge-svg { width:100%; height:auto; }
-    .db-gauge-val {
-      position:absolute; bottom:0; left:0; right:0;
-      text-align:center; font-family:'Syne',sans-serif;
-      font-size:0.72rem; font-weight:800; color:var(--accent);
-    }
-    .db-main-row {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 12px; align-items: start;
-    }
-    .db-left-col  { display:flex; flex-direction:column; gap:0; }
-    .db-right-col { display:flex; flex-direction:column; gap:12px; }
-    .db-metrics-bar {
-      display:flex; background:var(--surface);
-      border:1px solid var(--border); border-top:none;
-      border-radius:0 0 12px 12px; overflow:hidden;
-      margin-bottom:14px;
-    }
-    .db-metric { flex:1; padding:9px 10px; border-right:1px solid var(--border); text-align:center; }
-    .db-metric:last-child { border-right:none; }
-    .db-metric-label { font-size:0.55rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); margin-bottom:2px; }
-    .db-metric-val { font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700; color:var(--text); }
-    .db-metric-val.profit { color:var(--green); }
-    .db-metric-val.loss   { color:var(--red); }
-    .db-panel { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
-    .perf-bar-item { margin-bottom:14px; }
-    .perf-bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:0.75rem; font-weight:600; color:var(--text); }
-    .perf-bar-meta { font-size:0.6rem; color:var(--muted); }
-    .perf-bar-track { height:6px; background:var(--surface3); border-radius:4px; overflow:hidden; }
-    .perf-bar-fill { height:100%; border-radius:4px; background:var(--accent); transition:width 0.5s ease; }
-    .perf-bar-fill.neg { background:var(--red); }
-    /* ════ END DASHBOARD LAYOUT ════ */
+    /* ════ DASHBOARD COMPLETE REDESIGN ════ */
+    .db-top-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:12px; }
+    @media(max-width:900px){.db-top-cards{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:520px){.db-top-cards{grid-template-columns:1fr;}}
 
-    /* ─── ANALYTICS ROW ─── */
+    .db-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:18px 18px 14px; position:relative; overflow:hidden; min-height:130px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.18);
+    }
+    .db-card-label { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); font-weight:600; margin-bottom:6px; }
+    .db-card-val { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; color:var(--heading); line-height:1; margin-bottom:2px; }
+    .db-card-val.profit { color:var(--green); }
+    .db-card-val.loss   { color:var(--red);   }
+    .db-card-sub  { font-size:0.6rem; color:var(--muted); margin-top:auto; position:absolute; bottom:14px; left:18px; }
+    .db-card-sub2 { font-size:0.65rem; color:var(--muted); margin:2px 0 4px; }
+    .db-sparkline { position:absolute; bottom:0; left:0; right:0; width:100%; display:block; }
+
+    /* Win rate bar */
+    .db-wr-track {
+      position:relative; height:5px; margin:12px 0 8px;
+      background:linear-gradient(90deg,var(--red) 0%,#f59e0b 48%,var(--green) 100%);
+      border-radius:4px;
+    }
+    .db-wr-dot {
+      position:absolute; top:50%; transform:translate(-50%,-50%);
+      width:13px; height:13px; border-radius:50%; background:#fff;
+      border:2px solid var(--surface); box-shadow:0 0 0 1.5px var(--border2);
+      transition:left 0.4s ease;
+    }
+
+    /* Profit factor gauge */
+    .db-gauge-wrap { position:absolute; bottom:10px; right:14px; width:78px; }
+    .db-gauge-svg  { width:100%; height:auto; }
+    .db-gauge-num  { position:absolute; bottom:2px; left:0; right:0; text-align:center; font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:800; color:var(--accent); }
+
+    /* Panel wrapper */
+    .db-panel { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .db-panel-header {
+      display:flex; align-items:center; gap:10px;
+      padding:14px 16px 10px; border-bottom:1px solid var(--border);
+    }
+    .db-panel-title { font-size:0.72rem; font-weight:700; color:var(--heading); white-space:nowrap; }
+    .db-badge-count { background:var(--surface3); color:var(--muted); font-size:0.6rem; padding:1px 7px; border-radius:10px; font-weight:700; }
+
+    /* Row 2: chart + hold time */
+    .db-row2 {
+      display:grid; grid-template-columns:1fr 300px; grid-template-rows:auto;
+      grid-template-areas:"chart hold"; gap:12px; margin-bottom:0;
+    }
+    @media(max-width:900px){.db-row2{grid-template-columns:1fr;grid-template-areas:"chart""hold";}}
+
+    .db-bar-chart-wrap { padding:14px 14px 10px; }
+
+    /* Hold time cards */
+    .db-hold-cards { display:flex; gap:8px; padding:12px 14px 0; }
+    .db-hold-card {
+      flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:9px;
+      padding:10px 8px; text-align:center;
+    }
+    .db-hold-ico  { font-size:0.7rem; font-weight:800; margin-bottom:4px; }
+    .db-hold-card.win  .db-hold-ico { color:var(--green); }
+    .db-hold-card.be   .db-hold-ico { color:var(--gold);  }
+    .db-hold-card.loss .db-hold-ico { color:var(--red);   }
+    .db-hold-lbl  { font-size:0.55rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+    .db-hold-val  { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--heading); }
+    .db-hold-count{ font-size:0.58rem; color:var(--muted); margin-top:2px; }
+
+    /* Recent trades */
+    .db-recent-list { padding:0 14px 12px; }
+    .db-recent-row {
+      display:flex; align-items:center; gap:10px; padding:9px 0;
+      border-bottom:1px solid var(--border); font-size:0.72rem;
+    }
+    .db-recent-row:last-child { border-bottom:none; }
+    .db-recent-date { color:var(--muted); font-size:0.65rem; flex:1; }
+    .db-recent-side { padding:2px 8px; border-radius:5px; font-size:0.6rem; font-weight:700; text-transform:uppercase; }
+    .db-recent-side.long  { background:rgba(34,197,94,0.15); color:var(--green); }
+    .db-recent-side.short { background:rgba(239,68,68,0.15);  color:var(--red);  }
+    .db-recent-sym  { font-weight:700; color:var(--text); }
+    .db-recent-pnl  { margin-left:auto; font-weight:700; }
+    .db-recent-pnl.p { color:var(--green); }
+    .db-recent-pnl.n { color:var(--red); }
+
+    /* Metrics bar */
+    .db-metrics-bar {
+      display:flex; background:var(--surface); border:1px solid var(--border);
+      border-top:none; border-radius:0 0 12px 12px; margin-bottom:12px;
+      overflow-x:auto; scrollbar-width:none;
+    }
+    .db-metrics-bar::-webkit-scrollbar{display:none}
+    .db-metric { flex:1; min-width:80px; padding:9px 10px; border-right:1px solid var(--border); text-align:center; }
+    .db-metric:last-child{border-right:none}
+    .db-metric-label{font-size:0.52rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:2px;}
+    .db-metric-val{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;color:var(--text);}
+    .db-metric-val.profit{color:var(--green);}
+    .db-metric-val.loss{color:var(--red);}
+
+    /* Row 3 */
+    .db-row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
+    @media(max-width:900px){.db-row3{grid-template-columns:1fr;}}
+
+    /* Average trade */
+    .db-avg-trade { display:flex; align-items:center; padding:18px 16px 10px; gap:0; }
+    .db-avg-win,.db-avg-loss { flex:1; text-align:center; }
+    .db-avg-sep { width:1px; height:40px; background:var(--border); }
+    .db-avg-lbl { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.6px; color:var(--muted); margin-bottom:4px; }
+    .db-avg-val { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
+    .db-avg-val.profit{color:var(--green);}
+    .db-avg-val.loss{color:var(--red);}
+    .db-rr-label { text-align:center; font-size:0.65rem; color:var(--muted); padding:0 16px 12px; }
+
+    /* Streaks */
+    .db-streaks { display:flex; gap:8px; padding:10px 14px 14px; }
+    .db-streak-item { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:9px; padding:10px 8px; text-align:center; }
+    .db-streak-label { font-size:0.55rem; text-transform:uppercase; color:var(--muted); letter-spacing:0.5px; display:block; margin-bottom:4px; }
+    .db-streak-val { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; display:block; }
+    .db-streak-val.win{color:var(--green);}
+    .db-streak-val.loss{color:var(--red);}
+    .db-streak-type { font-size:0.6rem; color:var(--muted); }
+
+    /* Row 4 */
+    .db-row4 {
+      display:grid;
+      grid-template-columns:1fr 220px 220px;
+      grid-template-areas:"cal sym emo";
+      gap:12px; margin-bottom:12px;
+    }
+    @media(max-width:900px){.db-row4{grid-template-columns:1fr;grid-template-areas:"cal""sym""emo";}}
+
+    /* Calendar inside panel */
+    .db-row4 .cal-grid { padding:8px 10px 10px; }
+    .db-row4 .cal-nav-btn { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:1rem; padding:0 6px; }
+    .db-row4 .cal-month-label { font-size:0.72rem; font-weight:700; color:var(--heading); }
+
+    /* Report body (symbol/session perf) */
+    .db-report-body { padding:12px 14px; }
+    .db-perf-item { margin-bottom:14px; }
+    .db-perf-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:0.73rem; font-weight:700; color:var(--text); }
+    .db-perf-meta { font-size:0.6rem; color:var(--muted); }
+    .db-perf-track { height:6px; background:var(--surface3); border-radius:4px; overflow:hidden; }
+    .db-perf-fill { height:100%; border-radius:4px; background:var(--accent); min-width:4px; transition:width 0.5s; }
+    .db-perf-fill.neg { background:var(--red); }
+    .db-empty-msg { font-size:0.78rem; font-weight:700; color:var(--text); text-align:center; margin-top:28px; }
+    .db-empty-sub  { font-size:0.65rem; color:var(--muted); text-align:center; margin-top:6px; padding:0 16px; }
+
+    /* Row 5 */
+    .db-row5 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
+    @media(max-width:900px){.db-row5{grid-template-columns:1fr;}}
+
+    /* Drawdown */
+    .db-drawdown { padding:28px 16px 24px; text-align:center; }
+
+    /* equity section still used */
+    .equity-section { background:var(--surface); border:1px solid var(--border); border-radius:12px 12px 0 0; margin-bottom:0; }
+
+    /* ════ END DASHBOARD CSS ════ */
+    /* ─── ANALYTICS ROW (legacy, still used by other parts) ─── */
     .analytics-row {
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -5255,25 +5336,15 @@
   <!-- ─── DASHBOARD SECTION ─── -->
   <div class="page-section active" id="sectionDashboard">
 
-  <!-- ══ TOP STAT CARDS ══ -->
+  <!-- ══ ROW 1: 4 STAT CARDS ══ -->
   <div class="db-top-cards">
-
-    <div class="db-card db-card-pnl">
+    <div class="db-card">
       <div class="db-card-label">Total P&amp;L</div>
       <div class="db-card-val" id="dbCardPnl">$0.00</div>
+      <div class="db-card-sub2" id="dbCardPnlAvg"></div>
       <div class="db-card-sub" id="dbCardPnlSub">0 closed positions</div>
-      <div class="db-card-chart-area" id="dbCardSparkline"></div>
-    </div>
-
-    <div class="db-card">
-      <div class="db-card-label">Win Rate</div>
-      <div class="db-card-val" id="dbCardWR">0%</div>
-      <div class="db-card-wr-bar-wrap">
-        <div class="db-card-wr-bar" id="dbCardWRBar"></div>
-        <div class="db-card-wr-dot" id="dbCardWRDot"></div>
-      </div>
-      <div class="db-card-sub" id="dbCardWRSub">L: 0 &nbsp; BE: 0 &nbsp; W: 0</div>
-      <div class="wr-popup" id="wrPopup" style="display:none;">
+      <canvas class="db-sparkline" id="dbSparkline" height="52"></canvas>
+      <div class="wr-popup" id="wrPopup" style="display:none">
         <div class="wr-popup-title">Trade Breakdown</div>
         <div class="wr-popup-grid">
           <div class="wr-popup-stat"><div class="wr-popup-stat-label">Wins</div><div class="wr-popup-stat-val" id="wrPopupWins" style="color:var(--green)">0</div></div>
@@ -5281,95 +5352,157 @@
           <div class="wr-popup-stat"><div class="wr-popup-stat-label">Total</div><div class="wr-popup-stat-val" id="wrPopupTotal">0</div></div>
         </div>
       </div>
+      <svg style="display:none"><circle id="wrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/><text id="wrRingLabel">0%</text></svg>
     </div>
-
     <div class="db-card">
-      <div class="db-card-label">Avg R:R</div>
-      <div class="db-card-val" id="dbCardRR">—</div>
-      <div class="db-card-sub">reward : risk ratio</div>
-      <div class="db-card-gauge-wrap" id="rrGaugeWrap">
-        <svg class="db-gauge-svg" viewBox="0 0 80 46">
-          <path d="M8,44 A32,32 0 0,1 72,44" fill="none" stroke="var(--border2)" stroke-width="6" stroke-linecap="round"/>
-          <path id="rrGaugePath" d="M8,44 A32,32 0 0,1 72,44" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="100.5"/>
-        </svg>
-        <div class="db-gauge-val" id="rrRingLabel">—</div>
-      </div>
-      <!-- keep hidden SVG refs for JS compatibility -->
-      <svg style="display:none">
-        <circle id="rrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/>
-        <circle id="wrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/>
-        <text id="wrRingLabel">0%</text>
-      </svg>
+      <div class="db-card-label">Win Rate</div>
+      <div class="db-card-val" id="dbCardWR">0%</div>
+      <div class="db-wr-track"><div class="db-wr-dot" id="dbCardWRDot" style="left:0%"></div></div>
+      <div class="db-card-sub" id="dbCardWRSub">L: 0 &nbsp;·&nbsp; BE: 0 &nbsp;·&nbsp; W: 0</div>
     </div>
-
+    <div class="db-card">
+      <div class="db-card-label">Profit Factor</div>
+      <div class="db-card-val" id="dbCardPF">—</div>
+      <div class="db-card-sub">Gross profit / gross loss ratio</div>
+      <div class="db-gauge-wrap" id="rrGaugeWrap">
+        <svg viewBox="0 0 100 58" class="db-gauge-svg">
+          <path d="M10,54 A40,40 0 0,1 90,54" fill="none" stroke="var(--border2)" stroke-width="7" stroke-linecap="round"/>
+          <path id="rrGaugePath" d="M10,54 A40,40 0 0,1 90,54" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="125.7" stroke-dashoffset="125.7"/>
+        </svg>
+        <div class="db-gauge-num" id="rrRingLabel">—</div>
+      </div>
+      <svg style="display:none"><circle id="rrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/></svg>
+    </div>
     <div class="db-card" id="balanceArcsContainer">
       <div class="balance-arcs-empty">No accounts yet</div>
     </div>
+  </div>
 
-  </div><!-- end .db-top-cards -->
-
-  <!-- ══ EQUITY + ANALYTICS ══ -->
-  <div class="db-main-row">
-
-    <!-- LEFT: equity curve + metrics bar -->
-    <div class="db-left-col">
-
-      <div class="equity-section">
-        <div class="equity-header">
-          <div class="equity-header-left">
-            <span style="font-size:0.9rem"><i data-lucide="trending-up"></i></span>
-            <span class="equity-title">Net P&amp;L Chart</span>
-            <span class="equity-pnl-badge flat" id="equityBadge">$0.00</span>
-          </div>
-          <button class="fp-trigger-btn" id="eqFilterBtn" aria-expanded="false" aria-controls="eqFilterPopup" onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
-            <span class="fp-dot" id="eqFilterDot"></span>
-          </button>
+  <!-- ══ ROW 2: NET P&L CHART + HOLD TIME + RECENT TRADES ══ -->
+  <div class="db-row2">
+    <div class="db-panel" style="grid-area:chart">
+      <div class="db-panel-header">
+        <span class="db-panel-title">Net P&amp;L Chart</span>
+        <span class="equity-pnl-badge flat" id="equityBadge">$0.00</span>
+        <button class="fp-trigger-btn" id="eqFilterBtn" aria-expanded="false" aria-controls="eqFilterPopup" onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter" style="margin-left:auto">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span class="fp-dot" id="eqFilterDot"></span>
+        </button>
+      </div>
+      <div class="equity-body">
+        <div class="equity-canvas-wrap"><canvas id="equityCanvas"></canvas><div class="equity-tooltip" id="equityTooltip"></div></div>
+      </div>
+    </div>
+    <div class="db-panel" style="grid-area:hold">
+      <div class="db-panel-header"><span class="db-panel-title">Average Hold Time</span></div>
+      <div class="db-hold-cards">
+        <div class="db-hold-card win">
+          <div class="db-hold-ico">✓</div>
+          <div class="db-hold-lbl">Winning trades</div>
+          <div class="db-hold-val" id="dbHoldWin">—</div>
+          <div class="db-hold-count" id="dbHoldWinC">0 trades</div>
         </div>
-        <div class="equity-body">
-          <div class="equity-canvas-wrap">
-            <canvas id="equityCanvas"></canvas>
-            <div class="equity-tooltip" id="equityTooltip"></div>
-          </div>
+        <div class="db-hold-card be">
+          <div class="db-hold-ico">—</div>
+          <div class="db-hold-lbl">Break even</div>
+          <div class="db-hold-val" id="dbHoldBe">—</div>
+          <div class="db-hold-count" id="dbHoldBeC">0 trades</div>
+        </div>
+        <div class="db-hold-card loss">
+          <div class="db-hold-ico">✕</div>
+          <div class="db-hold-lbl">Losing trades</div>
+          <div class="db-hold-val" id="dbHoldLoss">—</div>
+          <div class="db-hold-count" id="dbHoldLossC">0 trades</div>
         </div>
       </div>
+      <div class="db-panel-header" style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px"><span class="db-panel-title">Recent Trades</span><span class="db-badge-count" id="dbRecentCount">0</span></div>
+      <div class="db-recent-list" id="dbRecentList"><div class="db-empty-msg">No trades yet</div></div>
+    </div>
+  </div>
 
-      <div class="db-metrics-bar">
-        <div class="db-metric"><div class="db-metric-label">Max DD</div><div class="db-metric-val loss" id="eqMaxDD">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Best Trade</div><div class="db-metric-val profit" id="eqBest">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Worst Trade</div><div class="db-metric-val loss" id="eqWorst">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Win Streak</div><div class="db-metric-val" id="eqWinStreak">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Loss Streak</div><div class="db-metric-val" id="eqLossStreak">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Avg Win</div><div class="db-metric-val profit" id="eqAvgWin">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Avg Loss</div><div class="db-metric-val loss" id="eqAvgLoss">—</div></div>
-        <div class="db-metric"><div class="db-metric-label">Prof. Factor</div><div class="db-metric-val" id="eqProfitFactor">—</div></div>
+  <!-- ══ METRICS BAR (below chart) ══ -->
+  <div class="db-metrics-bar">
+    <div class="db-metric"><div class="db-metric-label">Max DD</div><div class="db-metric-val loss" id="eqMaxDD">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Best Trade</div><div class="db-metric-val profit" id="eqBest">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Worst Trade</div><div class="db-metric-val loss" id="eqWorst">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Win Streak</div><div class="db-metric-val" id="eqWinStreak">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Loss Streak</div><div class="db-metric-val" id="eqLossStreak">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Avg Win</div><div class="db-metric-val profit" id="eqAvgWin">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Avg Loss</div><div class="db-metric-val loss" id="eqAvgLoss">—</div></div>
+    <div class="db-metric"><div class="db-metric-label">Prof. Factor</div><div class="db-metric-val" id="eqProfitFactor">—</div></div>
+  </div>
+
+  <!-- ══ ROW 3: PERF BY DAY + TRADE TIME + AVG TRADE + STREAKS ══ -->
+  <div class="db-row3">
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Performance by Day</span></div>
+      <div class="db-bar-chart-wrap"><canvas id="dbDayChart" height="130"></canvas></div>
+    </div>
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Trade Time Performance</span></div>
+      <div class="db-bar-chart-wrap"><canvas id="dbTimeChart" height="130"></canvas></div>
+    </div>
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Average Trade</span></div>
+      <div class="db-avg-trade">
+        <div class="db-avg-win"><div class="db-avg-lbl">W:</div><div class="db-avg-val profit" id="dbAvgWin">$0.00</div></div>
+        <div class="db-avg-sep"></div>
+        <div class="db-avg-loss"><div class="db-avg-lbl">L:</div><div class="db-avg-val loss" id="dbAvgLoss">$0.00</div></div>
       </div>
-
-    </div><!-- end .db-left-col -->
-
-    <!-- RIGHT: analytics panel -->
-    <div class="db-right-col">
-
-      <div class="db-panel">
-        <div class="report-header">
-          <div class="report-tabs">
-            <button class="report-tab active" onclick="switchReportTab('pairs',this)">⬡ Pairs</button>
-            <button class="report-tab" onclick="switchReportTab('session',this)"><i data-lucide="clock"></i> Session</button>
-            <button class="report-tab" onclick="switchReportTab('setup',this)"><i data-lucide="zap"></i> Setup</button>
-          </div>
-        </div>
-        <div class="report-body">
-          <div class="report-view active" id="reportPairs"></div>
-          <div class="report-view" id="reportSession"></div>
-          <div class="report-view" id="reportSetup"></div>
-        </div>
+      <div class="db-rr-label" id="dbRRLabel">— Risk-Reward Ratio</div>
+      <div class="db-panel-header" style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px"><span class="db-panel-title">Trading Streaks</span></div>
+      <div class="db-streaks">
+        <div class="db-streak-item"><span class="db-streak-label">Current</span><span class="db-streak-val win" id="dbStreakCur">0</span><span class="db-streak-type" id="dbStreakCurType">Wins</span></div>
+        <div class="db-streak-item"><span class="db-streak-label">Longest Win</span><span class="db-streak-val win" id="dbStreakWin">0</span><span class="db-streak-type">Streak</span></div>
+        <div class="db-streak-item"><span class="db-streak-label">Longest Loss</span><span class="db-streak-val loss" id="dbStreakLoss">0</span><span class="db-streak-type">Streak</span></div>
       </div>
+    </div>
+  </div>
 
-    </div><!-- end .db-right-col -->
+  <!-- ══ ROW 4: CALENDAR + SYMBOL PERF + EMOTIONS ══ -->
+  <div class="db-row4">
+    <div class="db-panel" style="grid-area:cal">
+      <div class="db-panel-header">
+        <span class="db-panel-title">P&amp;L Calendar</span>
+        <button class="cal-nav-btn" onclick="calPrev()">‹</button>
+        <span class="cal-month-label" id="calMonthLabel">—</span>
+        <button class="cal-nav-btn" onclick="calNext()">›</button>
+      </div>
+      <div class="cal-grid" id="dbCalGrid"></div>
+    </div>
+    <div class="db-panel" style="grid-area:sym">
+      <div class="db-panel-header"><span class="db-panel-title">Performance by Symbol</span></div>
+      <div class="db-report-body" id="reportPairs"></div>
+    </div>
+    <div class="db-panel" style="grid-area:emo">
+      <div class="db-panel-header"><span class="db-panel-title">Performance by Session</span></div>
+      <div class="db-report-body" id="reportSession"></div>
+      <div class="db-panel-header" style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px"><span class="db-panel-title">Performance by Setup</span></div>
+      <div class="db-report-body" id="reportSetup"></div>
+    </div>
+  </div>
 
-  </div><!-- end .db-main-row -->
+  <!-- ══ ROW 5: HOUR PERF + HOLD DURATION ══ -->
+  <div class="db-row5">
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Performance by Hour</span></div>
+      <div class="db-bar-chart-wrap"><canvas id="dbHourChart" height="140"></canvas></div>
+    </div>
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Performance by Hold Duration</span></div>
+      <div class="db-bar-chart-wrap"><canvas id="dbDurationChart" height="140"></canvas></div>
+    </div>
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Max Drawdown</span></div>
+      <div class="db-drawdown" id="dbDrawdown">
+        <div class="db-empty-msg">No drawdown yet</div>
+        <div class="db-empty-sub">Your account hasn't been below its peak — keep it that way</div>
+      </div>
+    </div>
+  </div>
 
   </div><!-- end #sectionDashboard -->
+
 
 
   <!-- ─── TRADE LOG SECTION ─── -->
@@ -6552,7 +6685,281 @@ function fmtWR(w,t){return t?Math.round(w/t*100)+'%':'—';}
 
 const PAIR_COLORS = ['#00c8ff','#26d96a','#a855f7','#ffc107','#ff6b6b','#4ecdc4','#f7b731','#5f27cd','#ff9f43','#10ac84','#ee5a24','#0abde3','#c8d6e5','#8395a7','#48dbfb','#ff9ff3'];
 
-function renderReports() { renderPairsReport(); renderSessionReport(); renderSetupReport(); }
+function renderReports() {
+  renderPairsReport();
+  renderSessionReport();
+  renderSetupReport();
+  renderDashboardWidgets();
+}
+
+/* ════ DASHBOARD WIDGETS ════ */
+function renderDashboardWidgets() {
+  const filtered = getFilteredTrades ? getFilteredTrades() : trades;
+  if (!filtered) return;
+
+  const fmt = n => (n >= 0 ? '+$' : '-$') + Math.abs(n).toFixed(2);
+  const fmtD = n => (n >= 0 ? '$' : '-$') + Math.abs(n).toFixed(2);
+
+  /* ── computed values ── */
+  const wins   = filtered.filter(t => parseFloat(t.pnl||0) > 0);
+  const losses = filtered.filter(t => parseFloat(t.pnl||0) < 0);
+  const bes    = filtered.filter(t => parseFloat(t.pnl||0) === 0);
+  const total  = filtered.length;
+  const totalPnl = filtered.reduce((s,t)=>s+parseFloat(t.pnl||0),0);
+  const winRate  = total ? Math.round(wins.length/total*100) : 0;
+  const avgWin   = wins.length ? wins.reduce((s,t)=>s+parseFloat(t.pnl||0),0)/wins.length : 0;
+  const avgLoss  = losses.length ? losses.reduce((s,t)=>s+parseFloat(t.pnl||0),0)/losses.length : 0;
+  const grossW   = wins.reduce((s,t)=>s+parseFloat(t.pnl||0),0);
+  const grossL   = Math.abs(losses.reduce((s,t)=>s+parseFloat(t.pnl||0),0));
+  const pf       = grossL > 0 ? (grossW/grossL).toFixed(2) : grossW > 0 ? '∞' : '—';
+  const allPnlArr= filtered.map(t=>parseFloat(t.pnl||0));
+  const best     = allPnlArr.length ? Math.max(...allPnlArr) : 0;
+  const worst    = allPnlArr.length ? Math.min(...allPnlArr) : 0;
+  const avgRR    = filtered.filter(t=>t.rr).length ? (filtered.filter(t=>t.rr).reduce((s,t)=>s+parseFloat(t.rr||0),0)/filtered.filter(t=>t.rr).length).toFixed(2) : null;
+
+  /* streaks */
+  let curStreak=0, longestWin=0, longestLoss=0, curW=0, curL=0;
+  filtered.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach(t=>{
+    const p=parseFloat(t.pnl||0);
+    if(p>0){curW++;curL=0;longestWin=Math.max(longestWin,curW);curStreak=curW;}
+    else if(p<0){curL++;curW=0;longestLoss=Math.max(longestLoss,curL);curStreak=-curL;}
+    else{curW=0;curL=0;}
+  });
+
+  /* max drawdown */
+  let peak=0,dd=0;
+  filtered.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).reduce((cum,t)=>{
+    const v=cum+parseFloat(t.pnl||0);
+    peak=Math.max(peak,v);
+    dd=Math.min(dd,v-peak);
+    return v;
+  },0);
+
+  /* hold time helper */
+  const holdMs = t => {
+    if(!t.entryTime||!t.exitTime) return null;
+    const d=t.date||'2000-01-01';
+    return new Date(d+'T'+t.exitTime)-new Date(d+'T'+t.entryTime);
+  };
+  const fmtMs = ms => {
+    if(ms===null||ms===undefined||isNaN(ms)) return '—';
+    const s=Math.round(Math.abs(ms)/1000);
+    if(s<60) return s+'s';
+    const m=Math.floor(s/60); const rs=s%60;
+    return m+'m '+(rs>0?rs+'s':'');
+  };
+  const holdTimes = t => holdMs(t);
+  const wHold  = wins.map(holdTimes).filter(x=>x!==null);
+  const lHold  = losses.map(holdTimes).filter(x=>x!==null);
+  const beHold = bes.map(holdTimes).filter(x=>x!==null);
+  const avg    = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+
+  /* ── update stat cards ── */
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  const setC = (id,v,cls) => { const e=document.getElementById(id); if(e){e.textContent=v;e.className='db-card-val '+cls;} };
+
+  setC('dbCardPnl', fmtD(totalPnl), totalPnl>=0?'profit':'loss');
+  set('dbCardPnlAvg', total ? 'Avg: '+fmtD(totalPnl/total) : '');
+  set('dbCardPnlSub', total+' closed position'+(total!==1?'s':''));
+  set('dbCardWR', winRate+'%');
+  set('dbCardWRSub', 'L: '+losses.length+' · BE: '+bes.length+' · W: '+wins.length);
+  const dot=document.getElementById('dbCardWRDot'); if(dot) dot.style.left=winRate+'%';
+  set('dbCardPF', pf);
+  const gp=document.getElementById('rrGaugePath');
+  if(gp && pf!=='—'&&pf!=='∞'){const pct=Math.min(parseFloat(pf)/5,1); gp.style.strokeDashoffset=125.7*(1-pct);}
+  set('rrRingLabel', avgRR ? avgRR+'R' : '—');
+
+  /* ── hold time ── */
+  set('dbHoldWin', fmtMs(avg(wHold)));
+  set('dbHoldLoss', fmtMs(avg(lHold)));
+  set('dbHoldBe', fmtMs(avg(beHold)));
+  set('dbHoldWinC', wins.length+' trade'+(wins.length!==1?'s':''));
+  set('dbHoldLossC', losses.length+' trade'+(losses.length!==1?'s':''));
+  set('dbHoldBeC', bes.length+' trade'+(bes.length!==1?'s':''));
+
+  /* ── recent trades ── */
+  const recentEl=document.getElementById('dbRecentList');
+  set('dbRecentCount', total);
+  if(recentEl){
+    const recent=[...filtered].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+    if(!recent.length){recentEl.innerHTML='<div class="db-empty-msg" style="margin:14px 0 6px;font-size:0.72rem">No trades yet</div>';
+    }else{
+      recentEl.innerHTML=recent.map(t=>{
+        const p=parseFloat(t.pnl||0);
+        const side=(t.type||'').toLowerCase();
+        return `<div class="db-recent-row">
+          <span class="db-recent-date">${t.date||''} · ${t.entryTime||''}</span>
+          <span class="db-recent-side ${side}">${t.type||'—'}</span>
+          <span class="db-recent-sym">${t.pair||t.symbol||'—'}</span>
+          <span class="db-recent-pnl ${p>=0?'p':'n'}">${fmt(p)}</span>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  /* ── metrics bar ── */
+  set('eqMaxDD', dd<0?'-$'+Math.abs(dd).toFixed(2):'—');
+  set('eqBest', best>0?'+$'+best.toFixed(2):'—');
+  set('eqWorst', worst<0?'-$'+Math.abs(worst).toFixed(2):'—');
+  set('eqWinStreak', longestWin||'—');
+  set('eqLossStreak', longestLoss||'—');
+  set('eqAvgWin', avgWin?'+$'+avgWin.toFixed(2):'—');
+  set('eqAvgLoss', avgLoss?'-$'+Math.abs(avgLoss).toFixed(2):'—');
+  set('eqProfitFactor', pf);
+
+  /* ── avg trade card ── */
+  set('dbAvgWin', avgWin?'+$'+avgWin.toFixed(2):'$0.00');
+  set('dbAvgLoss', avgLoss?'-$'+Math.abs(avgLoss).toFixed(2):'$0.00');
+  set('dbRRLabel', avgRR ? avgRR+'x Risk-Reward Ratio' : '— Risk-Reward Ratio');
+  set('dbStreakCur', Math.abs(curStreak)||'0');
+  const ct=document.getElementById('dbStreakCurType'); if(ct) ct.textContent=curStreak>=0?'Wins':'Losses';
+  const cv=document.getElementById('dbStreakCur'); if(cv) cv.className='db-streak-val '+(curStreak>=0?'win':'loss');
+  set('dbStreakWin', longestWin);
+  set('dbStreakLoss', longestLoss);
+
+  /* ── drawdown card ── */
+  const ddEl=document.getElementById('dbDrawdown');
+  if(ddEl){
+    ddEl.innerHTML = dd<0
+      ? `<div class="db-metric-val loss" style="font-size:1.4rem;text-align:center;margin:20px 0 4px">-$${Math.abs(dd).toFixed(2)}</div><div class="db-empty-sub">Max drawdown from peak equity</div>`
+      : `<div class="db-empty-msg">No drawdown yet</div><div class="db-empty-sub">Your account hasn't been below its peak — keep it that way</div>`;
+  }
+
+  /* ── sparkline on P&L card ── */
+  _drawSparkline();
+
+  /* ── bar charts ── */
+  _drawDayChart(filtered);
+  _drawHourChart(filtered);
+  _drawDurationChart(filtered);
+
+  /* ── symbol/session/setup perf bars ── */
+  _renderPerfBars('reportPairs', filtered, t=>t.pair||t.symbol||'Other');
+  _renderPerfBars('reportSession', filtered, t=>{
+    const h=parseInt((t.entryTime||'00:00').split(':')[0]);
+    if(h>=2&&h<5)  return 'Sydney';
+    if(h>=3&&h<12) return 'Tokyo';
+    if(h>=8&&h<17) return 'London';
+    if(h>=13&&h<22)return 'New York';
+    return 'Other';
+  });
+  _renderPerfBars('reportSetup', filtered, t=>t.setup||t.strategy||'No Setup');
+}
+
+function _renderPerfBars(elId, trades, keyFn) {
+  const el=document.getElementById(elId); if(!el) return;
+  const map={};
+  trades.forEach(t=>{
+    const k=keyFn(t); const p=parseFloat(t.pnl||0);
+    if(!map[k]) map[k]={pnl:0,count:0};
+    map[k].pnl+=p; map[k].count++;
+  });
+  const sorted=Object.entries(map).sort((a,b)=>b[1].pnl-a[1].pnl);
+  if(!sorted.length){ el.innerHTML='<div class="db-empty-msg" style="padding:20px 0">No data yet</div>'; return; }
+  const maxAbs=Math.max(...sorted.map(([,v])=>Math.abs(v.pnl)))||1;
+  el.innerHTML=sorted.map(([k,v])=>`
+    <div class="db-perf-item">
+      <div class="db-perf-head">
+        <span>${k}</span>
+        <span class="${v.pnl>=0?'profit':'loss'}" style="color:${v.pnl>=0?'var(--green)':'var(--red)'};font-weight:700">
+          ${v.pnl>=0?'+':''}\$${Math.abs(v.pnl).toFixed(2)} <span class="db-perf-meta">· ${v.count} trade${v.count!==1?'s':''}</span>
+        </span>
+      </div>
+      <div class="db-perf-track">
+        <div class="db-perf-fill${v.pnl<0?' neg':''}" style="width:${Math.round(Math.abs(v.pnl)/maxAbs*100)}%"></div>
+      </div>
+    </div>`).join('');
+}
+
+function _drawSparkline() {
+  const canvas=document.getElementById('dbSparkline'); if(!canvas) return;
+  const sorted=[...trades].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  if(!sorted.length){canvas.style.display='none';return;}
+  canvas.style.display='block';
+  const dpr=window.devicePixelRatio||1;
+  const w=canvas.parentElement.offsetWidth; const h=52;
+  canvas.width=w*dpr; canvas.height=h*dpr;
+  canvas.style.width=w+'px'; canvas.style.height=h+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  let cum=0; const pts=sorted.map(t=>{cum+=parseFloat(t.pnl||0);return cum;});
+  const mn=Math.min(0,...pts); const mx=Math.max(0,...pts); const range=mx-mn||1;
+  const xs=pts.map((_,i)=>i/(pts.length-1||1)*w);
+  const ys=pts.map(v=>h-(v-mn)/range*(h-8)-4);
+  const isPos=pts[pts.length-1]>=0;
+  const col=isPos?'#22c55e':'#ef4444';
+  const grad=ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,isPos?'rgba(34,197,94,0.3)':'rgba(239,68,68,0.3)');
+  grad.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.beginPath(); ctx.moveTo(xs[0],ys[0]);
+  pts.forEach((_,i)=>{if(i>0) ctx.lineTo(xs[i],ys[i]);});
+  ctx.lineTo(xs[xs.length-1],h); ctx.lineTo(0,h); ctx.closePath();
+  ctx.fillStyle=grad; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(xs[0],ys[0]);
+  pts.forEach((_,i)=>{if(i>0) ctx.lineTo(xs[i],ys[i]);});
+  ctx.strokeStyle=col; ctx.lineWidth=2; ctx.stroke();
+}
+
+function _drawBarChart(canvasId, labels, values) {
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.parentElement.offsetWidth-28; const H=130;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const mx=Math.max(0,...values.map(Math.abs))||1;
+  const bw=Math.max(6,Math.floor(W/labels.length*0.55));
+  const gap=(W-bw*labels.length)/(labels.length+1);
+  const baseline=H-22;
+  const scaleH=baseline-10;
+  labels.forEach((lbl,i)=>{
+    const v=values[i]||0;
+    const barH=Math.abs(v)/mx*scaleH;
+    const x=gap+(bw+gap)*i;
+    const col=v>=0?'#22c55e':'#ef4444';
+    const alpha=v===0?0.2:1;
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle=col;
+    ctx.beginPath();
+    const r=Math.min(4,bw/2);
+    const y=baseline-barH;
+    ctx.roundRect?ctx.roundRect(x,y,bw,barH,r):ctx.rect(x,y,bw,barH);
+    ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.fillStyle='rgba(100,116,139,0.8)';
+    ctx.font='9px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lbl, x+bw/2, H-6);
+  });
+}
+
+function _drawDayChart(trades) {
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const vals=days.map((_,i)=>trades.filter(t=>{const d=new Date(t.date||0); return d.getDay()===(i+1)%7;}).reduce((s,t)=>s+parseFloat(t.pnl||0),0));
+  _drawBarChart('dbDayChart', days, vals);
+}
+
+function _drawHourChart(trades) {
+  const hours=Array.from({length:9},(_,i)=>['12a','3a','6a','9a','12p','3p','6p','9p','11p'][i]);
+  const buckets=[0,3,6,9,12,15,18,21,23];
+  const vals=buckets.map((h,i)=>trades.filter(t=>{
+    const hr=parseInt((t.entryTime||'00:00').split(':')[0]);
+    return hr>=h&&hr<(buckets[i+1]||24);
+  }).reduce((s,t)=>s+parseFloat(t.pnl||0),0));
+  _drawBarChart('dbHourChart', hours, vals);
+}
+
+function _drawDurationChart(trades) {
+  const labels=['<1m','1-5m','5-15m','15-30m','30-60m','>1h'];
+  const vals=labels.map((_,i)=>trades.filter(t=>{
+    const ms=(()=>{if(!t.entryTime||!t.exitTime)return null;const d=t.date||'2000-01-01';return new Date(d+'T'+t.exitTime)-new Date(d+'T'+t.entryTime);})();
+    if(ms===null)return false;
+    const m=ms/60000;
+    if(i===0)return m<1;if(i===1)return m>=1&&m<5;if(i===2)return m>=5&&m<15;
+    if(i===3)return m>=15&&m<30;if(i===4)return m>=30&&m<60;return m>=60;
+  }).reduce((s,t)=>s+parseFloat(t.pnl||0),0));
+  _drawBarChart('dbDurationChart', labels, vals);
+}
+
 
 /* ── PAIRS: donut + click popup ── */
 function renderPairsReport() {
@@ -6833,6 +7240,8 @@ function renderCalendar() {
   mpEl.className = 'cal-month-pnl '+(monthPnl>0?'profit':monthPnl<0?'loss':'');
 
   const grid = document.getElementById('calGrid');
+  const dbGrid = document.getElementById('dbCalGrid');
+  // render into tradelog calGrid and mirror to dashboard dbCalGrid
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
   const today = new Date();
@@ -6865,6 +7274,7 @@ function renderCalendar() {
     </div>`;
   }
   grid.innerHTML = html;
+  if (dbGrid) dbGrid.innerHTML = html;
 }
 
 function openCalDetail(dateStr) {
