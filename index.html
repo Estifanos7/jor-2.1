@@ -1518,159 +1518,118 @@
 
     /* ════ DASHBOARD COMPLETE REDESIGN ════ */
     .db-top-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:12px; }
-    @media(max-width:900px){.db-top-cards{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:520px){.db-top-cards{grid-template-columns:1fr;}}
+    @media(max-width:1100px){.db-top-cards{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:520px) {.db-top-cards{grid-template-columns:1fr;}}
 
-    .db-card {
-      background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:18px 18px 14px; position:relative; overflow:hidden; min-height:130px;
-      box-shadow:0 1px 3px rgba(0,0,0,0.18);
-    }
-    .db-card-label { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); font-weight:600; margin-bottom:6px; }
-    .db-card-val { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; color:var(--heading); line-height:1; margin-bottom:2px; }
+    .db-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 18px 38px; position:relative; overflow:hidden; min-height:132px; box-shadow:0 1px 4px rgba(0,0,0,0.18); transition:border-color 0.15s; }
+    .db-card:hover { border-color:var(--border2); }
+    .db-card-label { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); font-weight:600; margin-bottom:8px; }
+    .db-card-val { font-family:'Syne',sans-serif; font-size:1.65rem; font-weight:800; color:var(--heading); line-height:1; margin-bottom:2px; }
     .db-card-val.profit { color:var(--green); }
     .db-card-val.loss   { color:var(--red);   }
-    .db-card-sub  { font-size:0.6rem; color:var(--muted); margin-top:auto; position:absolute; bottom:14px; left:18px; }
-    .db-card-sub2 { font-size:0.65rem; color:var(--muted); margin:2px 0 4px; }
-    .db-sparkline { position:absolute; bottom:0; left:0; right:0; width:100%; display:block; }
+    .db-card-sub  { font-size:0.6rem; color:var(--muted); position:absolute; bottom:12px; left:18px; right:90px; }
+    .db-card-sub2 { font-size:0.65rem; color:var(--muted); margin:2px 0 6px; }
+    .db-sparkline { position:absolute; bottom:0; left:0; right:0; width:100%; height:52px; display:block; pointer-events:none; }
 
-    /* Win rate bar */
-    .db-wr-track {
-      position:relative; height:5px; margin:12px 0 8px;
-      background:linear-gradient(90deg,var(--red) 0%,#f59e0b 48%,var(--green) 100%);
-      border-radius:4px;
-    }
-    .db-wr-dot {
-      position:absolute; top:50%; transform:translate(-50%,-50%);
-      width:13px; height:13px; border-radius:50%; background:#fff;
-      border:2px solid var(--surface); box-shadow:0 0 0 1.5px var(--border2);
-      transition:left 0.4s ease;
-    }
+    .db-wr-track { position:relative; height:5px; margin:12px 0 8px; background:linear-gradient(90deg,var(--red) 0%,#f59e0b 48%,var(--green) 100%); border-radius:4px; }
+    .db-wr-dot   { position:absolute; top:50%; transform:translate(-50%,-50%); width:13px; height:13px; border-radius:50%; background:#fff; border:2px solid var(--surface); box-shadow:0 0 0 1.5px var(--border2); transition:left 0.4s ease; }
 
-    /* Profit factor gauge */
-    .db-gauge-wrap { position:absolute; bottom:10px; right:14px; width:78px; }
+    .db-gauge-wrap { position:absolute; bottom:8px; right:12px; width:80px; }
     .db-gauge-svg  { width:100%; height:auto; }
-    .db-gauge-num  { position:absolute; bottom:2px; left:0; right:0; text-align:center; font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:800; color:var(--accent); }
+    .db-gauge-num  { position:absolute; bottom:4px; left:0; right:0; text-align:center; font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:800; color:var(--accent); }
 
-    /* Panel wrapper */
     .db-panel { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
-    .db-panel-header {
-      display:flex; align-items:center; gap:10px;
-      padding:14px 16px 10px; border-bottom:1px solid var(--border);
-    }
-    .db-panel-title { font-size:0.72rem; font-weight:700; color:var(--heading); white-space:nowrap; }
-    .db-badge-count { background:var(--surface3); color:var(--muted); font-size:0.6rem; padding:1px 7px; border-radius:10px; font-weight:700; }
+    .db-panel-header { display:flex; align-items:center; gap:8px; padding:13px 16px 11px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+    .db-panel-title  { font-size:0.72rem; font-weight:700; color:var(--heading); white-space:nowrap; }
+    .db-badge-count  { background:var(--surface3); color:var(--muted); font-size:0.58rem; padding:1px 7px; border-radius:10px; font-weight:700; }
+    .db-cal-nav      { background:transparent; border:1px solid var(--border); border-radius:6px; color:var(--muted); cursor:pointer; padding:2px 8px; font-size:0.9rem; transition:all .15s; }
+    .db-cal-nav:hover{ border-color:var(--accent); color:var(--accent); }
 
-    /* Row 2: chart + hold time */
-    .db-row2 {
-      display:grid; grid-template-columns:1fr 300px; grid-template-rows:auto;
-      grid-template-areas:"chart hold"; gap:12px; margin-bottom:0;
-    }
+    .db-row2 { display:grid; grid-template-columns:1fr 290px; grid-template-areas:"chart hold"; gap:12px; margin-bottom:0; }
     @media(max-width:900px){.db-row2{grid-template-columns:1fr;grid-template-areas:"chart""hold";}}
+    .db-row2 [style*="grid-area:chart"] { border-radius:12px 12px 0 0; border-bottom:none; }
+    .db-row2 [style*="grid-area:chart"] .equity-body { min-height:220px; }
+    .db-row2 [style*="grid-area:chart"] .equity-canvas-wrap { height:220px; }
 
-    .db-bar-chart-wrap { padding:14px 14px 10px; }
+    .db-bar-chart-wrap { padding:12px 14px 8px; position:relative; }
+    .db-bar-chart-wrap canvas { display:block; width:100% !important; }
 
-    /* Hold time cards */
-    .db-hold-cards { display:flex; gap:8px; padding:12px 14px 0; }
-    .db-hold-card {
-      flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:9px;
-      padding:10px 8px; text-align:center;
-    }
-    .db-hold-ico  { font-size:0.7rem; font-weight:800; margin-bottom:4px; }
+    .db-hold-cards { display:flex; gap:8px; padding:12px 12px 0; }
+    .db-hold-card  { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:9px; padding:10px 7px; text-align:center; }
+    .db-hold-ico   { font-size:0.7rem; font-weight:800; margin-bottom:4px; }
     .db-hold-card.win  .db-hold-ico { color:var(--green); }
     .db-hold-card.be   .db-hold-ico { color:var(--gold);  }
     .db-hold-card.loss .db-hold-ico { color:var(--red);   }
-    .db-hold-lbl  { font-size:0.55rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
-    .db-hold-val  { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--heading); }
-    .db-hold-count{ font-size:0.58rem; color:var(--muted); margin-top:2px; }
+    .db-hold-lbl   { font-size:0.52rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px; }
+    .db-hold-val   { font-family:'Syne',sans-serif; font-size:0.88rem; font-weight:800; color:var(--heading); }
+    .db-hold-count { font-size:0.56rem; color:var(--muted); margin-top:2px; }
 
-    /* Recent trades */
-    .db-recent-list { padding:0 14px 12px; }
-    .db-recent-row {
-      display:flex; align-items:center; gap:10px; padding:9px 0;
-      border-bottom:1px solid var(--border); font-size:0.72rem;
-    }
+    .db-recent-list { padding:4px 12px 12px; max-height:180px; overflow-y:auto; scrollbar-width:none; }
+    .db-recent-list::-webkit-scrollbar { display:none; }
+    .db-recent-row  { display:flex; align-items:center; gap:7px; padding:7px 0; border-bottom:1px solid var(--border); font-size:0.7rem; }
     .db-recent-row:last-child { border-bottom:none; }
-    .db-recent-date { color:var(--muted); font-size:0.65rem; flex:1; }
-    .db-recent-side { padding:2px 8px; border-radius:5px; font-size:0.6rem; font-weight:700; text-transform:uppercase; }
-    .db-recent-side.long  { background:rgba(34,197,94,0.15); color:var(--green); }
-    .db-recent-side.short { background:rgba(239,68,68,0.15);  color:var(--red);  }
-    .db-recent-sym  { font-weight:700; color:var(--text); }
-    .db-recent-pnl  { margin-left:auto; font-weight:700; }
+    .db-recent-date { color:var(--muted); font-size:0.6rem; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .db-recent-side { padding:2px 7px; border-radius:5px; font-size:0.58rem; font-weight:700; text-transform:uppercase; flex-shrink:0; }
+    .db-recent-side.long  { background:rgba(34,197,94,0.15);  color:var(--green); }
+    .db-recent-side.short { background:rgba(239,68,68,0.15);  color:var(--red);   }
+    .db-recent-sym  { font-weight:700; color:var(--text); white-space:nowrap; }
+    .db-recent-pnl  { margin-left:auto; font-weight:700; white-space:nowrap; }
     .db-recent-pnl.p { color:var(--green); }
     .db-recent-pnl.n { color:var(--red); }
 
-    /* Metrics bar */
-    .db-metrics-bar {
-      display:flex; background:var(--surface); border:1px solid var(--border);
-      border-top:none; border-radius:0 0 12px 12px; margin-bottom:12px;
-      overflow-x:auto; scrollbar-width:none;
-    }
-    .db-metrics-bar::-webkit-scrollbar{display:none}
-    .db-metric { flex:1; min-width:80px; padding:9px 10px; border-right:1px solid var(--border); text-align:center; }
-    .db-metric:last-child{border-right:none}
-    .db-metric-label{font-size:0.52rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:2px;}
-    .db-metric-val{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;color:var(--text);}
-    .db-metric-val.profit{color:var(--green);}
-    .db-metric-val.loss{color:var(--red);}
+    .db-metrics-bar { display:flex; background:var(--surface); border:1px solid var(--border); border-top:none; border-radius:0 0 12px 12px; margin-bottom:12px; overflow-x:auto; scrollbar-width:none; }
+    .db-metrics-bar::-webkit-scrollbar { display:none; }
+    .db-metric       { flex:1; min-width:70px; padding:8px 8px; border-right:1px solid var(--border); text-align:center; }
+    .db-metric:last-child { border-right:none; }
+    .db-metric-label { font-size:0.5rem; text-transform:uppercase; letter-spacing:0.4px; color:var(--muted); margin-bottom:2px; }
+    .db-metric-val   { font-family:'Syne',sans-serif; font-size:0.76rem; font-weight:700; color:var(--text); }
+    .db-metric-val.profit { color:var(--green); }
+    .db-metric-val.loss   { color:var(--red); }
 
-    /* Row 3 */
     .db-row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
-    @media(max-width:900px){.db-row3{grid-template-columns:1fr;}}
+    @media(max-width:1100px){.db-row3{grid-template-columns:1fr 1fr;}}
+    @media(max-width:700px) {.db-row3{grid-template-columns:1fr;}}
 
-    /* Average trade */
-    .db-avg-trade { display:flex; align-items:center; padding:18px 16px 10px; gap:0; }
+    .db-avg-trade { display:flex; align-items:center; padding:16px 16px 8px; }
     .db-avg-win,.db-avg-loss { flex:1; text-align:center; }
-    .db-avg-sep { width:1px; height:40px; background:var(--border); }
-    .db-avg-lbl { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.6px; color:var(--muted); margin-bottom:4px; }
-    .db-avg-val { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
-    .db-avg-val.profit{color:var(--green);}
-    .db-avg-val.loss{color:var(--red);}
-    .db-rr-label { text-align:center; font-size:0.65rem; color:var(--muted); padding:0 16px 12px; }
+    .db-avg-sep   { width:1px; height:38px; background:var(--border); }
+    .db-avg-lbl   { font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); margin-bottom:4px; }
+    .db-avg-val   { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; }
+    .db-avg-val.profit { color:var(--green); }
+    .db-avg-val.loss   { color:var(--red); }
+    .db-rr-label  { text-align:center; font-size:0.62rem; color:var(--muted); padding:0 16px 10px; }
 
-    /* Streaks */
-    .db-streaks { display:flex; gap:8px; padding:10px 14px 14px; }
-    .db-streak-item { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:9px; padding:10px 8px; text-align:center; }
-    .db-streak-label { font-size:0.55rem; text-transform:uppercase; color:var(--muted); letter-spacing:0.5px; display:block; margin-bottom:4px; }
-    .db-streak-val { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; display:block; }
-    .db-streak-val.win{color:var(--green);}
-    .db-streak-val.loss{color:var(--red);}
-    .db-streak-type { font-size:0.6rem; color:var(--muted); }
+    .db-streaks      { display:flex; gap:6px; padding:8px 12px 14px; }
+    .db-streak-item  { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:9px; padding:10px 6px; text-align:center; }
+    .db-streak-label { font-size:0.5rem; text-transform:uppercase; color:var(--muted); letter-spacing:0.4px; display:block; margin-bottom:3px; }
+    .db-streak-val   { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; display:block; }
+    .db-streak-val.win  { color:var(--green); }
+    .db-streak-val.loss { color:var(--red); }
+    .db-streak-type  { font-size:0.56rem; color:var(--muted); }
 
-    /* Row 4 */
-    .db-row4 {
-      display:grid;
-      grid-template-columns:1fr 220px 220px;
-      grid-template-areas:"cal sym emo";
-      gap:12px; margin-bottom:12px;
-    }
-    @media(max-width:900px){.db-row4{grid-template-columns:1fr;grid-template-areas:"cal""sym""emo";}}
+    .db-row4 { display:grid; grid-template-columns:1fr 200px 200px; grid-template-areas:"cal sym emo"; gap:12px; margin-bottom:12px; }
+    @media(max-width:1100px){.db-row4{grid-template-columns:1fr 1fr;grid-template-areas:"cal cal""sym emo";}}
+    @media(max-width:700px) {.db-row4{grid-template-columns:1fr;grid-template-areas:"cal""sym""emo";}}
+    .db-row4 .cal-grid { padding:6px 8px 10px; }
 
-    /* Calendar inside panel */
-    .db-row4 .cal-grid { padding:8px 10px 10px; }
-    .db-row4 .cal-nav-btn { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:1rem; padding:0 6px; }
-    .db-row4 .cal-month-label { font-size:0.72rem; font-weight:700; color:var(--heading); }
+    .db-report-body  { padding:12px 14px; max-height:260px; overflow-y:auto; scrollbar-width:none; }
+    .db-report-body::-webkit-scrollbar { display:none; }
+    .db-perf-item    { margin-bottom:12px; }
+    .db-perf-item:last-child { margin-bottom:0; }
+    .db-perf-head    { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px; }
+    .db-perf-name    { font-size:0.73rem; font-weight:700; color:var(--text); }
+    .db-perf-val     { font-size:0.7rem; font-weight:700; }
+    .db-perf-meta    { font-size:0.58rem; color:var(--muted); margin-left:4px; }
+    .db-perf-track   { height:5px; background:var(--surface3); border-radius:4px; overflow:hidden; }
+    .db-perf-fill    { height:100%; border-radius:4px; background:var(--accent); min-width:4px; transition:width 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .db-perf-fill.neg{ background:var(--red); }
+    .db-empty-msg { font-size:0.76rem; font-weight:700; color:var(--text); text-align:center; padding-top:22px; }
+    .db-empty-sub { font-size:0.6rem; color:var(--muted); text-align:center; margin-top:4px; padding:0 14px 22px; }
 
-    /* Report body (symbol/session perf) */
-    .db-report-body { padding:12px 14px; }
-    .db-perf-item { margin-bottom:14px; }
-    .db-perf-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:0.73rem; font-weight:700; color:var(--text); }
-    .db-perf-meta { font-size:0.6rem; color:var(--muted); }
-    .db-perf-track { height:6px; background:var(--surface3); border-radius:4px; overflow:hidden; }
-    .db-perf-fill { height:100%; border-radius:4px; background:var(--accent); min-width:4px; transition:width 0.5s; }
-    .db-perf-fill.neg { background:var(--red); }
-    .db-empty-msg { font-size:0.78rem; font-weight:700; color:var(--text); text-align:center; margin-top:28px; }
-    .db-empty-sub  { font-size:0.65rem; color:var(--muted); text-align:center; margin-top:6px; padding:0 16px; }
-
-    /* Row 5 */
     .db-row5 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
-    @media(max-width:900px){.db-row5{grid-template-columns:1fr;}}
-
-    /* Drawdown */
-    .db-drawdown { padding:28px 16px 24px; text-align:center; }
-
-    /* equity section still used */
-    .equity-section { background:var(--surface); border:1px solid var(--border); border-radius:12px 12px 0 0; margin-bottom:0; }
+    @media(max-width:1100px){.db-row5{grid-template-columns:1fr 1fr;}}
+    @media(max-width:700px) {.db-row5{grid-template-columns:1fr;}}
+    .db-drawdown { padding:26px 16px 22px; text-align:center; }
 
     /* ════ END DASHBOARD CSS ════ */
     /* ─── ANALYTICS ROW (legacy, still used by other parts) ─── */
@@ -5464,9 +5423,10 @@
     <div class="db-panel" style="grid-area:cal">
       <div class="db-panel-header">
         <span class="db-panel-title">P&amp;L Calendar</span>
-        <button class="cal-nav-btn" onclick="calPrev()">‹</button>
-        <span class="cal-month-label" id="calMonthLabel">—</span>
-        <button class="cal-nav-btn" onclick="calNext()">›</button>
+        <button class="cal-nav-btn db-cal-nav" onclick="calPrev()">‹</button>
+        <span class="cal-month-label" id="dbCalMonthLabel">—</span>
+        <span class="cal-month-pnl" id="dbCalMonthPnl"></span>
+        <button class="cal-nav-btn db-cal-nav" onclick="calNext()">›</button>
       </div>
       <div class="cal-grid" id="dbCalGrid"></div>
     </div>
@@ -6316,7 +6276,7 @@ function render() {
   const allAvgRR  = allRRs.length ? (allRRs.reduce((a,b)=>a+b,0)/allRRs.length).toFixed(2) : null;
 
   document.getElementById('statPnl').textContent = (allPnl >= 0 ? '+$' : '-$') + Math.abs(allPnl).toFixed(2);
-  document.getElementById('statPnl').className = 'stat-value ' + (allPnl >= 0 ? 'profit' : 'loss');
+  document.getElementById('statPnl').className = 'stat-val ' + (allPnl >= 0 ? 'profit' : 'loss');
   document.getElementById('statWins').textContent    = allWins;
   document.getElementById('statLosses').textContent  = allLosses;
   document.getElementById('statWinRate').textContent = allRate + '%';
@@ -6363,7 +6323,7 @@ function render() {
   }
   /* Also update the new stat card text values */
   const dscWR = document.getElementById('dbCardWR');
-  const dscRR = document.getElementById('dbCardRR');
+  const dscRR = document.getElementById('dbCardPF');
   const dscWRSub = document.getElementById('dbCardWRSub');
   const wrDot = document.getElementById('dbCardWRDot');
   if (dscWR) dscWR.textContent = allRate + '%';
@@ -6694,7 +6654,13 @@ function renderReports() {
 
 /* ════ DASHBOARD WIDGETS ════ */
 function renderDashboardWidgets() {
-  const filtered = getFilteredTrades ? getFilteredTrades() : trades;
+  // Defer chart rendering slightly so containers have layout dimensions
+  if (typeof _dbChartTimer !== 'undefined') clearTimeout(_dbChartTimer);
+  window._dbChartTimer = setTimeout(_renderDashboardCharts, 80);
+}
+var _dbChartTimer;
+function _renderDashboardCharts() {
+  const filtered = (typeof getFiltered === "function" ? getFiltered() : null) || trades;
   if (!filtered) return;
 
   const fmt = n => (n >= 0 ? '+$' : '-$') + Math.abs(n).toFixed(2);
@@ -6828,6 +6794,9 @@ function renderDashboardWidgets() {
   /* ── sparkline on P&L card ── */
   _drawSparkline();
 
+  /* ── calendar ── */
+  try { renderCalendar?.(); } catch(e){}
+
   /* ── bar charts ── */
   _drawDayChart(filtered);
   _drawHourChart(filtered);
@@ -6861,7 +6830,7 @@ function _renderPerfBars(elId, trades, keyFn) {
     <div class="db-perf-item">
       <div class="db-perf-head">
         <span>${k}</span>
-        <span class="${v.pnl>=0?'profit':'loss'}" style="color:${v.pnl>=0?'var(--green)':'var(--red)'};font-weight:700">
+        <span class="db-perf-val ${v.pnl>=0?'profit':'loss'}" style="color:${v.pnl>=0?'var(--green)':'var(--red)'}">
           ${v.pnl>=0?'+':''}\$${Math.abs(v.pnl).toFixed(2)} <span class="db-perf-meta">· ${v.count} trade${v.count!==1?'s':''}</span>
         </span>
       </div>
@@ -6877,7 +6846,7 @@ function _drawSparkline() {
   if(!sorted.length){canvas.style.display='none';return;}
   canvas.style.display='block';
   const dpr=window.devicePixelRatio||1;
-  const w=canvas.parentElement.offsetWidth; const h=52;
+  const w=Math.max(canvas.parentElement.offsetWidth, 200); const h=52;
   canvas.width=w*dpr; canvas.height=h*dpr;
   canvas.style.width=w+'px'; canvas.style.height=h+'px';
   const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
@@ -6902,7 +6871,7 @@ function _drawSparkline() {
 function _drawBarChart(canvasId, labels, values) {
   const canvas=document.getElementById(canvasId); if(!canvas) return;
   const dpr=window.devicePixelRatio||1;
-  const W=canvas.parentElement.offsetWidth-28; const H=130;
+  const W=Math.max(canvas.parentElement.offsetWidth-28, 200); const H=130;
   canvas.width=W*dpr; canvas.height=H*dpr;
   canvas.style.width=W+'px'; canvas.style.height=H+'px';
   const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
@@ -7231,6 +7200,10 @@ function renderCalendar() {
   const MO_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   document.getElementById('calMonthLabel').textContent = MO_NAMES[calMonth] + ' ' + calYear;
+  const dbCML = document.getElementById('dbCalMonthLabel');
+  if (dbCML) dbCML.textContent = MO_NAMES[calMonth] + ' ' + calYear;
+  const dbCMP = document.getElementById('dbCalMonthPnl');
+  if (dbCMP) { dbCMP.textContent = mpEl.textContent; dbCMP.className = mpEl.className; }
 
   const monthStr = calYear + '-' + String(calMonth+1).padStart(2,'0');
   const monthTrades = getAccountTrades().filter(t=>(t.date||'').startsWith(monthStr));
@@ -8865,12 +8838,9 @@ window.addEventListener('popstate', e => {
 
 /* ── Journal sub-nav (Table / Calendar) ── */
 function switchTlView(view) {
-  /* Delegate to switchView() which manages calVisible + renderCalendar */
-  if (typeof switchView === 'function') {
-    switchView(view === 'calendar' ? 'calendar' : 'table');
-  }
-  const btnT = document.getElementById('tlBtnTable');
-  const btnC = document.getElementById('tlBtnCalendar');
+  if (typeof switchView === 'function') switchView(view === 'calendar' ? 'calendar' : 'table');
+  const btnT = document.getElementById('btnTableView');
+  const btnC = document.getElementById('btnCalView');
   if (btnT) btnT.classList.toggle('active', view !== 'calendar');
   if (btnC) btnC.classList.toggle('active', view === 'calendar');
 }
