@@ -50,6 +50,11 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Remove browser default focus ring on click — keep :focus-visible for keyboard nav */
+    *:focus { outline: none; }
+    *:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    *:focus { outline: none; }
+    *:focus-visible { outline: 2px solid rgba(59,130,246,0.3); outline-offset: 2px; }
 
     /* Reserve scrollbar space permanently so page width never changes
        between tabs (Dashboard vs Journal have different content heights,
@@ -1517,14 +1522,14 @@
     .btn-save-trade:hover { background: var(--green); transform: translateY(-1px); }
 
     /* ════ DASHBOARD COMPLETE REDESIGN ════ */
-    .db-top-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:12px; }
-    @media(max-width:1100px){.db-top-cards{grid-template-columns:repeat(2,1fr);}}
+    .db-top-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }
+    @media(max-width:900px){.db-top-cards{grid-template-columns:repeat(3,1fr);}} @media(max-width:600px){.db-top-cards{grid-template-columns:1fr 1fr;}}
     @media(max-width:520px) {.db-top-cards{grid-template-columns:1fr;}}
 
     .db-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 18px 38px; position:relative; overflow:hidden; min-height:132px; box-shadow:0 1px 4px rgba(0,0,0,0.18); transition:border-color 0.15s; }
     .db-card:hover { border-color:var(--border2); }
-    .db-card-label { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); font-weight:600; margin-bottom:8px; }
-    .db-card-val { font-family:'Syne',sans-serif; font-size:1.65rem; font-weight:800; color:var(--heading); line-height:1; margin-bottom:2px; }
+    .db-card-label { font-size:0.58rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); font-weight:600; margin-bottom:4px; }
+    .db-card-val { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:700; color:var(--heading); line-height:1; margin-bottom:2px; letter-spacing:-0.5px; }
     .db-card-val.profit { color:var(--green); }
     .db-card-val.loss   { color:var(--red);   }
     .db-card-sub  { font-size:0.6rem; color:var(--muted); position:absolute; bottom:12px; left:18px; right:90px; }
@@ -1545,7 +1550,7 @@
     .db-cal-nav      { background:transparent; border:1px solid var(--border); border-radius:6px; color:var(--muted); cursor:pointer; padding:2px 8px; font-size:0.9rem; transition:all .15s; }
     .db-cal-nav:hover{ border-color:var(--accent); color:var(--accent); }
 
-    .db-row2 { display:grid; grid-template-columns:1fr 290px; grid-template-areas:"chart hold"; gap:12px; margin-bottom:0; }
+    .db-row2 { display:grid; grid-template-columns:3fr 2fr; grid-template-areas:"chart hold"; gap:12px; margin-bottom:0; }
     @media(max-width:900px){.db-row2{grid-template-columns:1fr;grid-template-areas:"chart""hold";}}
     .db-row2 [style*="grid-area:chart"] { border-radius:12px 12px 0 0; border-bottom:none; }
     .db-row2 [style*="grid-area:chart"] .equity-body { min-height:220px; }
@@ -1586,7 +1591,7 @@
     .db-metric-val.profit { color:var(--green); }
     .db-metric-val.loss   { color:var(--red); }
 
-    .db-row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
+    .db-row3 { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
     @media(max-width:1100px){.db-row3{grid-template-columns:1fr 1fr;}}
     @media(max-width:700px) {.db-row3{grid-template-columns:1fr;}}
 
@@ -1607,8 +1612,8 @@
     .db-streak-val.loss { color:var(--red); }
     .db-streak-type  { font-size:0.56rem; color:var(--muted); }
 
-    .db-row4 { display:grid; grid-template-columns:1fr 200px 200px; grid-template-areas:"cal sym emo"; gap:12px; margin-bottom:12px; }
-    @media(max-width:1100px){.db-row4{grid-template-columns:1fr 1fr;grid-template-areas:"cal cal""sym emo";}}
+    .db-row4 { display:grid; grid-template-columns:1fr 1fr; grid-template-areas:"cal sym" "cal emo"; gap:12px; margin-bottom:12px; }
+    @media(max-width:900px){.db-row4{grid-template-columns:1fr;grid-template-areas:"cal""sym""emo";}}
     @media(max-width:700px) {.db-row4{grid-template-columns:1fr;grid-template-areas:"cal""sym""emo";}}
     .db-row4 .cal-grid { padding:6px 8px 10px; }
 
@@ -1626,13 +1631,55 @@
     .db-empty-msg { font-size:0.76rem; font-weight:700; color:var(--text); text-align:center; padding-top:22px; }
     .db-empty-sub { font-size:0.6rem; color:var(--muted); text-align:center; margin-top:4px; padding:0 14px 22px; }
 
-    .db-row5 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
-    @media(max-width:1100px){.db-row5{grid-template-columns:1fr 1fr;}}
+    .db-row5 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+    
     @media(max-width:700px) {.db-row5{grid-template-columns:1fr;}}
     .db-drawdown { padding:26px 16px 22px; text-align:center; }
 
     /* ════ END DASHBOARD CSS ════ */
-    /* ─── ANALYTICS ROW (legacy, still used by other parts) ─── */
+    /* Emotion selector */
+    .emotion-options { display:flex; gap:6px; flex-wrap:wrap; }
+    .emotion-opt {
+      flex:1; min-width:100px; padding:8px 6px; border-radius:8px;
+      background:var(--surface2); border:1px solid var(--border);
+      color:var(--muted); font-family:Inter,sans-serif; font-size:0.72rem;
+      font-weight:600; cursor:pointer; transition:all 0.15s; text-align:center;
+    }
+    .emotion-opt:hover { border-color:var(--accent); color:var(--text); }
+    .emotion-opt.active { background:rgba(59,130,246,0.15); border-color:var(--accent); color:var(--accent); }
+
+    /* Filter bar */
+    .db-filter-bar {
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:12px; padding:0 2px;
+    }
+    .db-filter-label {
+      font-family:'Syne',sans-serif; font-weight:800; font-size:0.9rem; color:var(--heading);
+    }
+
+    /* Grid view journal */
+    .journal-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px; margin-top:12px; }
+    .journal-grid-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:16px; cursor:pointer; transition:border-color 0.15s, box-shadow 0.15s;
+    }
+    .journal-grid-card:hover { border-color:var(--accent); box-shadow:0 4px 16px rgba(59,130,246,0.12); }
+    .jgc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .jgc-pair { font-family:'Syne',sans-serif; font-weight:800; font-size:0.95rem; color:var(--heading); }
+    .jgc-side { padding:2px 8px; border-radius:5px; font-size:0.6rem; font-weight:700; text-transform:uppercase; }
+    .jgc-side.long  { background:rgba(34,197,94,0.15); color:var(--green); }
+    .jgc-side.short { background:rgba(239,68,68,0.15);  color:var(--red); }
+    .jgc-pnl { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; margin-bottom:4px; }
+    .jgc-pnl.profit { color:var(--green); }
+    .jgc-pnl.loss   { color:var(--red); }
+    .jgc-meta { font-size:0.62rem; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; }
+    .jgc-emotion { font-size:0.62rem; color:var(--muted); margin-top:6px; }
+    .jgc-notes { font-size:0.65rem; color:var(--muted); margin-top:6px; line-height:1.5; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+    .tl-view-toggle { display:flex; gap:4px; }
+    .tl-view-btn { width:30px; height:30px; border-radius:7px; background:var(--surface2); border:1px solid var(--border); color:var(--muted); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; font-size:0.85rem; }
+    .tl-view-btn.active, .tl-view-btn:hover { border-color:var(--accent); color:var(--accent); background:rgba(59,130,246,0.08); }
+
+        /* ─── ANALYTICS ROW (legacy, still used by other parts) ─── */
     .analytics-row {
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -5161,6 +5208,16 @@
           <label>Notes</label>
           <textarea id="fNotes" placeholder="Trade notes, observations..."></textarea>
         </div>
+        <div class="form-group">
+          <label class="form-label">Emotional State</label>
+          <div class="emotion-options">
+            <button type="button" class="emotion-opt" data-val="composed" onclick="selectEmotion('composed',this)">😌 Composed</button>
+            <button type="button" class="emotion-opt" data-val="neutral" onclick="selectEmotion('neutral',this)">😐 Neutral</button>
+            <button type="button" class="emotion-opt" data-val="uncertain" onclick="selectEmotion('uncertain',this)">😟 Uncertain</button>
+            <button type="button" class="emotion-opt" data-val="impulsive" onclick="selectEmotion('impulsive',this)">😤 Impulsive</button>
+          </div>
+          <input type="hidden" id="tradeEmotion" value="">
+        </div>
       </div>
       <div class="btn-row" style="justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -5295,7 +5352,18 @@
   <!-- ─── DASHBOARD SECTION ─── -->
   <div class="page-section active" id="sectionDashboard">
 
-  <!-- ══ ROW 1: 4 STAT CARDS ══ -->
+  <!-- ══ DASHBOARD FILTER BAR ══ -->
+  <div class="db-filter-bar">
+    <span class="db-filter-label">Dashboard</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+      <button class="fp-trigger-btn" id="eqFilterBtn" aria-expanded="false" aria-controls="eqFilterPopup" onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter trades">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span class="fp-dot" id="eqFilterDot"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ ROW 1: STAT CARDS ══ -->
   <div class="db-top-cards">
     <div class="db-card">
       <div class="db-card-label">Total P&amp;L</div>
@@ -5332,10 +5400,10 @@
       </div>
       <svg style="display:none"><circle id="rrRingFill" stroke-dasharray="157.08" stroke-dashoffset="157.08"/></svg>
     </div>
-    <div class="db-card" id="balanceArcsContainer">
-      <div class="balance-arcs-empty">No accounts yet</div>
-    </div>
   </div>
+
+  <!-- hidden balance arcs anchor for JS -->
+  <div id="balanceArcsContainer" style="display:none"></div>
 
   <!-- ══ ROW 2: NET P&L CHART + HOLD TIME + RECENT TRADES ══ -->
   <div class="db-row2">
@@ -5343,10 +5411,7 @@
       <div class="db-panel-header">
         <span class="db-panel-title">Net P&amp;L Chart</span>
         <span class="equity-pnl-badge flat" id="equityBadge">$0.00</span>
-        <button class="fp-trigger-btn" id="eqFilterBtn" aria-expanded="false" aria-controls="eqFilterPopup" onclick="toggleFilterPopup('eqFilterPopup','eqFilterBtn',event)" title="Filter" style="margin-left:auto">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><line x1="1" y1="4" x2="15" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="4" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="9" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="15" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="14" r="2" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span class="fp-dot" id="eqFilterDot"></span>
-        </button>
+
       </div>
       <div class="equity-body">
         <div class="equity-canvas-wrap"><canvas id="equityCanvas"></canvas><div class="equity-tooltip" id="equityTooltip"></div></div>
@@ -5374,21 +5439,8 @@
           <div class="db-hold-count" id="dbHoldLossC">0 trades</div>
         </div>
       </div>
-      <div class="db-panel-header" style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px"><span class="db-panel-title">Recent Trades</span><span class="db-badge-count" id="dbRecentCount">0</span></div>
-      <div class="db-recent-list" id="dbRecentList"><div class="db-empty-msg">No trades yet</div></div>
-    </div>
-  </div>
 
-  <!-- ══ METRICS BAR (below chart) ══ -->
-  <div class="db-metrics-bar">
-    <div class="db-metric"><div class="db-metric-label">Max DD</div><div class="db-metric-val loss" id="eqMaxDD">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Best Trade</div><div class="db-metric-val profit" id="eqBest">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Worst Trade</div><div class="db-metric-val loss" id="eqWorst">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Win Streak</div><div class="db-metric-val" id="eqWinStreak">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Loss Streak</div><div class="db-metric-val" id="eqLossStreak">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Avg Win</div><div class="db-metric-val profit" id="eqAvgWin">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Avg Loss</div><div class="db-metric-val loss" id="eqAvgLoss">—</div></div>
-    <div class="db-metric"><div class="db-metric-label">Prof. Factor</div><div class="db-metric-val" id="eqProfitFactor">—</div></div>
+    </div>
   </div>
 
   <!-- ══ ROW 3: PERF BY DAY + TRADE TIME + AVG TRADE + STREAKS ══ -->
@@ -5398,10 +5450,6 @@
       <div class="db-bar-chart-wrap"><canvas id="dbDayChart" height="130"></canvas></div>
     </div>
     <div class="db-panel">
-      <div class="db-panel-header"><span class="db-panel-title">Trade Time Performance</span></div>
-      <div class="db-bar-chart-wrap"><canvas id="dbTimeChart" height="130"></canvas></div>
-    </div>
-    <div class="db-panel">
       <div class="db-panel-header"><span class="db-panel-title">Average Trade</span></div>
       <div class="db-avg-trade">
         <div class="db-avg-win"><div class="db-avg-lbl">W:</div><div class="db-avg-val profit" id="dbAvgWin">$0.00</div></div>
@@ -5409,7 +5457,9 @@
         <div class="db-avg-loss"><div class="db-avg-lbl">L:</div><div class="db-avg-val loss" id="dbAvgLoss">$0.00</div></div>
       </div>
       <div class="db-rr-label" id="dbRRLabel">— Risk-Reward Ratio</div>
-      <div class="db-panel-header" style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px"><span class="db-panel-title">Trading Streaks</span></div>
+    </div>
+    <div class="db-panel">
+      <div class="db-panel-header"><span class="db-panel-title">Trading Streaks</span></div>
       <div class="db-streaks">
         <div class="db-streak-item"><span class="db-streak-label">Current</span><span class="db-streak-val win" id="dbStreakCur">0</span><span class="db-streak-type" id="dbStreakCurType">Wins</span></div>
         <div class="db-streak-item"><span class="db-streak-label">Longest Win</span><span class="db-streak-val win" id="dbStreakWin">0</span><span class="db-streak-type">Streak</span></div>
@@ -5437,20 +5487,18 @@
     <div class="db-panel" style="grid-area:emo">
       <div class="db-panel-header"><span class="db-panel-title">Performance by Session</span></div>
       <div class="db-report-body" id="reportSession"></div>
-      <div class="db-panel-header" style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px"><span class="db-panel-title">Performance by Setup</span></div>
+      <div class="db-panel-header" style="margin-top:0;border-top:1px solid var(--border);padding-top:12px"><span class="db-panel-title">Performance by Setup</span></div>
       <div class="db-report-body" id="reportSetup"></div>
+      <div class="db-panel-header" style="margin-top:0;border-top:1px solid var(--border);padding-top:12px"><span class="db-panel-title">Performance by Emotion</span></div>
+      <div class="db-report-body" id="reportEmotion"></div>
     </div>
   </div>
 
-  <!-- ══ ROW 5: HOUR PERF + HOLD DURATION ══ -->
+  <!-- ══ ROW 5: HOLD DURATION + DRAWDOWN ══ -->
   <div class="db-row5">
     <div class="db-panel">
-      <div class="db-panel-header"><span class="db-panel-title">Performance by Hour</span></div>
-      <div class="db-bar-chart-wrap"><canvas id="dbHourChart" height="140"></canvas></div>
-    </div>
-    <div class="db-panel">
       <div class="db-panel-header"><span class="db-panel-title">Performance by Hold Duration</span></div>
-      <div class="db-bar-chart-wrap"><canvas id="dbDurationChart" height="140"></canvas></div>
+      <div class="db-bar-chart-wrap"><canvas id="dbDurationChart" height="130"></canvas></div>
     </div>
     <div class="db-panel">
       <div class="db-panel-header"><span class="db-panel-title">Max Drawdown</span></div>
@@ -5472,7 +5520,13 @@
   <div class="tl-viewnav">
     <button class="tl-viewnav-btn active" id="btnTableView" onclick="switchView('table')"><i data-lucide="table"></i> Table</button>
     <button class="tl-viewnav-btn" id="btnCalView" onclick="switchView('calendar')"><i data-lucide="calendar"></i> Calendar</button>
+    <div style="margin-left:auto;display:flex;gap:6px;">
+      <button class="tl-view-btn active" id="btnListView" onclick="switchJournalLayout('list')" title="List view"><i data-lucide="list"></i></button>
+      <button class="tl-view-btn" id="btnGridView" onclick="switchJournalLayout('grid')" title="Grid view"><i data-lucide="layout-grid"></i></button>
+    </div>
   </div>
+  <!-- Grid view container (hidden by default) -->
+  <div class="journal-grid" id="journalGrid" style="display:none"></div>
 
   <!-- ─── TRADES TABLE ─── -->
   <div class="table-wrapper">
@@ -6188,6 +6242,7 @@ function saveTrade() {
   const pnl = parseFloat(pnlRaw);
   if (isNaN(pnl)) { showToast('P&L must be a valid number.', 'warn'); return; }
   const tradeData = {
+    emotion: document.getElementById('tradeEmotion')?.value || undefined,
     date:      document.getElementById('fDate').value || new Date().toISOString().slice(0,10),
     pair, direction: document.getElementById('fDirection').value,
     session:   document.getElementById('fSession').value,
@@ -6578,14 +6633,23 @@ function drawEquityCurve() {
     ctx.beginPath();ctx.arc(PAD.left,py(startBal),4,0,Math.PI*2);ctx.fillStyle='#00c8ff';ctx.fill();
   } else {
     ctx.beginPath();ctx.moveTo(px(0),py(startBal));
-    points.forEach((p,i)=>{if(i>0)ctx.lineTo(px(i),py(p.y));});
+    // Smooth cardinal spline
+    for(let i=1;i<points.length;i++){
+      const x0=px(Math.max(i-1,0)),y0=py(points[Math.max(i-1,0)].y);
+      const x1=px(i),y1=py(points[i].y);
+      const cpx=(x0+x1)/2;
+      ctx.bezierCurveTo(cpx,y0,cpx,y1,x1,y1);
+    }
     ctx.lineTo(px(points.length-1),py(startBal));ctx.closePath();ctx.fillStyle=grad;ctx.fill();
 
     for(let i=1;i<points.length;i++){
       const prev=points[i-1],curr=points[i];
       const segColor=curr.y>prev.y?'#26d96a':curr.y<prev.y?'#ff4757':'#ffc107';
       ctx.strokeStyle=segColor;ctx.lineWidth=2;ctx.lineJoin='round';
-      ctx.beginPath();ctx.moveTo(px(i-1),py(prev.y));ctx.lineTo(px(i),py(curr.y));ctx.stroke();
+      ctx.beginPath();ctx.moveTo(px(i-1),py(prev.y));
+      const cpxS=(px(i-1)+px(i))/2;
+      ctx.bezierCurveTo(cpxS,py(prev.y),cpxS,py(curr.y),px(i),py(curr.y));
+      ctx.stroke();
     }
     for(let i=1;i<points.length;i++){
       const p=points[i];
@@ -6813,6 +6877,10 @@ function _renderDashboardCharts() {
     return 'Other';
   });
   _renderPerfBars('reportSetup', filtered, t=>t.setup||t.strategy||'No Setup');
+  _renderPerfBars('reportEmotion', filtered, t=>{
+    const emoMap = { composed:'😌 Composed', neutral:'😐 Neutral', uncertain:'😟 Uncertain', impulsive:'😤 Impulsive' };
+    return emoMap[t.emotion] || '— No Emotion';
+  });
 }
 
 function _renderPerfBars(elId, trades, keyFn) {
@@ -8837,6 +8905,60 @@ window.addEventListener('popstate', e => {
 })();
 
 /* ── Journal sub-nav (Table / Calendar) ── */
+/* ── Emotion selector ── */
+function selectEmotion(val, btn) {
+  document.querySelectorAll('.emotion-opt').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const inp = document.getElementById('tradeEmotion');
+  if (inp) inp.value = val;
+}
+
+/* ── Journal grid/list toggle ── */
+let _journalLayout = 'list';
+function switchJournalLayout(layout) {
+  _journalLayout = layout;
+  document.getElementById('btnListView')?.classList.toggle('active', layout === 'list');
+  document.getElementById('btnGridView')?.classList.toggle('active', layout === 'grid');
+  const tableView = document.getElementById('tableView');
+  const gridView  = document.getElementById('journalGrid');
+  if (tableView) tableView.classList.toggle('hidden', layout === 'grid');
+  if (gridView)  gridView.style.display = layout === 'grid' ? 'grid' : 'none';
+  if (layout === 'grid') _renderJournalGrid();
+  if (window.lucide) lucide.createIcons();
+}
+
+function _renderJournalGrid() {
+  const el = document.getElementById('journalGrid');
+  if (!el) return;
+  const filtered = typeof getFiltered === 'function' ? getFiltered() : trades;
+  const sorted = [...(filtered||[])].sort((a,b) => new Date(b.date) - new Date(a.date));
+  if (!sorted.length) {
+    el.innerHTML = '<div class="db-empty-msg" style="grid-column:1/-1;padding:40px 0">No trades yet</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(t => {
+    const pnl = parseFloat(t.pnl || 0);
+    const side = (t.type || '').toLowerCase();
+    const emoMap = { composed:'😌', neutral:'😐', uncertain:'😟', impulsive:'😤' };
+    const emoIcon = emoMap[t.emotion] || '';
+    return `<div class="journal-grid-card" onclick="openEditTradeModal('${t.id}')">
+      <div class="jgc-header">
+        <span class="jgc-pair">${t.pair || t.symbol || '—'}</span>
+        <span class="jgc-side ${side}">${t.type || '—'}</span>
+      </div>
+      <div class="jgc-pnl ${pnl >= 0 ? 'profit' : 'loss'}">${pnl >= 0 ? '+' : ''}$${Math.abs(pnl).toFixed(2)}</div>
+      <div class="jgc-meta">
+        <span>${t.date || ''}</span>
+        ${t.rr ? `<span>RR: ${t.rr}</span>` : ''}
+        ${t.entryTime ? `<span>${t.entryTime}</span>` : ''}
+      </div>
+      ${t.emotion ? `<div class="jgc-emotion">${emoIcon} ${t.emotion}</div>` : ''}
+      ${t.notes ? `<div class="jgc-notes">${t.notes}</div>` : ''}
+    </div>`;
+  }).join('');
+  if (window.lucide) lucide.createIcons();
+}
+
 function switchTlView(view) {
   if (typeof switchView === 'function') switchView(view === 'calendar' ? 'calendar' : 'table');
   const btnT = document.getElementById('btnTableView');
@@ -8866,6 +8988,92 @@ function _applyMode(light) {
     if (saved === 'light') { _sbMode = true; _applyMode(true); }
   } catch(e) {}
 })();
+</script>
+
+<script>
+/* ── Emotion selector in trade form ── */
+function selectEmotion(val, btn) {
+  document.querySelectorAll('.emotion-opt').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const inp = document.getElementById('tradeEmotion');
+  if (inp) inp.value = val;
+}
+
+/* ── Journal grid/list view toggle ── */
+let _journalLayout = 'list';
+function switchJournalLayout(layout) {
+  _journalLayout = layout;
+  const tableEl = document.getElementById('tableView');
+  const gridEl  = document.getElementById('journalGrid');
+  const listBtn  = document.getElementById('btnListView');
+  const gridBtn  = document.getElementById('btnGridView');
+  if (layout === 'grid') {
+    if (tableEl) tableEl.classList.add('hidden');
+    if (gridEl)  gridEl.style.display = '';
+    listBtn?.classList.remove('active');
+    gridBtn?.classList.add('active');
+    _renderJournalGrid();
+  } else {
+    if (tableEl) tableEl.classList.remove('hidden');
+    if (gridEl)  gridEl.style.display = 'none';
+    listBtn?.classList.add('active');
+    gridBtn?.classList.remove('active');
+  }
+  if (window.lucide) lucide.createIcons();
+}
+
+function _renderJournalGrid() {
+  const el = document.getElementById('journalGrid');
+  if (!el) return;
+  const filtered = (typeof getFiltered === 'function' ? getFiltered() : null) || trades;
+  const sorted = [...filtered].sort((a,b) => new Date(b.date||0) - new Date(a.date||0));
+  if (!sorted.length) {
+    el.innerHTML = '<div class="db-empty-msg" style="grid-column:1/-1;padding:40px 0">No trades yet</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(t => {
+    const p = parseFloat(t.pnl||0);
+    const side = (t.type||'').toLowerCase();
+    const emo = t.emotion ? `<div class="jgc-emotion">${{composed:'😌',neutral:'😐',uncertain:'😟',impulsive:'😤'}[t.emotion]||''} ${t.emotion}</div>` : '';
+    return `<div class="journal-grid-card" onclick="openTradeModal(false,'${t.id}')">
+      <div class="jgc-header">
+        <span class="jgc-pair">${t.pair||t.symbol||'—'}</span>
+        <span class="jgc-side ${side}">${t.type||'—'}</span>
+      </div>
+      <div class="jgc-pnl ${p>=0?'profit':'loss'}">${p>=0?'+':''}$${Math.abs(p).toFixed(2)}</div>
+      <div class="jgc-meta">
+        <span>${t.date||'—'}</span>
+        ${t.rr ? `<span>RR: ${t.rr}</span>` : ''}
+        ${t.setup ? `<span>${t.setup}</span>` : ''}
+      </div>
+      ${emo}
+      ${t.notes ? `<div class="jgc-notes">${t.notes}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+/* ── Render emotion perf bars ── */
+function _renderEmotionReport() {
+  const filtered = (typeof getFiltered === 'function' ? getFiltered() : null) || trades;
+  if (typeof _renderPerfBars === 'function') {
+    _renderPerfBars('reportEmotion', filtered, t => t.emotion || 'Untracked');
+  }
+}
+
+/* Re-render grid when trades update */
+const _origRenderForGrid = typeof render === 'function' ? render : null;
+if (_origRenderForGrid) {
+  const _patchedRender = function() {
+    _origRenderForGrid.apply(this, arguments);
+    if (_journalLayout === 'grid') _renderJournalGrid();
+    _renderEmotionReport();
+  };
+  // only patch once
+  if (!window._gridRenderPatched) {
+    window._gridRenderPatched = true;
+    render = _patchedRender;
+  }
+}
 </script>
 <script>
 /* ─── ICON AUTO-RENDER ───
